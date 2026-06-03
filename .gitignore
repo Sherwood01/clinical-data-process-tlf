@@ -1,0 +1,51 @@
+# ── User-requested excludes ──
+.knowledge/
+reference/
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+
+# ── Node / Frontend ──
+node_modules/
+.next/
+.npm/
+
+# ── IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Environment ──
+.env
+.env.local
+*.env.local
+
+# ── Data files ──
+*.sas7bdat
+*.xpt
+*.csv
+*.pdf
+*.png
+*.rtf
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+
+# ── Claude Code ──
+.claude/
+
+# ── Docker ──
+.docker/

@@ -1,0 +1,6238 @@
+{
+  "adae": {
+    "name": "adae",
+    "file_path": ".knowledge/ADaM/data\\adae.sas7bdat",
+    "record_count": 4018,
+    "column_count": 141,
+    "variables": [
+      {
+        "name": "STUDYID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "USUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SITEID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COUNTRY",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEU",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGE",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGRN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEX",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEXN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RACE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEOTH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ARM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ARMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COHORT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "COHORTN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ENRLFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SAFFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RESFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PKFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CUTOFFDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTP",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTPN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTA",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTAN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESEQ",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AESPID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AETERM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AEDECOD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AEBODSYS",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AELLT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AELLTCD",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AEPTCD",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AEHLT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AEHLTCD",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AEHLGT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AEHLGTCD",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AESOC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AESOCCD",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AESTDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ASTDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AEENDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AENDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ASTDY",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AENDY",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ADURN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ADURU",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEMFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC01FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC02FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC03FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC06FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC07FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC08FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC09FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC10FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC11FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC12FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC13FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC14FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC15FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC16FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC17FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC18FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC19FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC20FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC22FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC23FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC24FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC25FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC26FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC27FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC28FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC29FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AOCC30FL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AEACN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AEACNOTH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESHOSP",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AECONTRT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AEACNALL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AEREL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AREL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AEOUT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AEENRF",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AESDTH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ADISCFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AINTERFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AREDUFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESER",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AETOXGR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AETOXGRN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TOXGGR1",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TOXGGR1N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESCONG",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AESLIFE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AESDISAB",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AESMIE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AESERDAT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AETRANUM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EPISODE",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AREOCCFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "FAEOCRFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESILDFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESILVFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESIQTFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESIRRFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESTMFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESABDFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESANEFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESPTDFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESNETFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESWBCFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AESLCDFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EPISMDEC",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CNTEPI",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ACYCLE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ACYCLEN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ACYCLA1",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ACYCLA1N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ACYCLA2",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ACYCLA2N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ILDYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ILDDATE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DRGRELYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DTHRELYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ACGRADE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ACGRADEN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      }
+    ],
+    "analysis_variables": [
+      "STUDYID",
+      "USUBJID",
+      "SUBJID",
+      "SITEID",
+      "TRTP",
+      "TRTPN",
+      "TRTA",
+      "TRTAN",
+      "TRTSDTC",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDT",
+      "ENRLFL",
+      "SAFFL",
+      "RESFL",
+      "AGE",
+      "AGEU",
+      "AGEGR",
+      "AGEGRN",
+      "SEX",
+      "SEXN",
+      "RACE",
+      "RACEN"
+    ],
+    "treatment_variables": [
+      "ARM",
+      "ARMCD",
+      "TRTSDTC",
+      "TRTSDTM",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDTM",
+      "TRTEDT",
+      "TRTP",
+      "TRTPN",
+      "TRTA",
+      "TRTAN",
+      "TRTEMFL"
+    ],
+    "subject_key": "USUBJID"
+  },
+  "adcm": {
+    "name": "adcm",
+    "file_path": ".knowledge/ADaM/data\\adcm.sas7bdat",
+    "record_count": 8951,
+    "column_count": 84,
+    "variables": [
+      {
+        "name": "STUDYID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "USUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SITEID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COUNTRY",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEU",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGE",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGRN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEX",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEXN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RACE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEOTH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ARM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ARMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COHORT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "COHORTN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ENRLFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SAFFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RESFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PKFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CUTOFFDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTP",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTPN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTA",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTAN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMSEQ",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CMTRT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CMDECOD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMCAT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CMSCAT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "BESTTDM1",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ATC1C",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ATC2C",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ATC3C",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ATC4C",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ATC1T",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ATC2T",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ATC3T",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ATC4T",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMINDC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RESPONSE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "REASDISC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "WDISC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMDISRSO",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "NUMCYCLE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "INTEND",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "INTENDOT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "REGIMEN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DTPROGR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMDOSE",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMDOSU",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMDOSUOT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMDOSTXT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMDOSFRQ",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMFRQOT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMROUTE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMROUTEO",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EPOCH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMSTDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ASTDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMENDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AENDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ADUR",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ASTDY",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AENDY",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CMENRTPT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "MEDIFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "WHODDVR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CONCOMFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PRIORFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      }
+    ],
+    "analysis_variables": [
+      "STUDYID",
+      "USUBJID",
+      "SUBJID",
+      "SITEID",
+      "TRTP",
+      "TRTPN",
+      "TRTA",
+      "TRTAN",
+      "TRTSDTC",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDT",
+      "ENRLFL",
+      "SAFFL",
+      "RESFL",
+      "AGE",
+      "AGEU",
+      "AGEGR",
+      "AGEGRN",
+      "SEX",
+      "SEXN",
+      "RACE",
+      "RACEN"
+    ],
+    "treatment_variables": [
+      "ARM",
+      "ARMCD",
+      "TRTSDTC",
+      "TRTSDTM",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDTM",
+      "TRTEDT",
+      "TRTP",
+      "TRTPN",
+      "TRTA",
+      "TRTAN"
+    ],
+    "subject_key": "USUBJID"
+  },
+  "addv": {
+    "name": "addv",
+    "file_path": ".knowledge/ADaM/data\\addv.sas7bdat",
+    "record_count": 1206,
+    "column_count": 52,
+    "variables": [
+      {
+        "name": "STUDYID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "USUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SITEID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COUNTRY",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEU",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGE",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGRN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEX",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEXN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RACE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEOTH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ARM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ARMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COHORT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "COHORTN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ENRLFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SAFFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RESFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PKFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CUTOFFDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTP",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ASTDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARAM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARAMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AVAL",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVALC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DVSEQ",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "DVCAT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "DVSCAT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DVREFID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DVTERM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "DVTERM1",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DVDECOD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "DVSTDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "DVSTDY",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "SOURCE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "VIOCODE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      }
+    ],
+    "analysis_variables": [
+      "STUDYID",
+      "USUBJID",
+      "SUBJID",
+      "SITEID",
+      "TRTP",
+      "TRTSDTC",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDT",
+      "ENRLFL",
+      "SAFFL",
+      "RESFL",
+      "AGE",
+      "AGEU",
+      "AGEGR",
+      "AGEGRN",
+      "SEX",
+      "SEXN",
+      "RACE",
+      "RACEN"
+    ],
+    "treatment_variables": [
+      "ARM",
+      "ARMCD",
+      "TRTSDTC",
+      "TRTSDTM",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDTM",
+      "TRTEDT",
+      "TRTP"
+    ],
+    "subject_key": "USUBJID"
+  },
+  "adex": {
+    "name": "adex",
+    "file_path": ".knowledge/ADaM/data\\adex.sas7bdat",
+    "record_count": 5194,
+    "column_count": 70,
+    "variables": [
+      {
+        "name": "STUDYID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "USUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SITEID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COUNTRY",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEU",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGE",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGRN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEX",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEXN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RACE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEOTH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ARM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ARMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COHORT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COHORTN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTSDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTSDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTEDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTEDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTEDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ENRLFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SAFFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RESFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PKFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CUTOFFDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTP",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTPN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTA",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTAN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ASTDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AENDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVISIT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AVISITN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARAM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARAMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARAMN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AVAL",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVALC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PARAMTYP",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "VISIT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "VISITNUM",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXSEQ",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXTRT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXDOSE",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXDOSU",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "IVCOMPFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXDOSTOT",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXDOSPA",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXDOSFRM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXDOSFRQ",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXROUTE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXADJ",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXADJOTH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXSTDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXENDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXSTDY",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXSTDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXENDY",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "NUMCYCL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "NUMCYCLN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      }
+    ],
+    "analysis_variables": [
+      "STUDYID",
+      "USUBJID",
+      "SUBJID",
+      "SITEID",
+      "TRTP",
+      "TRTPN",
+      "TRTA",
+      "TRTAN",
+      "TRTSDTC",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDT",
+      "ENRLFL",
+      "SAFFL",
+      "RESFL",
+      "AGE",
+      "AGEU",
+      "AGEGR",
+      "AGEGRN",
+      "SEX",
+      "SEXN",
+      "RACE",
+      "RACEN"
+    ],
+    "treatment_variables": [
+      "ARM",
+      "ARMCD",
+      "TRTSDTC",
+      "TRTSDTM",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDTM",
+      "TRTEDT",
+      "TRTP",
+      "TRTPN",
+      "TRTA",
+      "TRTAN"
+    ],
+    "subject_key": "USUBJID"
+  },
+  "admh": {
+    "name": "admh",
+    "file_path": ".knowledge/ADaM/data\\admh.sas7bdat",
+    "record_count": 2184,
+    "column_count": 51,
+    "variables": [
+      {
+        "name": "STUDYID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "USUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SITEID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COUNTRY",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEU",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGE",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGRN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEX",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEXN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RACE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEOTH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ARM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ARMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COHORT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COHORTN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTSDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTSDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTEDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTEDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTEDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ENRLFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SAFFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RESFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PKFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CUTOFFDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTP",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTPN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTA",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTAN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "MHSEQ",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "MHSPID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "MHCAT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "MHDECOD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "MHBODSYS",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "MHTERM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "MHSTDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ASTDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ASTDY",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "MHSRPT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "MHENRTPT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "MHPTCD",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      }
+    ],
+    "analysis_variables": [
+      "STUDYID",
+      "USUBJID",
+      "SUBJID",
+      "SITEID",
+      "TRTP",
+      "TRTPN",
+      "TRTA",
+      "TRTAN",
+      "TRTSDTC",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDT",
+      "ENRLFL",
+      "SAFFL",
+      "RESFL",
+      "AGE",
+      "AGEU",
+      "AGEGR",
+      "AGEGRN",
+      "SEX",
+      "SEXN",
+      "RACE",
+      "RACEN"
+    ],
+    "treatment_variables": [
+      "ARM",
+      "ARMCD",
+      "TRTSDTC",
+      "TRTSDTM",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDTM",
+      "TRTEDT",
+      "TRTP",
+      "TRTPN",
+      "TRTA",
+      "TRTAN"
+    ],
+    "subject_key": "USUBJID"
+  },
+  "adrs": {
+    "name": "adrs",
+    "file_path": ".knowledge/ADaM/data\\adrs.sas7bdat",
+    "record_count": 14007,
+    "column_count": 94,
+    "variables": [
+      {
+        "name": "STUDYID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "USUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SITEID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COUNTRY",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEU",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGE",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGRN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEX",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEXN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RACE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEOTH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ARM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ARMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COHORT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COHORTN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTSDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTSDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTEDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTEDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTEDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ENRLFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SAFFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RESFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PKFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CUTOFFDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTP",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTPN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTA",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTAN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ASEQ",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARAM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARAMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARAMN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARAMTYP",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PARQUAL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AVISIT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVISITN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "VISIT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "VISITNUM",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ADT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ADY",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVAL",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVALC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "FRSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "FCRSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "FPDDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PDDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "LTMASDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "LTMASDTT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "LTMASDTP",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DTHDTT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVALCA1",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVALCA1N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVALCA2",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVALCA2N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVALCA3",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVALCA3N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RANDDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "REGDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DISCDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DTHDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTDURD",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "DTHDY",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ONGFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TARGBLYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TARIBLYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TASBLYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TASIBLYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "NWTRSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ONTRTAYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RSSEQ",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RSSPID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RSTESTCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RSTEST",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RSCAT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RSORRES",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RSSTRESC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RSSTAT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RSREASND",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RSEVAL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RSEVALID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RSACPTFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RSDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "SRCDOM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      }
+    ],
+    "analysis_variables": [
+      "STUDYID",
+      "USUBJID",
+      "SUBJID",
+      "SITEID",
+      "TRTP",
+      "TRTPN",
+      "TRTA",
+      "TRTAN",
+      "TRTSDTC",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDT",
+      "ENRLFL",
+      "SAFFL",
+      "RESFL",
+      "AGE",
+      "AGEU",
+      "AGEGR",
+      "AGEGRN",
+      "SEX",
+      "SEXN",
+      "RACE",
+      "RACEN"
+    ],
+    "treatment_variables": [
+      "ARM",
+      "ARMCD",
+      "TRTSDTC",
+      "TRTSDTM",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDTM",
+      "TRTEDT",
+      "TRTP",
+      "TRTPN",
+      "TRTA",
+      "TRTAN",
+      "TRTDURD"
+    ],
+    "subject_key": "USUBJID"
+  },
+  "adsl": {
+    "name": "adsl",
+    "file_path": ".knowledge/ADaM/data\\adsl.sas7bdat",
+    "record_count": 353,
+    "column_count": 176,
+    "variables": [
+      {
+        "name": "STUDYID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "USUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SITEID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COUNTRY",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COUNRY1",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COUNRY1N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "INVNAM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PGICDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TTICDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "BRTHDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGE",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEU",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGRN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR3",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR3N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEX",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEXN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RACE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEGR1",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEGR1N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEOTH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "REGION1",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "REGION1N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ETHNIC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ETHNICN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "SCRNFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SCNEFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SNEREAS",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RANDNO",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RANDDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "REGNO",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "REGDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "LSTALVDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RANDFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ENRLFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ENTRFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SAFFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SAFREAS",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RESFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RESREAS",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PKFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PKREAS",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ARMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ARM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ACTARMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ACTARM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRT01P",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRT01A",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRT01PN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRT01AN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "COHORT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "COHORTN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTEDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DISCDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "NWTRSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DISCTFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DCTREAS",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DCTREASN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ONGFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RFPENDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SCRFLDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DTHFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DTHDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DTHDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DTHDY",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DTHREAS",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DTHREASN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ONDTHFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "INCFAIL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "EXCFAIL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HEIGHTBL",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "WEIGHTBL",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "BMIBL",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ECOGBL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ECOGBLN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DIAGDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DURDIAG",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HIST",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ESTRCPT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ESTRCPTN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PROGESTR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PRGESTRN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HORMONR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "HORMONRN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "HER2IHC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HER2IHCN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HER2IC1",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HER2IC1N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HER2METH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HER2MTHN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HER2ISH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HER2ISHN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HER2IH1",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HER2IH1N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "STAGESE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "STAGESEN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HISTGD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HISTGDN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "BRCA1",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "BRCA2",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "BRNMYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "OTHMYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TNMM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TNMN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TNMT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PRCATHYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PRADTHYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PRCASGYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PRNTHYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "NREGLAM",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "NREG",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PRTDMYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "BRESPTDM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PRPTMYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PRTTYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PRHORYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "NREGNHOR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PTLAMYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RENALIP",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HEPAIP",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "BONEYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "HISTVIS",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ECGBLV",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CREACLR",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TARGBLYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TARIBLYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TASBLYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TASIBLYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "STUDURW",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "STUDURM",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTDURD",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTDURW",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTDURM",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTDURC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTDURCN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ONTRTAYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ONTRTIYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PRTVER",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "NREGNHRN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "NEWTRYN1",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "NREGST",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "NPRETDM1",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "NPOSTDM1",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "LUNGYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "LIVERYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AMETAYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PRHERYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PROTSTYN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "DTHREASO",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AUTOPSY",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "METALOC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "SUMDIABL",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "SUMDBL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "SUMDBLN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HERSTAT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "HERSTATN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PDTDM1YN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "INITITDM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "FORMULA",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "FORMULAN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "NREGEHOR",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RESCREN",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CUTOFFDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      }
+    ],
+    "analysis_variables": [
+      "STUDYID",
+      "USUBJID",
+      "SUBJID",
+      "SITEID",
+      "TRT01P",
+      "TRT01PN",
+      "TRT01A",
+      "TRT01AN",
+      "TRTSDTC",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDT",
+      "ENRLFL",
+      "SAFFL",
+      "RESFL",
+      "RANDFL",
+      "AGE",
+      "AGEU",
+      "AGEGR",
+      "AGEGRN",
+      "SEX",
+      "SEXN",
+      "RACE",
+      "RACEN"
+    ],
+    "treatment_variables": [
+      "ARMCD",
+      "ARM",
+      "ACTARMCD",
+      "ACTARM",
+      "TRT01P",
+      "TRT01A",
+      "TRT01PN",
+      "TRT01AN",
+      "TRTSDTC",
+      "TRTSDTM",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDTM",
+      "TRTEDT",
+      "TRTDURD",
+      "TRTDURW",
+      "TRTDURM",
+      "TRTDURC",
+      "TRTDURCN"
+    ],
+    "subject_key": "USUBJID"
+  },
+  "adtte": {
+    "name": "adtte",
+    "file_path": ".knowledge/ADaM/data\\adtte.sas7bdat",
+    "record_count": 3479,
+    "column_count": 63,
+    "variables": [
+      {
+        "name": "STUDYID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "USUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SUBJID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SITEID",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COUNTRY",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RFICDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "BRTHDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEU",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGE",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGRN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AGEGR2N",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEX",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SEXN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RACE",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RACEOTH",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "ARM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ARMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COHORT",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "COHORTN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTSDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTSDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "TRTSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTEDTC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTEDTM",
+        "type": "datetime64[ms]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTEDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ENRLFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "SAFFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "RESFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PKFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CUTOFFDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTP",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTPN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTA",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "TRTAN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "DTHFL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "NWTRSDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DTHDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "DTHDTT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "RANDDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "REGDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "PDDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "FPDDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "LTMASDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "LTMASDTT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "LTMASDTP",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "LSTALVDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ASEQ",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARAM",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARAMCD",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARAMN",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "PARQUAL",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "AVAL",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "AVALC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "STARTDT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "ADT",
+        "type": "datetime64[s]",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "CNSR",
+        "type": "float64",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "False"
+      },
+      {
+        "name": "EVNTDESC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      },
+      {
+        "name": "CNSDTDSC",
+        "type": "object",
+        "label": "",
+        "length": 0,
+        "format": "",
+        "nullable": "True"
+      }
+    ],
+    "analysis_variables": [
+      "STUDYID",
+      "USUBJID",
+      "SUBJID",
+      "SITEID",
+      "TRTP",
+      "TRTPN",
+      "TRTA",
+      "TRTAN",
+      "TRTSDTC",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDT",
+      "ENRLFL",
+      "SAFFL",
+      "RESFL",
+      "AGE",
+      "AGEU",
+      "AGEGR",
+      "AGEGRN",
+      "SEX",
+      "SEXN",
+      "RACE",
+      "RACEN"
+    ],
+    "treatment_variables": [
+      "ARM",
+      "ARMCD",
+      "TRTSDTC",
+      "TRTSDTM",
+      "TRTSDT",
+      "TRTEDTC",
+      "TRTEDTM",
+      "TRTEDT",
+      "TRTP",
+      "TRTPN",
+      "TRTA",
+      "TRTAN"
+    ],
+    "subject_key": "USUBJID"
+  }
+}
