@@ -1,4 +1,16 @@
-version: "3.9"
+# =============================================================================
+# TLF Report Generator SaaS Platform — Docker Compose (镜像拉取部署)
+# =============================================================================
+# 部署方式：服务器只需拉取镜像启动，不需要安装 Git/Node/Python
+#
+# 首次部署：
+#   docker compose up -d
+#   docker compose exec api alembic upgrade head
+#
+# 更新部署：
+#   docker compose pull
+#   docker compose up -d
+# =============================================================================
 
 services:
   # ── Database ──
@@ -10,34 +22,38 @@ services:
       POSTGRES_DB: tlf_saas
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-    ports:
-      - "5432:5432"
+    expose:
+      - "5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d tlf_saas"]
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
+    networks:
+      - tlf-network
     deploy:
       resources:
-        limits:
-          memory: 2G
+        limits: { memory: 2G }
 
   # ── Cache & Task Queue ──
   redis:
-    image: redis:7-alpine
+    image: redis:alpine
     volumes:
       - redisdata:/data
-    ports:
-      - "6379:6379"
+    expose:
+      - "6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 3s
       retries: 5
+    restart: unless-stopped
+    networks:
+      - tlf-network
     deploy:
       resources:
-        limits:
-          memory: 512M
+        limits: { memory: 512M }
 
   # ── File Storage (S3-compatible) ──
   minio:
@@ -48,21 +64,24 @@ services:
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
-    ports:
-      - "9000:9000"   # S3 API
-      - "9100:9100"   # Console
+    expose:
+      - "9000"   # S3 API
+      - "9100"   # Console
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
+    networks:
+      - tlf-network
     deploy:
       resources:
-        limits:
-          memory: 512M
+        limits: { memory: 512M }
 
   # ── Authentication Server (Stack Auth) ──
   stack-auth:
+    # 从 GitHub Container Registry 拉取（Docker Hub 在国内无法访问）
     image: stackauth/server:latest
     depends_on:
       postgres:
@@ -70,23 +89,22 @@ services:
     environment:
       NEXTAUTH_URL: ${STACK_AUTH_URL:-http://localhost:8101}
       NEXT_PUBLIC_APP_URL: ${STACK_AUTH_URL:-http://localhost:8101}
-      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-change-me-to-a-random-secret}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?必须设置 NEXTAUTH_SECRET}
       STACK_DATABASE_CONNECTION_STRING: postgresql://postgres:${DB_PASSWORD:-postgres}@postgres:5432/tlf_saas
       NEXT_PUBLIC_STACK_API_URL: http://stack-auth:8101/api/v1
       STACK_SELF_HOSTED: "true"
-    ports:
-      - "8101:8101"
+    expose:
+      - "8101"
     restart: unless-stopped
+    networks:
+      - tlf-network
     deploy:
       resources:
-        limits:
-          memory: 512M
+        limits: { memory: 512M }
 
   # ── API Server (FastAPI) ──
   api:
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
+    image: ghcr.io/Sherwood01/tlf-api:latest
     depends_on:
       postgres:
         condition: service_healthy
@@ -105,21 +123,20 @@ services:
       MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
       STACK_AUTH_JWKS_URL: http://stack-auth:8101/api/v1/.well-known/jwks.json
       STACK_AUTH_ISSUER: http://stack-auth:8101
-      CORS_ORIGINS: http://localhost:3100
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3100}
       DEBUG: "false"
     ports:
-      - "8100:8100"
+      - "${API_PORT:-8100}:8100"
     restart: unless-stopped
+    networks:
+      - tlf-network
     deploy:
       resources:
-        limits:
-          memory: 1G
+        limits: { memory: 1G }
 
-  # ── Celery Worker (CPU-bound report generation) ──
+  # ── Celery Worker ──
   worker:
-    build:
-      context: .
-      dockerfile: backend/Dockerfile.worker
+    image: ghcr.io/Sherwood01/tlf-worker:latest
     depends_on:
       api:
         condition: service_started
@@ -142,6 +159,8 @@ services:
     volumes:
       - workertmp:/tmp/tlf-worker
     restart: unless-stopped
+    networks:
+      - tlf-network
     deploy:
       replicas: 2
       resources:
@@ -149,31 +168,29 @@ services:
           cpus: "2"
           memory: 4G
 
-  # ── Frontend (Next.js + Stack Auth Starter) ──
+  # ── Frontend (Next.js) ──
   frontend:
-    build:
-      context: frontend/
-      dockerfile: Dockerfile
-      args:
-        NEXT_PUBLIC_API_URL: http://localhost:8100/api/v1
+    image: ghcr.io/Sherwood01/tlf-frontend:latest
     depends_on:
       - api
       - stack-auth
     environment:
       NEXT_PUBLIC_STACK_PROJECT_ID: ${STACK_PROJECT_ID:-internal}
       NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY: ${STACK_PUBLISHABLE_KEY:-}
-      NEXT_PUBLIC_STACK_URL: http://stack-auth:8101
-      # Client-side fetches go through localhost (port published on host).
-      # Server-side rendering would need http://api:8000, but our frontend
-      # uses client-side data fetching (useEffect), so localhost is correct.
-      NEXT_PUBLIC_API_URL: http://localhost:8000/api/v1
+      NEXT_PUBLIC_STACK_URL: ${STACK_AUTH_URL:-http://localhost:8101}
     ports:
-      - "3100:3100"
+      - "${FRONTEND_PORT:-3100}:3000"
     restart: unless-stopped
+    networks:
+      - tlf-network
     deploy:
       resources:
-        limits:
-          memory: 256M
+        limits: { memory: 256M }
+
+
+networks:
+  tlf-network:
+    driver: bridge
 
 volumes:
   pgdata:
