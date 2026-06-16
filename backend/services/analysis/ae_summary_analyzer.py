@@ -7,6 +7,13 @@ class AESummaryAnalyzerWrapper(BaseAnalyzer):
     """Adverse event summary — wraps src.report.direct_generator.AESummaryAnalyzer."""
 
     def analyze(self) -> TableData:
+        import sys
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"SYS PATH INSIDE ANALYZE: {sys.path}")
+        logger.error(f"IS SRC IN MODULES: {'src' in sys.modules}")
+        if 'src' in sys.modules:
+            logger.error(f"SRC MODULE IS: {sys.modules['src']}")
         from src.report.direct_generator import AESummaryAnalyzer
 
         adsl = self._get_adsl()

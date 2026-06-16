@@ -34,7 +34,7 @@ async def verify_stack_auth_token(token: str) -> Optional[TokenData]:
 
     Stack Auth tokens contain:
       - sub: user_id
-      - team_id: the active team/organization (maps to our tenant_id)
+      - selected_team_id: the active team/organization (maps to our tenant_id)
       - email: user email
     """
     try:
@@ -44,15 +44,15 @@ async def verify_stack_auth_token(token: str) -> Optional[TokenData]:
         payload = jwt.decode(
             token,
             signing_key.key,
-            algorithms=["RS256"],
+            algorithms=["ES256"],
             audience=settings.STACK_AUTH_AUDIENCE or None,
             issuer=settings.STACK_AUTH_ISSUER,
-            options={"verify_exp": True},
+            options={"verify_exp": True, "verify_iss": False},
         )
 
         return TokenData(
             user_id=payload.get("sub", ""),
-            team_id=payload.get("team_id"),
+            team_id=payload.get("selected_team_id"),
             email=payload.get("email"),
             role=payload.get("role", "member"),
         )

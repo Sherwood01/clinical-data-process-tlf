@@ -86,7 +86,7 @@ class BaseAnalyzer(ABC):
             population=population,
             big_n=BN(groups=big_n.groups, total=big_n.total, labels=big_n.labels),
             headers=list(headers),
-            rows=[R(label=r.label, level=r.level, cells=[C(v=v) for v in r.cells]) for r in rows],
+            rows=rows,
             analysis_type=analysis_type,
         )
 

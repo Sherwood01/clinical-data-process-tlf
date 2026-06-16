@@ -49,3 +49,10 @@ Thumbs.db
 
 # ── Docker ──
 .docker/
+
+# ── Temporary / Debug files ──
+tmp_*
+*.log
+debug.html
+client-app-impl-output.js
+.draft

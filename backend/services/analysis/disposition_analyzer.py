@@ -7,8 +7,18 @@ class DispositionAnalyzerWrapper(BaseAnalyzer):
     """Subject disposition analysis — wraps src.report.direct_generator.DispositionAnalyzer."""
 
     def analyze(self) -> TableData:
-        from src.report.direct_generator import DispositionAnalyzer
-
+        import sys
+        import os
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"SYS PATH INSIDE ANALYZE: {sys.path}")
+        logger.error(f"Does /app/src exist? {os.path.exists('/app/src')}")
+        logger.error(f"Files in /app/src: {os.listdir('/app/src') if os.path.exists('/app/src') else 'N/A'}")
+        try:
+            from src.report.direct_generator import DispositionAnalyzer
+        except Exception as e:
+            logger.error(f"IMPORT FAILED: {repr(e)}")
+            raise
         adsl = self._get_adsl()
         inner = DispositionAnalyzer(adsl)
         result = inner.analyze()

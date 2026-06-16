@@ -26,6 +26,7 @@ class SAPDocumentResponse(BaseModel):
     is_parsed: bool = False
     toc_entry_count: int = 0
     created_at: Optional[datetime] = None
+    minio_object_key: Optional[str] = None
 
     class Config:
         from_attributes = True
@@ -45,3 +46,16 @@ class TOCEntryResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class SAPDocumentUpdateRequest(BaseModel):
+    original_filename: str
+
+
+class TOCEntryUpdateRequest(BaseModel):
+    tlf_id: Optional[str] = None
+    tlf_type: Optional[str] = None
+    tlf_name: Optional[str] = None
+    population: Optional[str] = None
+    analysis_type: Optional[str] = None
+

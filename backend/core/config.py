@@ -23,15 +23,16 @@ class Settings(BaseSettings):
 
     # MinIO (S3-compatible file storage)
     MINIO_ENDPOINT: str = "localhost:9000"
+    MINIO_PUBLIC_ENDPOINT: str = "http://localhost:9000"
     MINIO_ACCESS_KEY: str = "minioadmin"
     MINIO_SECRET_KEY: str = "minioadmin"
     MINIO_BUCKET_PREFIX: str = "tlf-saas"
     MINIO_SECURE: bool = False
 
     # Stack Auth JWT
-    STACK_AUTH_JWKS_URL: str = "http://localhost:8101/api/v1/.well-known/jwks.json"
-    STACK_AUTH_ISSUER: str = "http://localhost:8101"
-    STACK_AUTH_AUDIENCE: str = ""
+    STACK_AUTH_JWKS_URL: str = "http://stack-auth:8102/api/latest/projects/internal/.well-known/jwks.json"
+    STACK_AUTH_ISSUER: str = "http://stack-auth:8102/api/v1/projects/internal"
+    STACK_AUTH_AUDIENCE: str = "internal"
 
     # Celery
     CELERY_BROKER_URL: str = "redis://localhost:6379/0"

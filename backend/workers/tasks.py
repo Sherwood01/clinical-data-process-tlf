@@ -7,6 +7,9 @@ in the FastAPI async context).
 """
 import logging
 import os
+import sys
+if "/app" not in sys.path:
+    sys.path.insert(0, "/app")
 import tempfile
 from datetime import datetime
 from pathlib import Path

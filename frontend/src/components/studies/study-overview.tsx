@@ -1,5 +1,8 @@
 "use client";
 
+import { Badge } from "@hexclave/ui";
+import { Database, FileText, FileOutput, CheckCircle2, FlaskConical } from "lucide-react";
+
 interface StudyOverviewProps {
   study: any;
   datasets: any[];
@@ -17,55 +20,70 @@ export function StudyOverview({
   const completedJobs = tlfJobs.filter((j: any) => j.status === "completed").length;
   const failedJobs = tlfJobs.filter((j: any) => j.status === "failed").length;
 
-  return (
-    <div>
-      <h2 className="text-lg font-semibold mb-4">Study Overview</h2>
+  const statCards = [
+    { label: "Datasets", value: datasets.length, icon: Database, color: "text-blue-600" },
+    { label: "TOC Entries", value: tocEntries.length, icon: FileText, color: "text-purple-600" },
+    { label: "Generated", value: generatedCount, icon: FileOutput, color: "text-emerald-600" },
+    {
+      label: "Jobs Completed",
+      value: completedJobs,
+      icon: CheckCircle2,
+      color: "text-amber-600",
+      extra: failedJobs > 0 ? `${failedJobs} failed` : undefined,
+    },
+  ];
 
+  return (
+    <div className="space-y-8">
       {/* Stat cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white border rounded-lg p-5">
-          <div className="text-2xl font-bold text-gray-800">{datasets.length}</div>
-          <div className="text-sm text-gray-500 mt-1">Datasets</div>
-        </div>
-        <div className="bg-white border rounded-lg p-5">
-          <div className="text-2xl font-bold text-gray-800">{tocEntries.length}</div>
-          <div className="text-sm text-gray-500 mt-1">TOC Entries</div>
-        </div>
-        <div className="bg-white border rounded-lg p-5">
-          <div className="text-2xl font-bold text-green-600">{generatedCount}</div>
-          <div className="text-sm text-gray-500 mt-1">Generated</div>
-        </div>
-        <div className="bg-white border rounded-lg p-5">
-          <div className="text-2xl font-bold text-blue-600">{completedJobs}</div>
-          <div className="text-sm text-gray-500 mt-1">Jobs Completed</div>
-          {failedJobs > 0 && (
-            <div className="text-xs text-red-500 mt-1">{failedJobs} failed</div>
-          )}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {statCards.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="rounded-xl border bg-card p-5 flex items-center gap-4"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                <Icon className={`h-5 w-5 ${stat.color}`} />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{stat.value}</p>
+                <p className="text-sm text-muted-foreground">{stat.label}</p>
+                {stat.extra && (
+                  <p className="text-xs text-destructive mt-0.5">{stat.extra}</p>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
-      {/* Study info */}
-      <div className="bg-white border rounded-lg p-6">
-        <h3 className="font-semibold mb-3">Study Details</h3>
-        <dl className="grid grid-cols-2 gap-4 text-sm">
+      {/* Study details */}
+      <div className="rounded-xl border bg-card p-6">
+        <div className="flex items-center gap-2 mb-5">
+          <FlaskConical className="h-5 w-5 text-primary" />
+          <h3 className="font-semibold">Study Details</h3>
+        </div>
+        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
           <div>
-            <dt className="text-gray-500">Name</dt>
+            <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Name</dt>
             <dd className="font-medium">{study?.name || "-"}</dd>
           </div>
           <div>
-            <dt className="text-gray-500">Protocol ID</dt>
+            <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Protocol ID</dt>
             <dd className="font-medium">{study?.protocol_id || "-"}</dd>
           </div>
           <div>
-            <dt className="text-gray-500">Status</dt>
+            <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Status</dt>
             <dd>
-              <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
+              <Badge variant={study?.status === "completed" ? "default" : "secondary"}>
                 {study?.status || "active"}
-              </span>
+              </Badge>
             </dd>
           </div>
           <div>
-            <dt className="text-gray-500">Created</dt>
+            <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Created</dt>
             <dd className="font-medium">
               {study?.created_at
                 ? new Date(study.created_at).toLocaleDateString()
@@ -74,8 +92,8 @@ export function StudyOverview({
           </div>
         </dl>
         {study?.description && (
-          <div className="mt-4">
-            <dt className="text-sm text-gray-500">Description</dt>
+          <div className="mt-5 pt-5 border-t">
+            <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Description</dt>
             <dd className="text-sm mt-1">{study.description}</dd>
           </div>
         )}

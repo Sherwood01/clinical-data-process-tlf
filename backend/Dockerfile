@@ -2,18 +2,15 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Use Debian China mirror for apt
-RUN sed -i 's|deb.debian.org|mirrors.aliyun.com|g' /etc/apt/sources.list.d/debian.sources 2>/dev/null || \
-    sed -i 's|deb.debian.org|mirrors.aliyun.com|g' /etc/apt/sources.list
-
 # Install system dependencies for pyreadstat, numpy, etc.
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libopenblas-dev \
+RUN echo "deb https://mirrors.ustc.edu.cn/debian trixie main" > /etc/apt/sources.list \
+    && echo "deb https://mirrors.ustc.edu.cn/debian-security trixie-security main" >> /etc/apt/sources.list \
+    && apt-get update \
+    && apt-get install -y build-essential libopenblas-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/ -r requirements.txt
+RUN pip install --no-cache-dir -i https://mirrors.ustc.edu.cn/pypi/web/simple -r requirements.txt
 
 COPY backend/ /app/backend/
 COPY src/ /app/src/

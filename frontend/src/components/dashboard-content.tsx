@@ -21,7 +21,7 @@ export default function DashboardContent() {
       return;
     }
     fetchStudies();
-  }, [user]);
+  }, [user?.id, user === null]);
 
   async function fetchStudies() {
     try {

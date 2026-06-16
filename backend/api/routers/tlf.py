@@ -1,8 +1,10 @@
 """TLF generation and job management router."""
-from typing import List
+from typing import List, Optional
 from uuid import UUID
+import io
 
 from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.responses import StreamingResponse
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -76,7 +78,15 @@ async def generate_tlf(
     await db.commit()
     await db.refresh(job)
 
-    return job
+    # Fetch the job with eagerly loaded relationships for serialization
+    result = await db.execute(
+        select(TLFJob)
+        .options(selectinload(TLFJob.outputs))
+        .where(TLFJob.id == job.id)
+    )
+    job_with_outputs = result.scalar_one()
+
+    return job_with_outputs
 
 
 @router.get("/{job_id}", response_model=TLFJobResponse)
@@ -131,3 +141,42 @@ async def download_tlf_output(
         object_key=output.minio_object_key,
     )
     return {"url": url, "file_type": output.file_type, "file_size": output.file_size_bytes}
+
+
+@router.get("/{job_id}/content")
+async def get_tlf_output_content(
+    study_id: UUID,
+    job_id: UUID,
+    tenant_id: UUID = Depends(get_tenant_id),
+    db: AsyncSession = Depends(get_db),
+):
+    """Stream the generated TLF output directly to bypass CORS/CORB issues."""
+    result = await db.execute(
+        select(TLFJob)
+        .options(selectinload(TLFJob.outputs))
+        .where(
+            TLFJob.id == job_id,
+            TLFJob.study_id == study_id,
+            TLFJob.tenant_id == tenant_id,
+        )
+    )
+    job = result.scalar_one_or_none()
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    if job.status != "completed" or not job.outputs:
+        raise HTTPException(status_code=400, detail="No output available for this job")
+
+    output = job.outputs[0]
+    data = await storage.download_file(
+        tenant_id=str(tenant_id),
+        object_key=output.minio_object_key,
+    )
+    
+    return StreamingResponse(
+        io.BytesIO(data),
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"inline; filename={output.minio_object_key.split('/')[-1]}",
+            "Access-Control-Allow-Origin": "*"
+        }
+    )

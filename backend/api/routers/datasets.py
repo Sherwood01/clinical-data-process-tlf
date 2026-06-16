@@ -74,7 +74,10 @@ async def start_dataset_upload(
     tenant_id: UUID = Depends(get_tenant_id),
 ):
     """Step 1: Get a presigned URL for direct upload to MinIO."""
-    filename = f"{req.name}.sas7bdat"
+    suffix = ".sas7bdat"
+    if req.filename:
+        suffix = os.path.splitext(req.filename)[1] or ".sas7bdat"
+    filename = f"{req.name}{suffix}"
     upload_url = await storage.get_presigned_upload_url(
         tenant_id=str(tenant_id),
         study_id=str(study_id),
@@ -100,24 +103,36 @@ async def complete_dataset_upload(
     data = await storage.download_file(str(tenant_id), req.object_key)
     checksum = hashlib.sha256(data).hexdigest()
 
-    suffix = os.path.splitext(req.original_filename)[1] or ".sas7bdat"
+    suffix = (os.path.splitext(req.original_filename)[1] or ".sas7bdat").lower()
     with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
         tmp.write(data)
         tmp_path = tmp.name
 
     try:
-        # Read metadata with pyreadstat
-        import pyreadstat
-
-        df, meta = pyreadstat.read_sas7bdat(tmp_path)
+        # 根据后缀自适应选择读取方法
+        if suffix == ".csv":
+            import pandas as pd
+            df = pd.read_csv(tmp_path)
+            class DummyMeta:
+                column_names = list(df.columns)
+                column_labels = [None] * len(df.columns)
+                number_rows = len(df)
+                number_columns = len(df.columns)
+            meta = DummyMeta()
+        elif suffix in (".xpt", ".xport"):
+            import pyreadstat
+            df, meta = pyreadstat.read_xport(tmp_path)
+        else:
+            import pyreadstat
+            df, meta = pyreadstat.read_sas7bdat(tmp_path)
 
         variables = []
         for i, name in enumerate(meta.column_names):
-            col_type = meta.column_types.get(name, "unknown")
+            col_type = str(df[name].dtype) if name in df.columns else "unknown"
             label = meta.column_labels[i] if meta.column_labels and i < len(meta.column_labels) else None
             variables.append({
                 "name": name,
-                "type": str(col_type),
+                "type": col_type,
                 "label": label,
             })
 
@@ -127,7 +142,7 @@ async def complete_dataset_upload(
             tenant_id=tenant_id,
             name=req.name,
             original_filename=req.original_filename,
-            file_format="sas7bdat",
+            file_format=suffix.lstrip("."),
             file_size_bytes=file_size,
             minio_bucket=bucket,
             minio_object_key=req.object_key,

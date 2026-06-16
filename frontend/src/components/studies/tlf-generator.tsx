@@ -111,7 +111,6 @@ export function TLFGenerator({
     (j: any) => j.status === "pending" || j.status === "running"
   );
 
-  const ungeneratedEntries = tocEntries.filter((e: any) => !e.is_generated);
 
   return (
     <div>
@@ -146,16 +145,6 @@ export function TLFGenerator({
         </div>
       )}
 
-      {ungeneratedEntries.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="text-4xl mb-4">✅</div>
-          <h3 className="text-lg font-semibold mb-2">All TOC entries generated</h3>
-          <p className="text-gray-500 text-sm">
-            All TOC entries for this study have been generated. Upload a new SAP
-            document or add more datasets to generate additional reports.
-          </p>
-        </div>
-      ) : (
         <>
           {/* TOC Selector */}
           <div className="bg-white border rounded-lg p-6 mb-6">
@@ -187,12 +176,11 @@ export function TLFGenerator({
                 : `Generate Selected (${selectedIds.size})`}
             </button>
             <span className="text-xs text-gray-500">
-              {ungeneratedEntries.length} entries pending,{" "}
-              {tocEntries.filter((e: any) => e.is_generated).length} completed
+              {tocEntries.filter((e: any) => !e.is_generated).length} entries pending,{" "}
+              {tocEntries.filter((e: any) => e.is_generated).length} generated
             </span>
           </div>
         </>
-      )}
     </div>
   );
 }

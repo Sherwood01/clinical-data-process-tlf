@@ -2,7 +2,28 @@
 
 import { useStackApp, useUser } from "@hexclave/next";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo, useRef } from "react";
+
+const MemoizedPDF = memo(({ pdfUrl }: { pdfUrl: string }) => (
+  <div className="bg-white border rounded-lg overflow-hidden" style={{ height: "calc(100vh - 220px)" }}>
+    <iframe
+      src={pdfUrl}
+      className="w-full h-full border-0"
+      title="PDF Preview"
+    >
+      <div className="flex flex-col items-center justify-center h-full text-gray-500">
+        <p className="mb-4">Your browser does not support inline PDF viewing.</p>
+        <a
+          href={pdfUrl}
+          download="report.pdf"
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm"
+        >
+          Download PDF
+        </a>
+      </div>
+    </iframe>
+  </div>
+));
 
 export default function PDFViewer() {
   const app = useStackApp();
@@ -16,15 +37,30 @@ export default function PDFViewer() {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const fetchedRef = useRef(false);
 
   useEffect(() => {
-    if (user === undefined) return;
-    if (user === null || !studyId || !jobId) {
+    // Wait for route params and user to hydrate
+    if (user === undefined || !studyId || !jobId) return;
+    
+    // Only redirect if explicitly unauthenticated
+    if (user === null) {
       router.push("/handler/sign-in");
       return;
     }
+    if (fetchedRef.current) return;
+    fetchedRef.current = true;
     fetchJob();
-  }, [user, studyId, jobId]);
+  }, [user?.id, studyId, jobId]);
+
+  useEffect(() => {
+    return () => {
+      // Cleanup object URL to prevent memory leaks when unmounting
+      if (pdfUrl && pdfUrl.startsWith("blob:")) {
+        URL.revokeObjectURL(pdfUrl);
+      }
+    };
+  }, [pdfUrl]);
 
   async function fetchJob() {
     if (!studyId || !jobId) return;
@@ -39,15 +75,16 @@ export default function PDFViewer() {
         const data = await res.json();
         setJob(data);
 
-        // Generate download URL
+        // Fetch the raw PDF content to bypass CORS/CORB
         if (data.status === "completed" && data.tlf_outputs?.length > 0) {
-          const downloadRes = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/studies/${studyId}/tlf/${jobId}/download`,
+          const contentRes = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/studies/${studyId}/tlf/${jobId}/content`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
-          if (downloadRes.ok) {
-            const { url } = await downloadRes.json();
-            setPdfUrl(url);
+          if (contentRes.ok) {
+            const blob = await contentRes.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            setPdfUrl(blobUrl);
           }
         }
       } else {
@@ -121,22 +158,15 @@ export default function PDFViewer() {
               </div>
               <a
                 href={pdfUrl}
-                download
+                download="report.pdf"
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-medium"
               >
                 Download PDF
               </a>
             </div>
 
-            {/* PDF iframe */}
-            <div className="bg-white border rounded-lg overflow-hidden">
-              <iframe
-                src={pdfUrl}
-                className="w-full"
-                style={{ height: "calc(100vh - 220px)" }}
-                title="PDF Preview"
-              />
-            </div>
+            {/* PDF iframe (memoized) */}
+            <MemoizedPDF pdfUrl={pdfUrl} />
           </div>
         ) : job?.status === "running" || job?.status === "pending" ? (
           <div className="text-center py-16">

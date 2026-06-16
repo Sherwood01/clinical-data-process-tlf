@@ -9,6 +9,8 @@ from pydantic import BaseModel
 class DatasetUploadStartRequest(BaseModel):
     """Request to start a dataset upload: get a presigned URL."""
     name: str  # e.g. "adsl", "adae"
+    filename: Optional[str] = None
+
 
 
 class DatasetUploadStartResponse(BaseModel):

@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class TLFGenerateRequest(BaseModel):
@@ -37,7 +37,7 @@ class TLFJobResponse(BaseModel):
     created_at: Optional[datetime] = None
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
-    tlf_outputs: List[TLFOutputResponse] = []
+    tlf_outputs: List[TLFOutputResponse] = Field(default=[], validation_alias="outputs")
 
     class Config:
         from_attributes = True

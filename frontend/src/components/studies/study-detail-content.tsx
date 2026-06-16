@@ -32,7 +32,7 @@ export default function StudyDetailContent() {
       return;
     }
     fetchStudyData();
-  }, [user, studyId]);
+  }, [user?.id, user === null, studyId]);
 
   async function fetchStudyData() {
     if (!studyId) return;

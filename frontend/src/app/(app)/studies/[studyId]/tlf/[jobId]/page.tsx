@@ -8,9 +8,15 @@ const PDFViewer = dynamic(
   { ssr: false }
 );
 
-export default function TLFPreviewPage() {
+export default function PDFViewerPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-500">Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="flex min-h-[60vh] items-center justify-center text-muted-foreground">
+          Loading...
+        </div>
+      }
+    >
       <PDFViewer />
     </Suspense>
   );

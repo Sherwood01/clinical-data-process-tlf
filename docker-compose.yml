@@ -53,7 +53,7 @@ services:
       - tlf-network
     deploy:
       resources:
-        limits: { memory: 512M }
+        limits: { memory: 1G }
 
   # ── File Storage (S3-compatible) ──
   minio:
@@ -67,6 +67,8 @@ services:
     expose:
       - "9000"   # S3 API
       - "9100"   # Console
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 10s
@@ -77,12 +79,15 @@ services:
       - tlf-network
     deploy:
       resources:
-        limits: { memory: 512M }
+        limits: { memory: 1G }
 
   # ── Authentication Server (Stack Auth) ──
   stack-auth:
     # 从 GitHub Container Registry 拉取（Docker Hub 在国内无法访问）
     image: stackauth/server:latest
+    entrypoint: ["/bin/bash", "/stack-auth-entrypoint.sh"]
+    volumes:
+      - ./stack-auth-entrypoint.sh:/stack-auth-entrypoint.sh:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -91,20 +96,36 @@ services:
       NEXT_PUBLIC_APP_URL: ${STACK_AUTH_URL:-http://localhost:8101}
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?必须设置 NEXTAUTH_SECRET}
       STACK_DATABASE_CONNECTION_STRING: postgresql://postgres:${DB_PASSWORD:-postgres}@postgres:5432/tlf_saas
-      NEXT_PUBLIC_STACK_API_URL: http://stack-auth:8101/api/v1
+      # 浏览器端 Dashboard 请求的 API 地址（必须是浏览器能访问的 localhost）
+      NEXT_PUBLIC_STACK_API_URL: http://localhost:8102
+      # Stack Auth 的客户端 SDK 基础 URL（Dashboard 前端 JS 通过 sentinel 注入）
+      NEXT_PUBLIC_STACK_URL: http://localhost:8102
+      # Dashboard 自身的 URL
+      NEXT_PUBLIC_STACK_DASHBOARD_URL: http://localhost:8101
       STACK_SELF_HOSTED: "true"
-    expose:
-      - "8101"
+      STACK_INTERNAL_PROJECT_PUBLISHABLE_CLIENT_KEY: ${STACK_PUBLISHABLE_KEY}
+      STACK_SEED_INTERNAL_PROJECT_SIGN_UP_ENABLED: "true"
+      STACK_CLICKHOUSE_URL: ${STACK_CLICKHOUSE_URL:-}
+      STACK_CLICKHOUSE_ADMIN_PASSWORD: ${STACK_CLICKHOUSE_ADMIN_PASSWORD:-}
+      STACK_CLICKHOUSE_EXTERNAL_PASSWORD: ${STACK_CLICKHOUSE_EXTERNAL_PASSWORD:-}
+
+
+    ports:
+      - "8101:8101"
+      - "8102:8102"
     restart: unless-stopped
     networks:
       - tlf-network
     deploy:
       resources:
-        limits: { memory: 512M }
+        limits: { memory: 1G }
 
   # ── API Server (FastAPI) ──
   api:
-    image: ghcr.io/Sherwood01/tlf-api:latest
+    image: ghcr.io/sherwood01/tlf-api:latest
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     depends_on:
       postgres:
         condition: service_healthy
@@ -119,14 +140,21 @@ services:
       CELERY_BROKER_URL: redis://redis:6379/0
       CELERY_RESULT_BACKEND: redis://redis:6379/0
       MINIO_ENDPOINT: minio:9000
+      MINIO_PUBLIC_ENDPOINT: http://localhost:9000
       MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
-      STACK_AUTH_JWKS_URL: http://stack-auth:8101/api/v1/.well-known/jwks.json
-      STACK_AUTH_ISSUER: http://stack-auth:8101
+      STACK_AUTH_JWKS_URL: http://stack-auth:8102/api/latest/projects/internal/.well-known/jwks.json
+      STACK_AUTH_ISSUER: http://localhost:8102/api/v1/projects/internal
+      STACK_AUTH_AUDIENCE: internal
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3100}
+      API_PORT: "8000"
       DEBUG: "false"
+      PYTHONPATH: /app
+    volumes:
+      - ./backend:/app/backend
+      - ./src:/app/src
     ports:
-      - "${API_PORT:-8100}:8100"
+      - "${API_PORT:-8100}:8000"
     restart: unless-stopped
     networks:
       - tlf-network
@@ -136,7 +164,10 @@ services:
 
   # ── Celery Worker ──
   worker:
-    image: ghcr.io/Sherwood01/tlf-worker:latest
+    image: ghcr.io/sherwood01/tlf-worker:latest
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.worker
     depends_on:
       api:
         condition: service_started
@@ -156,7 +187,10 @@ services:
       MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
       WORKER_TEMP_DIR: /tmp/tlf-worker
+      PYTHONPATH: /app
     volumes:
+      - ./backend:/app/backend
+      - ./src:/app/src
       - workertmp:/tmp/tlf-worker
     restart: unless-stopped
     networks:
@@ -170,14 +204,35 @@ services:
 
   # ── Frontend (Next.js) ──
   frontend:
-    image: ghcr.io/Sherwood01/tlf-frontend:latest
+    image: ghcr.io/sherwood01/tlf-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: builder
+      args:
+        NEXT_PUBLIC_STACK_PROJECT_ID: ${STACK_PROJECT_ID:-internal}
+        NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY: ${STACK_PUBLISHABLE_KEY:-}
+        NEXT_PUBLIC_STACK_URL: http://localhost:3100
+        NEXT_PUBLIC_BROWSER_STACK_API_URL: http://localhost:3100
+        NEXT_PUBLIC_STACK_EXTRA_REQUEST_HEADERS: '{"x-stack-access-type":"client"}'
+    command: npm run dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
     depends_on:
       - api
       - stack-auth
     environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: /api/v1
+      API_REWRITE_URL: http://api:8000/api/v1
       NEXT_PUBLIC_STACK_PROJECT_ID: ${STACK_PROJECT_ID:-internal}
       NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY: ${STACK_PUBLISHABLE_KEY:-}
-      NEXT_PUBLIC_STACK_URL: ${STACK_AUTH_URL:-http://localhost:8101}
+      NEXT_PUBLIC_STACK_URL: http://localhost:3100
+      NEXT_PUBLIC_BROWSER_STACK_API_URL: http://localhost:3100
+      NEXT_PUBLIC_STACK_API_URL_SERVER: http://localhost:3000
+      NEXT_PUBLIC_STACK_EXTRA_REQUEST_HEADERS: '{"x-stack-access-type":"client"}'
     ports:
       - "${FRONTEND_PORT:-3100}:3000"
     restart: unless-stopped
@@ -185,7 +240,7 @@ services:
       - tlf-network
     deploy:
       resources:
-        limits: { memory: 256M }
+        limits: { memory: 1G }
 
 
 networks:

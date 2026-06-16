@@ -1,0 +1,28 @@
+diff --git a/node_modules/@hexclave/next/dist/components/oauth-button.js b/node_modules/@hexclave/next/dist/components/oauth-button.js
+index b9db76e..a494e3c 100644
+--- a/node_modules/@hexclave/next/dist/components/oauth-button.js
++++ b/node_modules/@hexclave/next/dist/components/oauth-button.js
+@@ -155,8 +155,7 @@ function OAuthButton({ provider, type, isMock = false, onAuthenticate }) {
+ 			className: `stack-oauth-button-${styleId} stack-scope relative w-full`,
+ 			disabled: isIframe,
+ 			children: [!isMock && lastUsed === provider && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+-				className: "absolute -top-2 -right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-md",
+-				children: "last"
++				className: "hidden", children: ""
+ 			}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+ 				className: "flex items-center w-full gap-4",
+ 				children: [style.icon, /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+diff --git a/node_modules/@hexclave/next/dist/esm/components/oauth-button.js b/node_modules/@hexclave/next/dist/esm/components/oauth-button.js
+index b14e02f..6e6a136 100644
+--- a/node_modules/@hexclave/next/dist/esm/components/oauth-button.js
++++ b/node_modules/@hexclave/next/dist/esm/components/oauth-button.js
+@@ -152,8 +152,7 @@ function OAuthButton({ provider, type, isMock = false, onAuthenticate }) {
+ 			className: `stack-oauth-button-${styleId} stack-scope relative w-full`,
+ 			disabled: isIframe,
+ 			children: [!isMock && lastUsed === provider && /* @__PURE__ */ jsx("span", {
+-				className: "absolute -top-2 -right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-md",
+-				children: "last"
++				className: "hidden", children: ""
+ 			}), /* @__PURE__ */ jsxs("div", {
+ 				className: "flex items-center w-full gap-4",
+ 				children: [style.icon, /* @__PURE__ */ jsx("span", {
