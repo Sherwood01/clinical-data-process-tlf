@@ -77,9 +77,7 @@ steps:
       - '--memory=1Gi'
       - '--cpu=1'
       - '--timeout=300'
-      - '--set-env-vars=DATABASE_URL=$_DATABASE_URL,DATABASE_SYNC_URL=$_DATABASE_SYNC_URL,REDIS_URL=$_REDIS_URL,CELERY_BROKER_URL=$_CELERY_BROKER_URL,CELERY_RESULT_BACKEND=$_CELERY_RESULT_BACKEND,WORKER_HTTP_URL=$_WORKER_HTTP_URL,STACK_AUTH_JWKS_URL=$_STACK_AUTH_JWKS_URL,STACK_AUTH_ISSUER=$_STACK_AUTH_ISSUER,STACK_AUTH_AUDIENCE=$_STACK_AUTH_AUDIENCE,CORS_ORIGINS=$_CORS_ORIGINS,DEBUG=False'
-      - '--add-cloudsql-instances=$_CLOUD_SQL_INSTANCE'
-      - '--service-account=$_SERVICE_ACCOUNT'
+      - '--set-env-vars=DATABASE_URL=$_DATABASE_URL,DATABASE_SYNC_URL=$_DATABASE_SYNC_URL,REDIS_URL=$_REDIS_URL,CELERY_BROKER_URL=$_CELERY_BROKER_URL,CELERY_RESULT_BACKEND=$_CELERY_RESULT_BACKEND,WORKER_HTTP_URL=$_WORKER_HTTP_URL,STACK_AUTH_JWKS_URL=$_STACK_AUTH_JWKS_URL,STACK_AUTH_ISSUER=$_STACK_AUTH_ISSUER,STACK_AUTH_AUDIENCE=$_STACK_AUTH_AUDIENCE,CORS_ORIGINS=$_CORS_ORIGINS,DEBUG=False,STORAGE_BACKEND=gcs'
 
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
@@ -96,9 +94,7 @@ steps:
       - '--timeout=1800'
       - '--max-instances=3'
       - '--concurrency=1'
-      - '--set-env-vars=DATABASE_SYNC_URL=$_DATABASE_SYNC_URL,REDIS_URL=$_REDIS_URL'
-      - '--add-cloudsql-instances=$_CLOUD_SQL_INSTANCE'
-      - '--service-account=$_SERVICE_ACCOUNT'
+      - '--set-env-vars=DATABASE_SYNC_URL=$_DATABASE_SYNC_URL,REDIS_URL=$_REDIS_URL,STORAGE_BACKEND=gcs'
 
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
@@ -114,6 +110,5 @@ steps:
       - '--cpu=1'
       - '--timeout=300'
       - '--set-env-vars=NODE_ENV=production,NEXT_TELEMETRY_DISABLED=1,API_REWRITE_URL=$_API_REWRITE_URL,STACK_AUTH_REWRITE_URL=$_STACK_AUTH_REWRITE_URL'
-      - '--service-account=$_SERVICE_ACCOUNT'
 
 timeout: 1800s
