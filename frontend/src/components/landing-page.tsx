@@ -144,7 +144,7 @@ export function LandingPage() {
           </div>
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com/Sherwood01/clinical-data-process"
+              href="https://github.com/Sherwood01/clinical-data-process-tlf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center h-9 w-9 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors text-muted-foreground"
@@ -198,7 +198,7 @@ export function LandingPage() {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
               <a
-                href="https://github.com/Sherwood01/clinical-data-process"
+                href="https://github.com/Sherwood01/clinical-data-process-tlf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center h-10 rounded-md px-8 text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors"
@@ -334,7 +334,7 @@ export function LandingPage() {
                 <span className="text-sm font-medium">TLF Report Generator</span>
               </div>
               <a
-                href="https://github.com/Sherwood01/clinical-data-process"
+                href="https://github.com/Sherwood01/clinical-data-process-tlf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors"
