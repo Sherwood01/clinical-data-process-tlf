@@ -2,6 +2,10 @@
 .knowledge/
 reference/
 
+# ── Generated / Test data ──
+input/
+output/
+
 # ── Python ──
 __pycache__/
 *.py[cod]
