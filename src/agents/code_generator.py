@@ -54,9 +54,9 @@ Date Generated:       {timestamp}
 
 %let column_definition = %str(
 rowlabel label="" width=2.5 headerjust=l columnjust=l
-_col_1 label="5.4 mg/kg`(N=&n_1)" width=1 headerjust=c columnjust=c
-_col_2 label="6.4 mg/kg`(N=&n_2)" width=1 headerjust=c columnjust=c
-_col_3 label="7.4 mg/kg`(N=&n_3)" width=1 headerjust=c columnjust=c
+_col_1 label="Treatment A`(N=&n_1)" width=1 headerjust=c columnjust=c
+_col_2 label="Treatment B`(N=&n_2)" width=1 headerjust=c columnjust=c
+_col_3 label="Treatment C`(N=&n_3)" width=1 headerjust=c columnjust=c
 _col_99999 label="Total`(N=&n_99999)" width=1 headerjust=c columnjust=c
 );
 

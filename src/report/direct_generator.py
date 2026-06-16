@@ -551,9 +551,9 @@ class PDFReportGenerator:
 
         headers = [
             "Characteristic",
-            f"5.4 mg/kg (N={big_n[1]})",
-            f"6.4 mg/kg (N={big_n[2]})",
-            f"7.4 mg/kg (N={big_n[3]})",
+            f"Treatment A (N={big_n[1]})",
+            f"Treatment B (N={big_n[2]})",
+            f"Treatment C (N={big_n[3]})",
             f"Total (N={total_n})"
         ]
 
@@ -660,9 +660,9 @@ class PDFReportGenerator:
 
         headers = [
             "Characteristic",
-            f"5.4 mg/kg (N={big_n.get(1, 0)})",
-            f"6.4 mg/kg (N={big_n.get(2, 0)})",
-            f"7.4 mg/kg (N={big_n.get(3, 0)})",
+            f"Treatment A (N={big_n.get(1, 0)})",
+            f"Treatment B (N={big_n.get(2, 0)})",
+            f"Treatment C (N={big_n.get(3, 0)})",
             f"Total (N={total_n})"
         ]
 
@@ -1873,7 +1873,7 @@ class MedicalHistoryAnalyzer:
 
     def _get_treatment_groups(self) -> Dict[int, str]:
         """Map treatment group numbers to names."""
-        return {1: '5.4 mg/kg', 2: '6.4 mg/kg', 3: '7.4 mg/kg'}
+        return {1: 'Treatment A', 2: 'Treatment B', 3: 'Treatment C'}
 
     def analyze(self) -> Dict[str, Any]:
         """Perform complete medical history analysis."""
@@ -3480,7 +3480,7 @@ class ProtocolDeviationAnalyzer:
     def count_major_deviations_by_trt(self) -> Dict[int, int]:
         """Count subjects with at least one major protocol deviation."""
         major_dv = self.addv[self.addv['DVCAT'] == 'Major']
-        trt_map = {1: '5.4 mg/kg', 2: '6.4 mg/kg', 3: '7.4 mg/kg'}
+        trt_map = {1: 'Treatment A', 2: 'Treatment B', 3: 'Treatment C'}
         counts = {}
         for trt_num, trt_name in trt_map.items():
             # Get subjects with major deviations in this treatment
@@ -3494,7 +3494,7 @@ class ProtocolDeviationAnalyzer:
             (self.addv['DVCAT'] == 'Major') &
             (self.addv['DVDECOD'] == category)
         ]
-        trt_map = {1: '5.4 mg/kg', 2: '6.4 mg/kg', 3: '7.4 mg/kg'}
+        trt_map = {1: 'Treatment A', 2: 'Treatment B', 3: 'Treatment C'}
         counts = {}
         for trt_num, trt_name in trt_map.items():
             denom = len(self.adsl[
@@ -3511,7 +3511,7 @@ class ProtocolDeviationAnalyzer:
             (self.addv['DVCAT'] == 'Major') &
             (self.addv['DVTERM'].str.contains(reason, na=False, case=False))
         ]
-        trt_map = {1: '5.4 mg/kg', 2: '6.4 mg/kg', 3: '7.4 mg/kg'}
+        trt_map = {1: 'Treatment A', 2: 'Treatment B', 3: 'Treatment C'}
         counts = {}
         for trt_num, trt_name in trt_map.items():
             denom = len(self.adsl[
@@ -3600,7 +3600,7 @@ class ProtocolDeviationAnalyzer:
                 })
 
                 # Add sub-categories
-                trt_map = {1: '5.4 mg/kg', 2: '6.4 mg/kg', 3: '7.4 mg/kg'}
+                trt_map = {1: 'Treatment A', 2: 'Treatment B', 3: 'Treatment C'}
                 for sub_cat, reasons in eligibility_reasons.items():
                     sub_counts = {}
                     for trt_num, trt_name in trt_map.items():

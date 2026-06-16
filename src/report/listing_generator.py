@@ -244,12 +244,12 @@ LISTING_CONFIGS = {
         "description": "Summary of study drug exposure"
     },
     "16.2.5.2.1": {
-        "name": "DS-8201a Pharmacokinetic Sample Collection",
+        "name": "Drug XXX Pharmacokinetic Sample Collection",
         "datasets": ["adpp"],
         "columns": ["USUBJID", "SUBJID", "SITEID", "ARM", "PPTEST", "PARAM",
                     "ADT", "ADTM", "ARFTDT", "ARFTTM", "AVAL", "AVALRC"],
-        "filters": ["PPCAT=='DS-8201a'"],
-        "description": "PK sample collection time and results for DS-8201a"
+        "filters": ["PPCAT=='Drug XXX'"],
+        "description": "PK sample collection time and results for Drug XXX"
     },
     "16.2.5.2.3": {
         "name": "MAAA-1181a Pharmacokinetic Sample Collection",
@@ -260,12 +260,12 @@ LISTING_CONFIGS = {
         "description": "PK sample collection time and results for MAAA-1181a"
     },
     "16.2.5.3.1": {
-        "name": "DS-8201a Pharmacokinetic Parameters",
+        "name": "Drug XXX Pharmacokinetic Parameters",
         "datasets": ["adpp"],
         "columns": ["USUBJID", "SUBJID", "SITEID", "ARM", "PPTEST", "PARAM",
                     "AVAL", "AVALC"],
-        "filters": ["PPCAT=='DS-8201a'"],
-        "description": "PK parameters for DS-8201a"
+        "filters": ["PPCAT=='Drug XXX'"],
+        "description": "PK parameters for Drug XXX"
     },
     "16.2.5.3.3": {
         "name": "MAAA-1181a Pharmacokinetic Parameters",

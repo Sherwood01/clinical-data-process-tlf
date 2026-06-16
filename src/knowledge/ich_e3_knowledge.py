@@ -172,15 +172,15 @@ TLF_TEMPLATES = {
     "14.4.1": {
         "name": "Serum Concentrations",
         "sub_items": {
-            "1": "Descriptive Statistics Serum Concentrations of DS-8201a",
-            "2": "Descriptive Statistics Serum Concentrations of DS-8201a by Country",
+            "1": "Descriptive Statistics Serum Concentrations of Drug XXX",
+            "2": "Descriptive Statistics Serum Concentrations of Drug XXX by Country",
             "3": "Descriptive Statistics Serum Concentrations of Total Anti-HER2 Antibody",
         }
     },
     "14.4.2": {
         "name": "Individual Plasma Concentrations",
         "sub_items": {
-            "1": "Individual Plasma Concentrations of DS-8201a",
+            "1": "Individual Plasma Concentrations of Drug XXX",
             "2": "Individual Plasma Concentrations of Total Anti-HER2 Antibody",
         }
     },
@@ -193,7 +193,7 @@ TLF_TEMPLATES = {
     "14.4.4": {
         "name": "Pharmacokinetic Parameters",
         "sub_items": {
-            "1": "Descriptive Statistics PK Parameters of DS-8201a",
+            "1": "Descriptive Statistics PK Parameters of Drug XXX",
             "2": "Descriptive Statistics PK Parameters by Country",
         }
     },
@@ -250,14 +250,14 @@ FIGURE_TEMPLATES = {
     "14.4.1": {
         "name": "PK Concentration Figures",
         "sub_items": {
-            "1": "Plot of Mean (+/- SD) Serum Concentrations of DS-8201a by Dose Group - Linear Scale",
-            "2": "Plot of Mean Serum Concentrations of DS-8201a by Dose Group in Semi-logarithmic Scale",
+            "1": "Plot of Mean (+/- SD) Serum Concentrations of Drug XXX by Dose Group - Linear Scale",
+            "2": "Plot of Mean Serum Concentrations of Drug XXX by Dose Group in Semi-logarithmic Scale",
         }
     },
     "14.4.2": {
         "name": "Individual PK Concentration Figures",
         "sub_items": {
-            "1": "Plot of Individual Plasma Concentrations of DS-8201a in Linear Scale",
+            "1": "Plot of Individual Plasma Concentrations of Drug XXX in Linear Scale",
         }
     },
 }
@@ -401,10 +401,10 @@ LISTING_TEMPLATES = {
         "sub_items": {
             "1.1": "Study Drug Administration",
             "1.2": "Study Drug Exposure",
-            "2.1": "DS-8201a Pharmacokinetic Sample Collection Time and Results",
+            "2.1": "Drug XXX Pharmacokinetic Sample Collection Time and Results",
             "2.2": "Total Anti-HER2 Antibody Pharmacokinetic Sample Collection Time and Results",
             "2.3": "MAAA-1181a Pharmacokinetic Sample Collection Time and Results",
-            "3.1": "DS-8201a Pharmacokinetic Parameters",
+            "3.1": "Drug XXX Pharmacokinetic Parameters",
             "3.2": "Total Anti-HER2 Antibody Pharmacokinetic Parameters",
             "3.3": "MAAA-1181a Pharmacokinetic Parameters",
         }

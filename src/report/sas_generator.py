@@ -227,7 +227,7 @@ run;
             analysis_set: Analysis set name
             group_by: Grouping variable (usually treatment)
             dataset: ADaM dataset name
-            treatment_labels: Dict mapping treatment number to label (e.g., {1: "5.4 mg/kg", ...})
+            treatment_labels: Dict mapping treatment number to label (e.g., {1: "Treatment A", ...})
             analysis_units: List of analysis unit specifications
             data_prep_code: Custom data preparation code
 
@@ -235,7 +235,7 @@ run;
             Generated SAS program code
         """
         if treatment_labels is None:
-            treatment_labels = {1: "5.4 mg/kg", 2: "6.4 mg/kg", 3: "7.4 mg/kg"}
+            treatment_labels = {1: "Treatment A", 2: "Treatment B", 3: "Treatment C"}
 
         # Build header
         header = self.HEADER_TEMPLATE.format(
@@ -328,7 +328,7 @@ run;
     ) -> str:
         """Generate SAS program for Table 14.1.1.1 (Subject Disposition)."""
         if treatment_labels is None:
-            treatment_labels = {1: "5.4 mg/kg", 2: "6.4 mg/kg", 3: "7.4 mg/kg"}
+            treatment_labels = {1: "Treatment A", 2: "Treatment B", 3: "Treatment C"}
 
         analysis_units = [
             {
@@ -407,7 +407,7 @@ run;
     ) -> str:
         """Generate SAS program for Table 14.3.1.1 (AE Summary)."""
         if treatment_labels is None:
-            treatment_labels = {1: "5.4 mg/kg", 2: "6.4 mg/kg", 3: "7.4 mg/kg"}
+            treatment_labels = {1: "Treatment A", 2: "Treatment B", 3: "Treatment C"}
 
         analysis_units = [
             {
@@ -458,7 +458,7 @@ run;
     ) -> str:
         """Generate SAS program for Table 14.1.3.1 (Medical History)."""
         if treatment_labels is None:
-            treatment_labels = {1: "5.4 mg/kg", 2: "6.4 mg/kg", 3: "7.4 mg/kg"}
+            treatment_labels = {1: "Treatment A", 2: "Treatment B", 3: "Treatment C"}
 
         data_prep = """
 data &inds;

@@ -39,16 +39,16 @@ class AnalysisTemplate:
     population: str                    # Population flag: "ENRLFL", "SAFFL", etc.
     population_value: str = "Y"        # Value of population flag to filter on
     strata: str = "TRT01PN"           # Stratification variable (treatment group)
-    strata_labels: Dict[int, str] = None  # {1: "5.4 mg/kg", 2: "6.4 mg/kg", 3: "7.4 mg/kg"}
+    strata_labels: Dict[int, str] = None  # {1: "Treatment A", 2: "Treatment B", 3: "Treatment C"}
     variables: List[VariableSpec] = field(default_factory=list)
     big_n_unit: str = "big_n"          # Unit name for Big N row
 
 
 # Default strata labels
 DEFAULT_STRATA_LABELS = {
-    1: "5.4 mg/kg",
-    2: "6.4 mg/kg",
-    3: "7.4 mg/kg"
+    1: "Treatment A",
+    2: "Treatment B",
+    3: "Treatment C"
 }
 
 # Standard population flags

@@ -25,9 +25,9 @@ except ImportError:
 
 # Treatment colors and labels
 DEFAULT_TREATMENT_LABELS = {
-    1: "5.4 mg/kg",
-    2: "6.4 mg/kg",
-    3: "7.4 mg/kg"
+    1: "Treatment A",
+    2: "Treatment B",
+    3: "Treatment C"
 }
 TREATMENT_COLORS = ['#0077CC', '#FF7F0E', '#2CA02C']  # Blue, Orange, Green
 TREATMENT_MARKERS = ['o', 's', '^']
