@@ -21,13 +21,18 @@ class Settings(BaseSettings):
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
 
-    # MinIO (S3-compatible file storage)
+    # MinIO (S3-compatible file storage — local development)
     MINIO_ENDPOINT: str = "localhost:9000"
     MINIO_PUBLIC_ENDPOINT: str = "http://localhost:9000"
     MINIO_ACCESS_KEY: str = "minioadmin"
     MINIO_SECRET_KEY: str = "minioadmin"
     MINIO_BUCKET_PREFIX: str = "tlf-saas"
     MINIO_SECURE: bool = False
+
+    # GCS (Google Cloud Storage — production)
+    GCS_BUCKET_PREFIX: str = "tlf-saas"
+    GCS_LOCATION: str = "US"
+    GCS_CREDENTIALS_PATH: str = ""  # Optional, leave empty for Workload Identity
 
     # Stack Auth JWT
     STACK_AUTH_JWKS_URL: str = "http://stack-auth:8102/api/latest/projects/internal/.well-known/jwks.json"
@@ -38,8 +43,14 @@ class Settings(BaseSettings):
     CELERY_BROKER_URL: str = "redis://localhost:6379/0"
     CELERY_RESULT_BACKEND: str = "redis://localhost:6379/0"
 
+    # HTTP Worker (Cloud Run mode — replaces Celery)
+    WORKER_HTTP_URL: str = ""  # e.g. "https://tlf-worker-xxxxx-uc.a.run.app"
+
     # File size limits
     MAX_UPLOAD_SIZE_MB: int = 500
+
+    # Storage backend: "minio" (local dev) or "gcs" (Cloud Run)
+    STORAGE_BACKEND: str = "minio"
 
     # Temp directory for worker processing
     WORKER_TEMP_DIR: str = "/tmp/tlf-worker"

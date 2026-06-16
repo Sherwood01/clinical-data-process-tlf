@@ -7,11 +7,14 @@ type UploadStatus = "idle" | "requesting-url" | "uploading" | "completing" | "do
 interface FileUploadProps {
   accept: string;
   onUploadComplete: (objectKey: string, filename: string) => Promise<void>;
-  getUploadUrl: (filename: string) => Promise<{ upload_url: string; object_key: string }>;
+  getUploadUrl?: (filename: string) => Promise<{ upload_url: string; object_key: string }>;
   label: string;
+  /** API proxy upload endpoint — replaces getUploadUrl two-step flow */
+  apiUploadUrl?: string;
+  getAccessToken?: () => Promise<string | null>;
 }
 
-export function FileUpload({ accept, onUploadComplete, getUploadUrl, label }: FileUploadProps) {
+export function FileUpload({ accept, onUploadComplete, getUploadUrl, label, apiUploadUrl, getAccessToken }: FileUploadProps) {
   const [status, setStatus] = useState<UploadStatus>("idle");
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +27,34 @@ export function FileUpload({ accept, onUploadComplete, getUploadUrl, label }: Fi
     setStatus("requesting-url");
 
     try {
-      // Step 1: Request presigned URL
+      // API proxy mode: POST file directly to backend
+      if (apiUploadUrl && getAccessToken) {
+        setStatus("uploading");
+        const token = await getAccessToken();
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const res = await fetch(apiUploadUrl, {
+          method: "POST",
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          body: formData,
+        });
+
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text || `Upload failed: ${res.status}`);
+        }
+
+        const result = await res.json();
+        setStatus("completing");
+        await onUploadComplete(result.object_key || result.minio_object_key, file.name);
+        setStatus("done");
+        setProgress(100);
+        return;
+      }
+
+      // Legacy mode: Step 1 — Request presigned URL
+      if (!getUploadUrl) throw new Error("No upload method configured");
       const { upload_url, object_key } = await getUploadUrl(file.name);
       setStatus("uploading");
 
@@ -57,7 +87,7 @@ export function FileUpload({ accept, onUploadComplete, getUploadUrl, label }: Fi
       setError(err.message || "Upload failed");
       setStatus("error");
     }
-  }, [getUploadUrl, onUploadComplete]);
+  }, [getUploadUrl, onUploadComplete, apiUploadUrl, getAccessToken]);
 
   return (
     <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">

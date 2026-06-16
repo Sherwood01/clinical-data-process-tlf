@@ -1,0 +1,119 @@
+# GCP Cloud Build config — build all images for TLF Report Generator
+# Trigger: gcloud builds submit --config=cloudbuild.yaml
+
+substitutions:
+  _REGION: us-central1
+  _ARTIFACT_REPO: tlf-repo
+
+steps:
+  # 1. API service
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-api:${SHORT_SHA}'
+      - -t
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-api:latest'
+      - -f
+      - backend/Dockerfile.cloudrun
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-api:${SHORT_SHA}'
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-api:latest'
+
+  # 2. HTTP Worker
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-worker:${SHORT_SHA}'
+      - -t
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-worker:latest'
+      - -f
+      - backend/Dockerfile.worker-http
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-worker:${SHORT_SHA}'
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-worker:latest'
+
+  # 3. Frontend (Next.js standalone)
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--build-arg=NEXT_PUBLIC_API_URL=$_NEXT_PUBLIC_API_URL'
+      - '--build-arg=NEXT_PUBLIC_STACK_PROJECT_ID=$_NEXT_PUBLIC_STACK_PROJECT_ID'
+      - '--build-arg=NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY=$_NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY'
+      - '--build-arg=NEXT_PUBLIC_STACK_URL=$_NEXT_PUBLIC_STACK_URL'
+      - '--build-arg=NEXT_PUBLIC_BROWSER_STACK_API_URL=$_NEXT_PUBLIC_BROWSER_STACK_API_URL'
+      - '--build-arg=NEXT_PUBLIC_STACK_EXTRA_REQUEST_HEADERS=$_NEXT_PUBLIC_STACK_EXTRA_REQUEST_HEADERS'
+      - -t
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-frontend:${SHORT_SHA}'
+      - -t
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-frontend:latest'
+      - -f
+      - frontend/Dockerfile
+      - frontend
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-frontend:${SHORT_SHA}'
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-frontend:latest'
+
+  # 4. Deploy Cloud Run services
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - tlf-api
+      - '--image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-api:${SHORT_SHA}'
+      - '--region=${_REGION}'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--memory=1Gi'
+      - '--cpu=1'
+      - '--timeout=300'
+      - '--set-env-vars=DATABASE_URL=$_DATABASE_URL,DATABASE_SYNC_URL=$_DATABASE_SYNC_URL,REDIS_URL=$_REDIS_URL,CELERY_BROKER_URL=$_CELERY_BROKER_URL,CELERY_RESULT_BACKEND=$_CELERY_RESULT_BACKEND,WORKER_HTTP_URL=$_WORKER_HTTP_URL,STACK_AUTH_JWKS_URL=$_STACK_AUTH_JWKS_URL,STACK_AUTH_ISSUER=$_STACK_AUTH_ISSUER,STACK_AUTH_AUDIENCE=$_STACK_AUTH_AUDIENCE,CORS_ORIGINS=$_CORS_ORIGINS,DEBUG=False'
+      - '--add-cloudsql-instances=$_CLOUD_SQL_INSTANCE'
+      - '--service-account=$_SERVICE_ACCOUNT'
+
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - tlf-worker
+      - '--image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-worker:${SHORT_SHA}'
+      - '--region=${_REGION}'
+      - '--platform=managed'
+      - '--no-allow-unauthenticated'
+      - '--memory=2Gi'
+      - '--cpu=2'
+      - '--timeout=1800'
+      - '--max-instances=3'
+      - '--concurrency=1'
+      - '--set-env-vars=DATABASE_SYNC_URL=$_DATABASE_SYNC_URL,REDIS_URL=$_REDIS_URL'
+      - '--add-cloudsql-instances=$_CLOUD_SQL_INSTANCE'
+      - '--service-account=$_SERVICE_ACCOUNT'
+
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - tlf-frontend
+      - '--image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_ARTIFACT_REPO}/tlf-frontend:${SHORT_SHA}'
+      - '--region=${_REGION}'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--memory=512Mi'
+      - '--cpu=1'
+      - '--timeout=300'
+      - '--set-env-vars=NODE_ENV=production,NEXT_TELEMETRY_DISABLED=1,API_REWRITE_URL=$_API_REWRITE_URL,STACK_AUTH_REWRITE_URL=$_STACK_AUTH_REWRITE_URL'
+      - '--service-account=$_SERVICE_ACCOUNT'
+
+timeout: 1800s

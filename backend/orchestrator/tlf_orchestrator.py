@@ -29,7 +29,7 @@ from backend.services.analysis.pipeline import (
     is_listing_type,
 )
 from backend.services.pdf.generator import PDFGenerator
-from backend.storage.minio_client import MinioStorage
+from backend.storage import storage
 
 logger = logging.getLogger("tlf-orchestrator")
 
@@ -37,9 +37,9 @@ logger = logging.getLogger("tlf-orchestrator")
 class TLFOrchestrator:
     """Orchestrates the end-to-end TLF report generation pipeline."""
 
-    def __init__(self, db_session, storage: MinioStorage, tenant_id: str):
+    def __init__(self, db_session, tenant_id: str, _storage=None):
         self.db = db_session
-        self.storage = storage
+        self.storage = _storage or storage
         self.tenant_id = tenant_id
         self.temp_dir = Path(settings.WORKER_TEMP_DIR)
 

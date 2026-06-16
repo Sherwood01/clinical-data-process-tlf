@@ -3,6 +3,7 @@ from typing import List, Optional
 from uuid import UUID
 import io
 
+import httpx
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from sqlalchemy import select
@@ -12,8 +13,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from backend.api.schemas.tlf import TLFJobResponse, TLFGenerateRequest
 from backend.db.models import TLFJob
 from backend.db.session import get_db
-from backend.storage.minio_client import storage
-from backend.workers.celery_app import celery_app
+from backend.storage import storage
+from backend.core.config import settings
 
 router = APIRouter(prefix="/studies/{study_id}/tlf")
 
@@ -44,6 +45,28 @@ async def list_tlf_jobs(
     return list(result.scalars().all())
 
 
+async def _dispatch_via_http_worker(
+    study_id: str,
+    toc_entry_id: str,
+    job_id: str,
+    tenant_id: str,
+):
+    """Dispatch TLF generation to HTTP worker (Cloud Run mode)."""
+    worker_url = settings.WORKER_HTTP_URL.rstrip("/")
+    async with httpx.AsyncClient(timeout=5.0) as client:
+        resp = await client.post(
+            f"{worker_url}/tlf/generate",
+            json={
+                "study_id": study_id,
+                "toc_entry_id": toc_entry_id,
+                "job_id": job_id,
+                "tenant_id": tenant_id,
+            },
+        )
+        resp.raise_for_status()
+        return resp.json()
+
+
 @router.post("/generate", response_model=TLFJobResponse, status_code=201)
 async def generate_tlf(
     study_id: UUID,
@@ -52,7 +75,11 @@ async def generate_tlf(
     tenant_id: UUID = Depends(get_tenant_id),
     db: AsyncSession = Depends(get_db),
 ):
-    """Trigger a TLF generation job and dispatch to Celery worker."""
+    """Trigger a TLF generation job.
+
+    Local dev: dispatches to Celery worker.
+    Cloud Run: dispatches to HTTP worker (configured via WORKER_HTTP_URL).
+    """
     # Create DB record
     job = TLFJob(
         study_id=study_id,
@@ -66,19 +93,33 @@ async def generate_tlf(
     await db.commit()
     await db.refresh(job)
 
-    # Dispatch Celery task
-    task = celery_app.send_task(
-        "tlf.generate",
-        args=[str(study_id), str(req.toc_entry_id), str(job.id), str(tenant_id)],
-        task_id=str(job.id),
-    )
+    if settings.WORKER_HTTP_URL:
+        # Cloud Run mode — dispatch to HTTP worker
+        try:
+            await _dispatch_via_http_worker(
+                study_id=str(study_id),
+                toc_entry_id=str(req.toc_entry_id),
+                job_id=str(job.id),
+                tenant_id=str(tenant_id),
+            )
+        except Exception as exc:
+            job.status = "failed"
+            job.error_message = f"Worker dispatch failed: {str(exc)}"
+            await db.commit()
+    else:
+        # Local dev mode — dispatch to Celery
+        from backend.workers.celery_app import celery_app
+        task = celery_app.send_task(
+            "tlf.generate",
+            args=[str(study_id), str(req.toc_entry_id), str(job.id), str(tenant_id)],
+            task_id=str(job.id),
+        )
+        job.celery_task_id = task.id
+        await db.commit()
 
-    # Store Celery task ID
-    job.celery_task_id = task.id
-    await db.commit()
     await db.refresh(job)
 
-    # Fetch the job with eagerly loaded relationships for serialization
+    # Fetch with eagerly loaded relationships for serialization
     result = await db.execute(
         select(TLFJob)
         .options(selectinload(TLFJob.outputs))

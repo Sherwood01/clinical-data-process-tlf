@@ -16,55 +16,14 @@ export function SAPUpload({
   onRefresh,
   getAccessToken,
 }: SAPUploadProps) {
-  const [parsing, setParsing] = useState(false);
-
-  const getUploadUrl = useCallback(
-    async (filename: string) => {
-      const token = await getAccessToken();
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/studies/${studyId}/sap/upload-start`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ original_filename: filename }),
-        }
-      );
-      if (!res.ok) throw new Error(await res.text());
-      return res.json();
-    },
-    [studyId, getAccessToken]
-  );
-
   const onUploadComplete = useCallback(
-    async (objectKey: string, filename: string) => {
-      const token = await getAccessToken();
-      setParsing(true);
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/studies/${studyId}/sap/upload-complete`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              object_key: objectKey,
-              original_filename: filename,
-            }),
-          }
-        );
-        if (!res.ok) throw new Error(await res.text());
-        onRefresh();
-      } finally {
-        setParsing(false);
-      }
+    async (_objectKey: string, _filename: string) => {
+      onRefresh();
     },
-    [studyId, getAccessToken, onRefresh]
+    [onRefresh]
   );
+
+  const apiUploadUrl = `${process.env.NEXT_PUBLIC_API_URL}/studies/${studyId}/sap/upload-file`;
 
   const tocTables = tocEntries.filter((e: any) => e.tlf_type === "table");
   const tocFigures = tocEntries.filter((e: any) => e.tlf_type === "figure");
@@ -82,19 +41,13 @@ export function SAPUpload({
           Upload a SAP (Statistical Analysis Plan) DOCX file. The system will
           automatically extract the Table of Contents entries.
         </p>
-        <div className="relative">
-          <FileUpload
-            accept=".docx,.pdf"
-            getUploadUrl={getUploadUrl}
-            onUploadComplete={onUploadComplete}
-            label="Select SAP file (.docx)"
-          />
-          {parsing && (
-            <div className="mt-3 text-sm text-blue-600">
-              Parsing TOC entries from SAP document...
-            </div>
-          )}
-        </div>
+        <FileUpload
+          accept=".docx,.pdf"
+          onUploadComplete={onUploadComplete}
+          label="Select SAP file (.docx)"
+          apiUploadUrl={apiUploadUrl}
+          getAccessToken={getAccessToken}
+        />
       </div>
 
       {/* TOC summary */}

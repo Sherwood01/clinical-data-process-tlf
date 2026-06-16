@@ -21,7 +21,7 @@ from backend.api.schemas.sap import (
 )
 from backend.db.models import SAPDocument, TOCEntry, TLFJob
 from backend.db.session import get_db
-from backend.storage.minio_client import storage
+from backend.storage import storage
 
 router = APIRouter(prefix="/studies/{study_id}/sap")
 

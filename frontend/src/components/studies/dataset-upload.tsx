@@ -18,57 +18,15 @@ export function DatasetUpload({
 }: DatasetUploadProps) {
   const [datasetName, setDatasetName] = useState("");
 
-  const getUploadUrl = useCallback(
-    async (filename: string) => {
-      const token = await getAccessToken();
-      if (!datasetName.trim()) {
-        // Infer name from filename: adsl.sas7bdat → adsl
-        const inferred = filename.replace(/\.sas7bdat$/i, "").toLowerCase();
-        setDatasetName(inferred);
-      }
-      const name = datasetName.trim() || filename.replace(/\.sas7bdat$/i, "").toLowerCase();
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/studies/${studyId}/datasets/upload-start`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name }),
-        }
-      );
-      if (!res.ok) throw new Error(await res.text());
-      return res.json();
-    },
-    [studyId, datasetName, getAccessToken]
-  );
-
   const onUploadComplete = useCallback(
-    async (objectKey: string, filename: string) => {
-      const token = await getAccessToken();
-      const name = datasetName.trim() || filename.replace(/\.sas7bdat$/i, "").toLowerCase();
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/studies/${studyId}/datasets/upload-complete`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            object_key: objectKey,
-            original_filename: filename,
-          }),
-        }
-      );
-      if (!res.ok) throw new Error(await res.text());
+    async (_objectKey: string, _filename: string) => {
       setDatasetName("");
       onRefresh();
     },
-    [studyId, datasetName, getAccessToken, onRefresh]
+    [onRefresh]
   );
+
+  const apiUploadUrl = `${process.env.NEXT_PUBLIC_API_URL}/studies/${studyId}/datasets/upload-file${datasetName ? `?name=${encodeURIComponent(datasetName)}` : ""}`;
 
   return (
     <div>
@@ -97,9 +55,10 @@ export function DatasetUpload({
         </div>
         <FileUpload
           accept=".sas7bdat,.xpt,.csv"
-          getUploadUrl={getUploadUrl}
           onUploadComplete={onUploadComplete}
           label="Select .sas7bdat file"
+          apiUploadUrl={apiUploadUrl}
+          getAccessToken={getAccessToken}
         />
       </div>
 

@@ -1,11 +1,12 @@
 """Dataset management router."""
 import hashlib
+import io
 import os
 import tempfile
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, UploadFile, File
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -17,7 +18,7 @@ from backend.api.schemas.dataset import (
 )
 from backend.db.models import Dataset
 from backend.db.session import get_db
-from backend.storage.minio_client import storage
+from backend.storage import storage
 
 router = APIRouter(prefix="/studies/{study_id}/datasets")
 
@@ -27,6 +28,105 @@ async def get_tenant_id(request: Request) -> UUID:
     if not tenant_id:
         raise HTTPException(status_code=401, detail="Tenant not identified")
     return UUID(tenant_id) if isinstance(tenant_id, str) else tenant_id
+
+
+def _read_dataset_metadata(file_path: str, suffix: str):
+    """Read a dataset file and extract metadata (variables, row count, etc.)."""
+    if suffix == ".csv":
+        import pandas as pd
+        df = pd.read_csv(file_path)
+
+        class DummyMeta:
+            column_names = list(df.columns)
+            column_labels = [None] * len(df.columns)
+            number_rows = len(df)
+            number_columns = len(df.columns)
+        meta = DummyMeta()
+    elif suffix in (".xpt", ".xport"):
+        import pyreadstat
+        df, meta = pyreadstat.read_xport(file_path)
+    else:
+        import pyreadstat
+        df, meta = pyreadstat.read_sas7bdat(file_path)
+
+    variables = []
+    for i, name in enumerate(meta.column_names):
+        col_type = str(df[name].dtype) if name in df.columns else "unknown"
+        label = meta.column_labels[i] if meta.column_labels and i < len(meta.column_labels) else None
+        variables.append({
+            "name": name,
+            "type": col_type,
+            "label": label,
+        })
+
+    return variables, meta.column_names, meta.number_rows, meta.number_columns
+
+
+@router.post("/upload-file", response_model=DatasetResponse, status_code=201)
+async def upload_dataset_file(
+    study_id: UUID,
+    file: UploadFile = File(...),
+    name: str = "",
+    request: Request = None,
+    tenant_id: UUID = Depends(get_tenant_id),
+    db: AsyncSession = Depends(get_db),
+):
+    """Upload dataset through API proxy (no presigned URL needed).
+
+    The browser POSTs the file directly to this endpoint, which uploads
+    to GCS via the Python SDK and extracts dataset metadata.
+    """
+    content = await file.read()
+    filename = file.filename or "dataset.sas7bdat"
+
+    # Infer dataset name from filename if not provided
+    ds_name = name or os.path.splitext(filename)[0].lower()
+
+    # Upload to GCS via SDK
+    data_stream = io.BytesIO(content)
+    object_key = storage.upload_file_sync(
+        tenant_id=str(tenant_id),
+        study_id=str(study_id),
+        resource="datasets",
+        filename=filename,
+        data=data_stream,
+        length=len(content),
+        content_type=file.content_type or "application/octet-stream",
+    )
+
+    # Read metadata from temp file
+    suffix = os.path.splitext(filename)[1].lower()
+    with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
+        tmp.write(content)
+        tmp_path = tmp.name
+
+    try:
+        variables, column_names, num_rows, num_cols = _read_dataset_metadata(tmp_path, suffix)
+
+        file_size = len(content)
+        dataset = Dataset(
+            study_id=study_id,
+            tenant_id=tenant_id,
+            name=ds_name,
+            original_filename=filename,
+            file_format=suffix.lstrip("."),
+            file_size_bytes=file_size,
+            minio_bucket=storage._bucket_name(str(tenant_id)),
+            minio_object_key=object_key,
+            record_count=num_rows,
+            column_count=num_cols,
+            variables=variables,
+            variable_names=list(column_names) if column_names else [],
+            checksum_sha256=hashlib.sha256(content).hexdigest(),
+        )
+        db.add(dataset)
+        await db.commit()
+        await db.refresh(dataset)
+        return dataset
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"Failed to read dataset: {str(exc)}")
+    finally:
+        os.unlink(tmp_path)
 
 
 @router.get("", response_model=List[DatasetResponse])
