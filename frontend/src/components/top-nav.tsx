@@ -2,10 +2,9 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useUser, useStackApp } from "@hexclave/next";
+import { useSessionContext } from "supertokens-auth-react/recipe/session";
+import { signOut } from "supertokens-auth-react/recipe/thirdpartyemailpassword";
 import { ChevronRight, LogOut } from "lucide-react";
-import { Button } from "@hexclave/ui";
-import { cn } from "@hexclave/ui";
 
 function getBreadcrumbs(pathname: string): { label: string; href: string }[] {
   const parts = pathname.split("/").filter(Boolean);
@@ -14,9 +13,7 @@ function getBreadcrumbs(pathname: string): { label: string; href: string }[] {
 
   for (const part of parts) {
     href += "/" + part;
-    // Skip dynamic segments for label
     if (part.startsWith("[")) continue;
-    // Pretty label
     const label = part
       .replace(/-/g, " ")
       .replace(/\b\w/g, (c) => c.toUpperCase());
@@ -27,14 +24,16 @@ function getBreadcrumbs(pathname: string): { label: string; href: string }[] {
 
 export function TopNav() {
   const pathname = usePathname();
-  const user = useUser();
-  const app = useStackApp();
+  const session = useSessionContext();
   const crumbs = getBreadcrumbs(pathname);
 
   const handleSignOut = async () => {
-    await app.signOut();
+    await signOut();
     window.location.href = "/";
   };
+
+  const displayName = session.accessTokenPayload?.email || session.userId || "";
+  const isLoggedIn = !session.loading && session.doesSessionExist;
 
   return (
     <header className="flex h-14 items-center justify-between border-b bg-background px-4 lg:px-6">
@@ -58,10 +57,10 @@ export function TopNav() {
 
       {/* Right side */}
       <div className="flex items-center gap-3">
-        {user && (
+        {isLoggedIn && (
           <>
             <span className="text-sm text-muted-foreground hidden sm:inline">
-              {user.displayName || user.primaryEmail}
+              {displayName}
             </span>
             <button
               onClick={handleSignOut}

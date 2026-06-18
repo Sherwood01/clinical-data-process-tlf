@@ -2,11 +2,10 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { LayoutDashboard, FlaskConical, Moon, Sun, LogOut, ChevronRight } from "lucide-react";
-import { useUser, useStackApp } from "@hexclave/next";
-import { Button } from "@hexclave/ui";
+import { LayoutDashboard, FlaskConical, Moon, Sun, LogOut } from "lucide-react";
+import { useSessionContext } from "supertokens-auth-react/recipe/session";
+import { signOut } from "supertokens-auth-react/recipe/thirdpartyemailpassword";
 import { useTheme } from "@/components/theme-provider";
-import { cn } from "@hexclave/ui";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -15,14 +14,16 @@ const navItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const user = useUser();
-  const app = useStackApp();
+  const session = useSessionContext();
   const { theme, setTheme, resolved } = useTheme();
 
   const handleSignOut = async () => {
-    await app.signOut();
+    await signOut();
     window.location.href = "/";
   };
+
+  const displayName = session.accessTokenPayload?.email || session.userId || "";
+  const isLoggedIn = !session.loading && session.doesSessionExist;
 
   return (
     <aside className="hidden md:flex flex-col w-64 border-r bg-sidebar text-sidebar-foreground flex-shrink-0">
@@ -43,12 +44,12 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                isActive
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              )}
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              style={{
+                backgroundColor: isActive ? "var(--sidebar-accent)" : "transparent",
+                color: isActive ? "var(--sidebar-accent-foreground)" : "var(--sidebar-foreground)",
+                opacity: isActive ? 1 : 0.7,
+              }}
             >
               <Icon className="h-4 w-4" />
               {item.label}
@@ -62,7 +63,7 @@ export function Sidebar() {
         {/* Theme toggle */}
         <button
           onClick={() => setTheme(resolved === "dark" ? "light" : "dark")}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm opacity-70 hover:opacity-100 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
         >
           {resolved === "dark" ? (
             <Sun className="h-4 w-4" />
@@ -73,19 +74,19 @@ export function Sidebar() {
         </button>
 
         {/* User info */}
-        {user && (
+        {isLoggedIn && (
           <div className="flex items-center justify-between rounded-lg px-3 py-2">
             <div className="flex items-center gap-3 min-w-0">
               <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-medium">
-                {(user.displayName || user.primaryEmail || "U").charAt(0).toUpperCase()}
+                {displayName.charAt(0).toUpperCase()}
               </div>
               <span className="text-sm truncate">
-                {user.displayName || user.primaryEmail}
+                {displayName}
               </span>
             </div>
             <button
               onClick={handleSignOut}
-              className="flex-shrink-0 text-sidebar-foreground/50 hover:text-sidebar-foreground transition-colors"
+              className="flex-shrink-0 opacity-50 hover:opacity-100 transition-opacity"
               title="Sign out"
             >
               <LogOut className="h-4 w-4" />

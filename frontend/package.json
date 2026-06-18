@@ -7,16 +7,18 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "patch-package"
+    "postinstall": ""
   },
   "dependencies": {
-    "@hexclave/next": "^1.0.2",
     "@neondatabase/serverless": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.2.9",
     "lucide-react": "^1.17.0",
     "next": "16.2.7",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "supertokens-auth-react": "^0.51.2",
+    "supertokens-web-js": "^0.16.0",
+    "supertokens-website": "^20.1.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -25,7 +27,6 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.7",
-    "patch-package": "^8.0.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

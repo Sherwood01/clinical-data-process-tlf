@@ -1,9 +1,21 @@
 "use client";
 
+import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export function AuthWrapper({ children }: { children: React.ReactNode }) {
+  const session = useSessionContext();
+
+  // Show nothing while session is loading (avoids flash)
+  if (session.loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-background to-muted/50 px-4">
+        <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-background to-muted/50 px-4">
       <div className="w-full max-w-md">

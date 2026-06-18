@@ -1,6 +1,7 @@
 "use client";
 
-import { useStackApp, useUser } from "@hexclave/next";
+import { useSessionContext } from "supertokens-auth-react/recipe/session";
+import { getAccessToken } from "supertokens-web-js/recipe/session";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState, memo, useRef } from "react";
 
@@ -26,8 +27,7 @@ const MemoizedPDF = memo(({ pdfUrl }: { pdfUrl: string }) => (
 ));
 
 export default function PDFViewer() {
-  const app = useStackApp();
-  const user = useUser();
+  const session = useSessionContext();
   const router = useRouter();
   const params = useParams<{ studyId: string; jobId: string }>();
   const studyId = params?.studyId;
@@ -40,22 +40,19 @@ export default function PDFViewer() {
   const fetchedRef = useRef(false);
 
   useEffect(() => {
-    // Wait for route params and user to hydrate
-    if (user === undefined || !studyId || !jobId) return;
-    
-    // Only redirect if explicitly unauthenticated
-    if (user === null) {
-      router.push("/handler/sign-in");
+    if (session.loading || !studyId || !jobId) return;
+
+    if (!session.doesSessionExist) {
+      router.push("/auth/sign-in");
       return;
     }
     if (fetchedRef.current) return;
     fetchedRef.current = true;
     fetchJob();
-  }, [user?.id, studyId, jobId]);
+  }, [session.loading, session.doesSessionExist, studyId, jobId]);
 
   useEffect(() => {
     return () => {
-      // Cleanup object URL to prevent memory leaks when unmounting
       if (pdfUrl && pdfUrl.startsWith("blob:")) {
         URL.revokeObjectURL(pdfUrl);
       }
@@ -65,7 +62,7 @@ export default function PDFViewer() {
   async function fetchJob() {
     if (!studyId || !jobId) return;
     try {
-      const token = await app.getAccessToken();
+      const token = await getAccessToken();
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/studies/${studyId}/tlf/${jobId}`,
         { headers: { Authorization: `Bearer ${token}` } }
@@ -97,7 +94,8 @@ export default function PDFViewer() {
     }
   }
 
-  if (!user) return null;
+  if (session.loading) return null;
+  if (!session.doesSessionExist) return null;
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -117,14 +115,8 @@ export default function PDFViewer() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-600">
-              {user.displayName || user.primaryEmail}
+              {session.accessTokenPayload?.email || session.userId || ""}
             </span>
-            <button
-              onClick={() => app.signOut()}
-              className="text-sm text-gray-500 hover:text-gray-700"
-            >
-              Sign Out
-            </button>
           </div>
         </div>
       </header>

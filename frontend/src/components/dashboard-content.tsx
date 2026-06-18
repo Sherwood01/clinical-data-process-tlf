@@ -1,12 +1,12 @@
 "use client";
 
-import { useStackApp, useUser } from "@hexclave/next";
+import { useSessionContext } from "supertokens-auth-react/recipe/session";
+import { getAccessToken } from "supertokens-web-js/recipe/session";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function DashboardContent() {
-  const app = useStackApp();
-  const user = useUser();
+  const session = useSessionContext();
   const router = useRouter();
   const [studies, setStudies] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -15,17 +15,17 @@ export default function DashboardContent() {
   const [creating, setCreating] = useState(false);
 
   useEffect(() => {
-    if (user === undefined) return;
-    if (user === null) {
-      router.push("/handler/sign-in");
+    if (session.loading) return;
+    if (!session.doesSessionExist) {
+      router.push("/auth/sign-in");
       return;
     }
     fetchStudies();
-  }, [user?.id, user === null]);
+  }, [session.loading, session.doesSessionExist]);
 
   async function fetchStudies() {
     try {
-      const token = await app.getAccessToken();
+      const token = await getAccessToken();
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/studies`,
         { headers: { Authorization: `Bearer ${token}` } }
@@ -44,7 +44,7 @@ export default function DashboardContent() {
     if (!newStudy.name.trim()) return;
     setCreating(true);
     try {
-      const token = await app.getAccessToken();
+      const token = await getAccessToken();
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/studies`,
         {
@@ -69,7 +69,10 @@ export default function DashboardContent() {
     }
   }
 
-  if (!user || user === undefined) return null;
+  if (session.loading) return null;
+  if (!session.doesSessionExist) return null;
+
+  const displayName = session.accessTokenPayload?.email || session.userId || "User";
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -77,15 +80,7 @@ export default function DashboardContent() {
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <h1 className="font-bold text-lg">TLF Report Generator</h1>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">
-              {user.displayName || user.primaryEmail}
-            </span>
-            <button
-              onClick={() => app.signOut()}
-              className="text-sm text-gray-500 hover:text-gray-700"
-            >
-              Sign Out
-            </button>
+            <span className="text-sm text-gray-600">{displayName}</span>
           </div>
         </div>
       </header>
@@ -153,42 +148,30 @@ export default function DashboardContent() {
               <h2 className="text-lg font-semibold mb-4">Create New Study</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Study Name *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Study Name *</label>
                   <input
                     type="text"
                     value={newStudy.name}
-                    onChange={(e) =>
-                      setNewStudy({ ...newStudy, name: e.target.value })
-                    }
+                    onChange={(e) => setNewStudy({ ...newStudy, name: e.target.value })}
                     placeholder="e.g. Phase 3 RCT"
                     className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Protocol ID
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Protocol ID</label>
                   <input
                     type="text"
                     value={newStudy.protocol_id}
-                    onChange={(e) =>
-                      setNewStudy({ ...newStudy, protocol_id: e.target.value })
-                    }
+                    onChange={(e) => setNewStudy({ ...newStudy, protocol_id: e.target.value })}
                     placeholder="e.g. ABC-123"
                     className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Description
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                   <textarea
                     value={newStudy.description}
-                    onChange={(e) =>
-                      setNewStudy({ ...newStudy, description: e.target.value })
-                    }
+                    onChange={(e) => setNewStudy({ ...newStudy, description: e.target.value })}
                     placeholder="Optional description"
                     rows={3}
                     className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"

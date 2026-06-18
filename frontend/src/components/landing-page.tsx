@@ -1,7 +1,7 @@
 "use client";
 
+import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import Link from "next/link";
-import { useUser } from "@hexclave/next";
 import {
   Upload,
   FileSearch,
@@ -103,9 +103,10 @@ const testimonials = [
 ];
 
 export function LandingPage() {
-  const user = useUser();
+  const session = useSessionContext();
+  const isLoggedIn = !session.loading && session.doesSessionExist;
 
-  if (user) {
+  if (isLoggedIn) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-background to-muted/50">
         <div className="text-center max-w-md mx-auto px-4">
@@ -116,7 +117,7 @@ export function LandingPage() {
           <p className="text-muted-foreground mb-8">
             Signed in as{" "}
             <span className="font-medium text-foreground">
-              {user.displayName || user.primaryEmail}
+              {session.accessTokenPayload?.email || session.userId || ""}
             </span>
           </p>
           <Link
@@ -153,13 +154,13 @@ export function LandingPage() {
               <Github className="h-5 w-5" />
             </a>
             <Link
-              href="/handler/sign-in"
+              href="/auth/sign-in"
               className="inline-flex items-center justify-center h-9 rounded-md px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               Sign In
             </Link>
             <Link
-              href="/handler/sign-up"
+              href="/auth/sign-up"
               className="inline-flex items-center justify-center h-9 rounded-md px-4 py-2 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               Get Started
@@ -191,7 +192,7 @@ export function LandingPage() {
             </p>
             <div className="mt-10 flex items-center justify-center gap-4">
               <Link
-                href="/handler/sign-up"
+                href="/auth/sign-up"
                 className="inline-flex items-center justify-center h-10 rounded-md px-8 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
               >
                 Start Free Trial
@@ -313,7 +314,7 @@ export function LandingPage() {
             today.
           </p>
           <Link
-            href="/handler/sign-up"
+            href="/auth/sign-up"
             className="inline-flex items-center justify-center h-10 rounded-md px-8 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
           >
             Start Free Trial

@@ -9,6 +9,9 @@ from backend.core.logging import setup_logging
 from backend.api.middleware.auth import AuthMiddleware
 from backend.api.routers import studies, datasets, sap, tlf
 
+# 🔑 Initialize SuperTokens SDK (must run before app starts)
+import backend.supertokens_init  # noqa: F401
+
 logger = setup_logging(debug=settings.DEBUG)
 
 

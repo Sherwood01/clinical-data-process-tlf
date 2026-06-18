@@ -1,6 +1,7 @@
 "use client";
 
-import { useStackApp, useUser } from "@hexclave/next";
+import { useSessionContext } from "supertokens-auth-react/recipe/session";
+import { getAccessToken } from "supertokens-web-js/recipe/session";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { StudyOverview } from "./study-overview";
@@ -12,8 +13,7 @@ import { TLFGenerator } from "./tlf-generator";
 type Tab = "overview" | "datasets" | "sap" | "tlf" | "history";
 
 export default function StudyDetailContent() {
-  const app = useStackApp();
-  const user = useUser();
+  const session = useSessionContext();
   const router = useRouter();
   const params = useParams<{ studyId: string }>();
   const studyId = params?.studyId;
@@ -26,18 +26,18 @@ export default function StudyDetailContent() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user === undefined) return;
-    if (user === null || !studyId) {
-      router.push("/handler/sign-in");
+    if (session.loading) return;
+    if (!session.doesSessionExist || !studyId) {
+      router.push("/auth/sign-in");
       return;
     }
     fetchStudyData();
-  }, [user?.id, user === null, studyId]);
+  }, [session.loading, session.doesSessionExist, studyId]);
 
   async function fetchStudyData() {
     if (!studyId) return;
     try {
-      const token = await app.getAccessToken();
+      const token = await getAccessToken();
       const headers = { Authorization: `Bearer ${token}` };
 
       const [studyRes, datasetsRes, tocRes, jobsRes] = await Promise.all([
@@ -58,7 +58,8 @@ export default function StudyDetailContent() {
     }
   }
 
-  if (!user || !studyId) return null;
+  if (session.loading) return null;
+  if (!session.doesSessionExist || !studyId) return null;
 
   const tabs: { key: Tab; label: string }[] = [
     { key: "overview", label: "Overview" },
@@ -88,14 +89,9 @@ export default function StudyDetailContent() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-600">
-              {user.displayName || user.primaryEmail}
+              {session.accessTokenPayload?.email || session.userId || ""}
             </span>
-            <button
-              onClick={() => app.signOut()}
-              className="text-sm text-gray-500 hover:text-gray-700"
-            >
-              Sign Out
-            </button>
+          </div>
           </div>
         </div>
       </header>
@@ -139,7 +135,7 @@ export default function StudyDetailContent() {
                 studyId={studyId}
                 datasets={datasets}
                 onRefresh={() => fetchStudyData()}
-                getAccessToken={() => app.getAccessToken()}
+                getAccessToken={getAccessToken}
               />
             )}
             {activeTab === "sap" && (
@@ -147,7 +143,7 @@ export default function StudyDetailContent() {
                 studyId={studyId}
                 tocEntries={tocEntries}
                 onRefresh={() => fetchStudyData()}
-                getAccessToken={() => app.getAccessToken()}
+                getAccessToken={getAccessToken}
               />
             )}
             {activeTab === "tlf" && (
@@ -156,14 +152,14 @@ export default function StudyDetailContent() {
                 tocEntries={tocEntries}
                 jobs={tlfJobs}
                 onRefresh={() => fetchStudyData()}
-                getAccessToken={() => app.getAccessToken()}
+                getAccessToken={getAccessToken}
               />
             )}
             {activeTab === "history" && (
               <TLFHistory
                 jobs={tlfJobs}
                 studyId={studyId}
-                getAccessToken={() => app.getAccessToken()}
+                getAccessToken={getAccessToken}
               />
             )}
           </>

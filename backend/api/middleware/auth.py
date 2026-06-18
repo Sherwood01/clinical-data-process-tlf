@@ -1,25 +1,27 @@
-"""JWT authentication middleware for FastAPI.
+"""Authentication middleware for FastAPI.
 
-Extracts and validates Stack Auth JWT tokens from incoming requests,
+Verifies SuperTokens session tokens from incoming requests,
 injects tenant context into request state, and auto-provisions
 Tenant/User records in the application database on first login.
+
+Replaced the old Stack-Auth JWT verification.
 """
-from typing import Optional, Callable
+from typing import Callable
 from uuid import UUID
 from datetime import datetime
 
-from fastapi import Request, HTTPException, status
+from fastapi import Request
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 from sqlalchemy import select
 
-from backend.core.security import verify_stack_auth_token, TokenData
+from backend.core.security import verify_supertokens_session, TokenData
 from backend.db.session import async_session_factory
 from backend.db.models import Tenant, User
 
 
 class AuthMiddleware(BaseHTTPMiddleware):
-    """Middleware that validates JWT and sets tenant context."""
+    """Middleware that validates SuperTokens session and sets tenant context."""
 
     # Paths that don't require authentication
     PUBLIC_PATHS = {
@@ -30,38 +32,35 @@ class AuthMiddleware(BaseHTTPMiddleware):
     }
 
     async def dispatch(self, request: Request, call_next: Callable):
-        # Skip auth for public paths
+        # Skip auth for public paths and SuperTokens auth endpoints
         if request.url.path in self.PUBLIC_PATHS or request.url.path.startswith("/api/v1/auth/"):
             return await call_next(request)
 
         # Extract token
         auth_header = request.headers.get("Authorization", "")
-        print(f"DEBUG AUTH: {auth_header[:200] if auth_header else 'None'}", flush=True)
         if not auth_header.startswith("Bearer "):
             return JSONResponse(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+                status_code=401,
                 content={"detail": "Missing or invalid Authorization header"},
             )
 
         token = auth_header.removeprefix("Bearer ")
 
-        # Verify token
-        token_data = await verify_stack_auth_token(token)
+        # Verify with SuperTokens
+        token_data = await verify_supertokens_session(request, token)
         if token_data is None:
             return JSONResponse(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+                status_code=401,
                 content={"detail": "Invalid or expired token"},
             )
 
         # Set tenant context on request state
         request.state.user_id = token_data.user_id
-        request.state.tenant_id = token_data.team_id  # Stack Auth team = our tenant
+        request.state.tenant_id = token_data.team_id
         request.state.user_email = token_data.email
         request.state.role = token_data.role
 
-        # Auto-provision Tenant/User records in the application database.
-        # Stack Auth manages users/teams on its side, but our app's models
-        # (tenants, users tables) have FK constraints that must be satisfied.
+        # Auto-provision Tenant/User records
         if token_data.team_id:
             await self._ensure_tenant_and_user(token_data)
 
@@ -69,12 +68,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
         return response
 
     async def _ensure_tenant_and_user(self, token_data: TokenData) -> None:
-        """Create Tenant and User records if they don't exist yet.
-
-        Called on every authenticated request so that even if a user registered
-        via Stack Auth while the API was offline, they get provisioned on first
-        contact.
-        """
+        """Create Tenant and User records if they don't exist yet."""
         async with async_session_factory() as session:
             team_uuid = UUID(token_data.team_id)
             user_uuid = UUID(token_data.user_id)

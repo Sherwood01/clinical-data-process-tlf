@@ -1,0 +1,48 @@
+# Cloud Build config — build and push images only (no deploy)
+steps:
+  # API service
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tlf-repo/tlf-api:latest'
+      - '-f'
+      - backend/Dockerfile.cloudrun
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tlf-repo/tlf-api:latest'
+
+  # HTTP Worker
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tlf-repo/tlf-worker:latest'
+      - '-f'
+      - backend/Dockerfile.worker-http
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tlf-repo/tlf-worker:latest'
+
+  # Frontend
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--build-arg=NEXT_PUBLIC_API_URL=/api/v1'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tlf-repo/tlf-frontend:latest'
+      - '-f'
+      - frontend/Dockerfile
+      - frontend
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tlf-repo/tlf-frontend:latest'
+
+timeout: 1800s
+options:
+  machineType: E2_HIGHCPU_8

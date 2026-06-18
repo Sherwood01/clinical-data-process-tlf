@@ -81,44 +81,23 @@ services:
       resources:
         limits: { memory: 1G }
 
-  # ── Authentication Server (Stack Auth) ──
-  stack-auth:
-    # 从 GitHub Container Registry 拉取（Docker Hub 在国内无法访问）
-    image: stackauth/server:latest
-    entrypoint: ["/bin/bash", "/stack-auth-entrypoint.sh"]
-    volumes:
-      - ./stack-auth-entrypoint.sh:/stack-auth-entrypoint.sh:ro
+  # ── Auth Engine (SuperTokens) ──
+  supertokens:
+    image: supertokens/supertokens-postgresql:latest
     depends_on:
       postgres:
         condition: service_healthy
     environment:
-      NEXTAUTH_URL: ${STACK_AUTH_URL:-http://localhost:8101}
-      NEXT_PUBLIC_APP_URL: ${STACK_AUTH_URL:-http://localhost:8101}
-      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?必须设置 NEXTAUTH_SECRET}
-      STACK_DATABASE_CONNECTION_STRING: postgresql://postgres:${DB_PASSWORD:-postgres}@postgres:5432/tlf_saas
-      # 浏览器端 Dashboard 请求的 API 地址（必须是浏览器能访问的 localhost）
-      NEXT_PUBLIC_STACK_API_URL: http://localhost:8102
-      # Stack Auth 的客户端 SDK 基础 URL（Dashboard 前端 JS 通过 sentinel 注入）
-      NEXT_PUBLIC_STACK_URL: http://localhost:8102
-      # Dashboard 自身的 URL
-      NEXT_PUBLIC_STACK_DASHBOARD_URL: http://localhost:8101
-      STACK_SELF_HOSTED: "true"
-      STACK_INTERNAL_PROJECT_PUBLISHABLE_CLIENT_KEY: ${STACK_PUBLISHABLE_KEY}
-      STACK_SEED_INTERNAL_PROJECT_SIGN_UP_ENABLED: "true"
-      STACK_CLICKHOUSE_URL: ${STACK_CLICKHOUSE_URL:-}
-      STACK_CLICKHOUSE_ADMIN_PASSWORD: ${STACK_CLICKHOUSE_ADMIN_PASSWORD:-}
-      STACK_CLICKHOUSE_EXTERNAL_PASSWORD: ${STACK_CLICKHOUSE_EXTERNAL_PASSWORD:-}
-
-
+      POSTGRESQL_CONNECTION_URI: postgresql://postgres:${DB_PASSWORD:-postgres}@postgres:5432/tlf_saas
+      API_KEYS: ${SUPERTOKENS_API_KEY:-local-dev-key}
     ports:
-      - "8101:8101"
-      - "8102:8102"
+      - "3567:3567"
     restart: unless-stopped
     networks:
       - tlf-network
     deploy:
       resources:
-        limits: { memory: 1G }
+        limits: { memory: 512M }
 
   # ── API Server (FastAPI) ──
   api:
@@ -143,9 +122,10 @@ services:
       MINIO_PUBLIC_ENDPOINT: http://localhost:9000
       MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
-      STACK_AUTH_JWKS_URL: http://stack-auth:8102/api/latest/projects/internal/.well-known/jwks.json
-      STACK_AUTH_ISSUER: http://localhost:8102/api/v1/projects/internal
-      STACK_AUTH_AUDIENCE: internal
+      SUPERTOKENS_CONNECTION_URI: http://supertokens:3567
+      SUPERTOKENS_API_KEY: ${SUPERTOKENS_API_KEY:-local-dev-key}
+      SUPERTOKENS_API_DOMAIN: http://localhost:3100
+      SUPERTOKENS_WEBSITE_DOMAIN: http://localhost:3100
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3100}
       API_PORT: "8000"
       DEBUG: "false"
@@ -209,12 +189,6 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       target: builder
-      args:
-        NEXT_PUBLIC_STACK_PROJECT_ID: ${STACK_PROJECT_ID:-internal}
-        NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY: ${STACK_PUBLISHABLE_KEY:-}
-        NEXT_PUBLIC_STACK_URL: http://localhost:3100
-        NEXT_PUBLIC_BROWSER_STACK_API_URL: http://localhost:3100
-        NEXT_PUBLIC_STACK_EXTRA_REQUEST_HEADERS: '{"x-stack-access-type":"client"}'
     command: npm run dev
     volumes:
       - ./frontend:/app
@@ -222,17 +196,12 @@ services:
       - /app/.next
     depends_on:
       - api
-      - stack-auth
     environment:
       NODE_ENV: development
       NEXT_PUBLIC_API_URL: /api/v1
       API_REWRITE_URL: http://api:8000/api/v1
-      NEXT_PUBLIC_STACK_PROJECT_ID: ${STACK_PROJECT_ID:-internal}
-      NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY: ${STACK_PUBLISHABLE_KEY:-}
-      NEXT_PUBLIC_STACK_URL: http://localhost:3100
-      NEXT_PUBLIC_BROWSER_STACK_API_URL: http://localhost:3100
-      NEXT_PUBLIC_STACK_API_URL_SERVER: http://localhost:3000
-      NEXT_PUBLIC_STACK_EXTRA_REQUEST_HEADERS: '{"x-stack-access-type":"client"}'
+      NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN: http://localhost:3100
+      NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN: http://localhost:3100
     ports:
       - "${FRONTEND_PORT:-3100}:3000"
     restart: unless-stopped

@@ -34,10 +34,11 @@ class Settings(BaseSettings):
     GCS_LOCATION: str = "US"
     GCS_CREDENTIALS_PATH: str = ""  # Optional, leave empty for Workload Identity
 
-    # Stack Auth JWT
-    STACK_AUTH_JWKS_URL: str = "http://stack-auth:8102/api/latest/projects/internal/.well-known/jwks.json"
-    STACK_AUTH_ISSUER: str = "http://stack-auth:8102/api/v1/projects/internal"
-    STACK_AUTH_AUDIENCE: str = "internal"
+    # SuperTokens (authentication service)
+    SUPERTOKENS_CONNECTION_URI: str = "http://supertokens:3567"
+    SUPERTOKENS_API_KEY: str = ""
+    SUPERTOKENS_API_DOMAIN: str = "http://localhost:8100"
+    SUPERTOKENS_WEBSITE_DOMAIN: str = "http://localhost:3000"
 
     # Celery
     CELERY_BROKER_URL: str = "redis://localhost:6379/0"
