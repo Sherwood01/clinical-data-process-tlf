@@ -4,10 +4,13 @@ import SuperTokens from "supertokens-auth-react";
 import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
 import Session from "supertokens-auth-react/recipe/session";
 
+// 运行时从浏览器地址推断，避免构建时硬编码
 const websiteDomain =
-  process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN ||
-  process.env.NEXT_PUBLIC_VERCEL_URL ||
-  "http://localhost:3000";
+  typeof window !== "undefined"
+    ? window.location.origin
+    : (process.env.NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN ||
+       process.env.NEXT_PUBLIC_VERCEL_URL ||
+       "http://localhost:3000");
 
 // 运行时从浏览器地址推断 API 地址（auth 请求通过 Next.js rewrite 代理到后端）
 // 构建时不需要知道具体域名，解决了 NEXT_PUBLIC_* 在 Docker 构建时被编译的问题

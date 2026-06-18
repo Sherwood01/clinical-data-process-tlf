@@ -14,6 +14,7 @@ RUN pip install --no-cache-dir -i https://mirrors.ustc.edu.cn/pypi/web/simple -r
 
 COPY backend/ /app/backend/
 COPY src/ /app/src/
+COPY alembic.ini /app/alembic.ini
 
 EXPOSE 8000
 

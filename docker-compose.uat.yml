@@ -140,6 +140,10 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       target: runner
+      args:
+        NEXT_PUBLIC_GOOGLE_CLIENT_ID: "${GOOGLE_CLIENT_ID:-}"
+        NEXT_PUBLIC_GITHUB_CLIENT_ID: "${GITHUB_CLIENT_ID:-}"
+        NEXT_PUBLIC_MICROSOFT_CLIENT_ID: "${MICROSOFT_CLIENT_ID:-}"
     depends_on:
       - api
     environment:
