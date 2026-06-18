@@ -2,6 +2,9 @@
 .knowledge/
 reference/
 
+# ── Deployment scripts (contain sensitive credentials) ──
+scripts/
+
 # ── Generated / Test data ──
 input/
 output/
