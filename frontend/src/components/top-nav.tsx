@@ -3,8 +3,9 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
-import { signOut } from "supertokens-auth-react/recipe/thirdpartyemailpassword";
+import { signOut } from "supertokens-auth-react/recipe/thirdparty";
 import { ChevronRight, LogOut } from "lucide-react";
+import { useUserEmail } from "@/lib/use-user-email";
 
 function getBreadcrumbs(pathname: string): { label: string; href: string }[] {
   const parts = pathname.split("/").filter(Boolean);
@@ -25,6 +26,7 @@ function getBreadcrumbs(pathname: string): { label: string; href: string }[] {
 export function TopNav() {
   const pathname = usePathname();
   const session = useSessionContext();
+  const { email } = useUserEmail();
   const crumbs = getBreadcrumbs(pathname);
 
   const handleSignOut = async () => {
@@ -32,7 +34,7 @@ export function TopNav() {
     window.location.href = "/";
   };
 
-  const displayName = session.accessTokenPayload?.email || session.userId || "";
+  const displayName = email || (!session.loading ? session.userId : "") || "";
   const isLoggedIn = !session.loading && session.doesSessionExist;
 
   return (

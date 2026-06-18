@@ -21,12 +21,12 @@ Browser ──► Next.js (Frontend) ──► FastAPI (Backend) ──► Postg
 
 | Component | Technology |
 |-----------|-----------|
-| Frontend | Next.js 16 + Hexclave (Stack Auth) + shadcn/ui |
+| Frontend | Next.js 16 + SuperTokens + shadcn/ui |
 | Backend API | FastAPI + SQLAlchemy 2.0 async |
 | Database | PostgreSQL 16 with Row-Level Security |
 | Task Queue | Celery + Redis |
 | File Storage | MinIO (S3-compatible) |
-| Auth | Stack Auth (self-hosted, JWT + JWKS) |
+| Auth | SuperTokens (自托管, 支持 Google/GitHub/Microsoft OAuth + 邮箱密码) |
 | Analysis | pandas, numpy, pyreadstat, lifelines, reportlab, matplotlib |
 
 ## Quick Start
@@ -59,11 +59,10 @@ This starts 8 services:
 | `postgres` | 5432 | Database |
 | `redis` | 6379 | Task queue & cache |
 | `minio` | 9000, 9100 | S3-compatible file storage |
-| `stack-auth` | 8101 | Authentication server |
+| `supertokens` | 3567 | Authentication engine |
 | `api` | 8100 | FastAPI backend |
 | `worker` | — | Celery worker (2 replicas) |
 | `frontend` | 3100 | Next.js web UI |
-| `chromadb` | — | Vector store (AI features) |
 
 ### 3. Initialize database
 
@@ -80,8 +79,8 @@ docker compose exec api alembic upgrade head
 
 ### 5. Complete the setup
 
-1. Register a new account at http://localhost:3100/handler/sign-in
-2. Stack Auth will create a team (tenant) automatically
+1. Register a new account at http://localhost:3100/auth/sign-in
+2. SuperTokens will handle authentication; a tenant is auto-created on first login
 3. Create a study from the dashboard
 4. Upload ADaM datasets (`.sas7bdat`) in the Datasets tab
 5. Upload SAP document (`.docx`) in the SAP tab — TOC entries are auto-extracted
@@ -90,8 +89,8 @@ docker compose exec api alembic upgrade head
 
 ## API Overview
 
-All API endpoints are prefixed with `/api/v1` and require JWT authentication
-(obtained via Stack Auth login).
+All API endpoints are prefixed with `/api/v1` and require SuperTokens session
+authentication (handled transparently via cookies).
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -161,10 +160,10 @@ frontend/
 
 ## Multi-Tenant Data Isolation
 
-- **Stack Auth teams** map to **tenants** in the application
+- **SuperTokens users** map to **tenants** in the application (1:1)
 - **PostgreSQL RLS** (Row-Level Security) isolates data by `tenant_id`
 - **MinIO bucket prefix** isolates file storage per tenant
-- JWT tokens contain `team_id` which is extracted by the auth middleware
+- Auth middleware extracts `user_id` from the SuperTokens session and injects tenant context
 
 ## Development
 
@@ -192,7 +191,7 @@ Key configuration via `.env`:
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `DB_PASSWORD` | `postgres` | PostgreSQL password |
-| `NEXTAUTH_SECRET` | (auto) | Stack Auth encryption key |
+| `SUPERTOKENS_API_KEY` | — | SuperTokens API key |
 | `MINIO_ROOT_USER` | `minioadmin` | MinIO access key |
 | `MINIO_ROOT_PASSWORD` | `minioadmin` | MinIO secret key |
 
@@ -209,12 +208,12 @@ Key configuration via `.env`:
 
 ### Production considerations
 
-- Use a reverse proxy (Nginx/Caddy) for TLS termination
-- Set strong passwords in `.env` for production
-- Configure MinIO with proper TLS certificates
-- Increase Celery worker replicas based on workload
-- Set up PostgreSQL automated backups
-- Consider moving ChromaDB to a managed service if using AI features
+- Deploy to **Cloud Run** for auto-scaling and zero idle cost
+- Use **Neon PostgreSQL** (serverless) instead of self-hosted Postgres
+- Use **Google Cloud Storage** (set `STORAGE_BACKEND=gcs`) instead of MinIO
+- Use **HTTP worker** (set `WORKER_HTTP_URL`) instead of Celery+Redis
+- SuperTokens Core also runs on Cloud Run, connected to Neon PostgreSQL
+- Set up automated backups for Neon PostgreSQL
 
 ## License
 

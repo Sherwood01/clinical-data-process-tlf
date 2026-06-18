@@ -49,7 +49,7 @@ export default function PDFViewer() {
     if (fetchedRef.current) return;
     fetchedRef.current = true;
     fetchJob();
-  }, [session.loading, session.doesSessionExist, studyId, jobId]);
+  }, [session.loading, session, studyId, jobId]);
 
   useEffect(() => {
     return () => {
@@ -115,7 +115,7 @@ export default function PDFViewer() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-600">
-              {session.accessTokenPayload?.email || session.userId || ""}
+              {!session.loading ? (session.accessTokenPayload?.email || session.userId || "") : ""}
             </span>
           </div>
         </div>

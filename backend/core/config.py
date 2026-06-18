@@ -47,6 +47,14 @@ class Settings(BaseSettings):
     # HTTP Worker (Cloud Run mode — replaces Celery)
     WORKER_HTTP_URL: str = ""  # e.g. "https://tlf-worker-xxxxx-uc.a.run.app"
 
+    # OAuth providers (SuperTokens third-party login)
+    GOOGLE_CLIENT_ID: str = ""
+    GOOGLE_CLIENT_SECRET: str = ""
+    GITHUB_CLIENT_ID: str = ""
+    GITHUB_CLIENT_SECRET: str = ""
+    MICROSOFT_CLIENT_ID: str = ""
+    MICROSOFT_CLIENT_SECRET: str = ""
+
     # File size limits
     MAX_UPLOAD_SIZE_MB: int = 500
 

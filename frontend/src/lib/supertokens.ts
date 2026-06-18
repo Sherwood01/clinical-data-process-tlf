@@ -1,7 +1,7 @@
 "use client";
 
 import SuperTokens from "supertokens-auth-react";
-import ThirdPartyEmailPassword from "supertokens-auth-react/recipe/thirdpartyemailpassword";
+import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
 import Session from "supertokens-auth-react/recipe/session";
 
 const websiteDomain =
@@ -14,16 +14,46 @@ const apiDomain =
   process.env.NEXT_PUBLIC_VERCEL_URL ||
   "http://localhost:3000";
 
-SuperTokens.init({
-  appInfo: {
-    appName: "TLF",
-    apiDomain,
-    websiteDomain,
-    apiBasePath: "/api/v1/auth",
-    websiteBasePath: "/auth",
-  },
-  recipeList: [
-    ThirdPartyEmailPassword.init(),
+if (typeof window !== "undefined") {
+  const recipeList: any[] = [
+    EmailPassword.init(),
     Session.init(),
-  ],
-});
+  ];
+
+  const googleId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+  const githubId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
+  const microsoftId = process.env.NEXT_PUBLIC_MICROSOFT_CLIENT_ID;
+
+  if (googleId || githubId || microsoftId) {
+    const ThirdParty = require("supertokens-auth-react/recipe/thirdparty").default;
+    const providers: any[] = [];
+
+    if (googleId) {
+      const Google = require("supertokens-auth-react/recipe/thirdparty").Google;
+      providers.push(Google.init({ clientId: googleId }));
+    }
+    if (githubId) {
+      const Github = require("supertokens-auth-react/recipe/thirdparty").Github;
+      providers.push(Github.init({ clientId: githubId }));
+    }
+    if (microsoftId) {
+      const ActiveDirectory = require("supertokens-auth-react/recipe/thirdparty").ActiveDirectory;
+      providers.push(ActiveDirectory.init({ id: "microsoft", name: "Microsoft" }));
+    }
+
+    recipeList.push(
+      ThirdParty.init({ signInAndUpFeature: { providers } })
+    );
+  }
+
+  SuperTokens.init({
+    appInfo: {
+      appName: "TLF",
+      apiDomain,
+      websiteDomain,
+      apiBasePath: "/api/v1/auth",
+      websiteBasePath: "/auth",
+    },
+    recipeList,
+  });
+}

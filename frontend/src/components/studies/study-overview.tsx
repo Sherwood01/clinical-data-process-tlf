@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge } from "@hexclave/ui";
+import { Badge } from "@/components/ui";
 import { Database, FileText, FileOutput, CheckCircle2, FlaskConical } from "lucide-react";
 
 interface StudyOverviewProps {

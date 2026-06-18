@@ -2,6 +2,7 @@
 
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import Link from "next/link";
+import { useUserEmail } from "@/lib/use-user-email";
 import {
   Upload,
   FileSearch,
@@ -104,6 +105,7 @@ const testimonials = [
 
 export function LandingPage() {
   const session = useSessionContext();
+  const { email } = useUserEmail();
   const isLoggedIn = !session.loading && session.doesSessionExist;
 
   if (isLoggedIn) {
@@ -117,7 +119,7 @@ export function LandingPage() {
           <p className="text-muted-foreground mb-8">
             Signed in as{" "}
             <span className="font-medium text-foreground">
-              {session.accessTokenPayload?.email || session.userId || ""}
+              {email || (!session.loading ? session.userId : "") || ""}
             </span>
           </p>
           <Link

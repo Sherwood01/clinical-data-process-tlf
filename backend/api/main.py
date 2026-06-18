@@ -7,7 +7,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.core.config import settings
 from backend.core.logging import setup_logging
 from backend.api.middleware.auth import AuthMiddleware
-from backend.api.routers import studies, datasets, sap, tlf
+from backend.api.routers import studies, datasets, sap, tlf, users
+
+# SuperTokens ASGI middleware — handles /api/v1/auth/* routes
+from supertokens_python.framework.fastapi import get_middleware
 
 # 🔑 Initialize SuperTokens SDK (must run before app starts)
 import backend.supertokens_init  # noqa: F401
@@ -31,6 +34,9 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# SuperTokens ASGI middleware — handles /api/v1/auth/* routes
+app.add_middleware(get_middleware())
+
 # Global middleware — order matters: auth runs before CORS headers are set
 app.add_middleware(AuthMiddleware)
 
@@ -48,6 +54,7 @@ app.include_router(studies.router, prefix="/api/v1", tags=["studies"])
 app.include_router(datasets.router, prefix="/api/v1", tags=["datasets"])
 app.include_router(sap.router, prefix="/api/v1", tags=["sap"])
 app.include_router(tlf.router, prefix="/api/v1", tags=["tlf"])
+app.include_router(users.router)
 
 
 @app.get("/api/v1/health")

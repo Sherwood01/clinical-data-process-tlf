@@ -21,7 +21,7 @@ export default function DashboardContent() {
       return;
     }
     fetchStudies();
-  }, [session.loading, session.doesSessionExist]);
+  }, [session.loading, session]);
 
   async function fetchStudies() {
     try {
@@ -72,7 +72,7 @@ export default function DashboardContent() {
   if (session.loading) return null;
   if (!session.doesSessionExist) return null;
 
-  const displayName = session.accessTokenPayload?.email || session.userId || "User";
+  const displayName = !session.loading ? (session.accessTokenPayload?.email || session.userId || "User") : "";
 
   return (
     <div className="min-h-screen bg-gray-50">

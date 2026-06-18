@@ -4,8 +4,9 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { LayoutDashboard, FlaskConical, Moon, Sun, LogOut } from "lucide-react";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
-import { signOut } from "supertokens-auth-react/recipe/thirdpartyemailpassword";
+import { signOut } from "supertokens-auth-react/recipe/thirdparty";
 import { useTheme } from "@/components/theme-provider";
+import { useUserEmail } from "@/lib/use-user-email";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -15,6 +16,7 @@ const navItems = [
 export function Sidebar() {
   const pathname = usePathname();
   const session = useSessionContext();
+  const { email } = useUserEmail();
   const { theme, setTheme, resolved } = useTheme();
 
   const handleSignOut = async () => {
@@ -22,7 +24,7 @@ export function Sidebar() {
     window.location.href = "/";
   };
 
-  const displayName = session.accessTokenPayload?.email || session.userId || "";
+  const displayName = email || (!session.loading ? session.userId : "") || "";
   const isLoggedIn = !session.loading && session.doesSessionExist;
 
   return (

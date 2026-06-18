@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Badge, Input } from "@hexclave/ui";
+import { Badge } from "@/components/ui";
 import { Search, Table, Image, List, CheckSquare, Square } from "lucide-react";
 
 interface TOCEntry {
@@ -95,12 +95,12 @@ export function TOCSelector({
         </div>
         <div className="relative flex-1 max-w-xs">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
-          <Input
+          <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search TLF ID or name..."
-            className="pl-8 h-9 text-sm"
+            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring pl-8"
           />
         </div>
         <span className="text-xs text-muted-foreground whitespace-nowrap">

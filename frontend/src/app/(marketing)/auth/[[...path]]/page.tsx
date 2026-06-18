@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { AuthWrapper } from "@/components/auth-wrapper";
 import { AuthPage } from "@/components/auth-page";
 

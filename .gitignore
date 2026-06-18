@@ -36,6 +36,7 @@ node_modules/
 
 # ── Environment ──
 .env
+.env.uat
 .env.local
 *.env.local
 

@@ -7,7 +7,7 @@ interface SAPUploadProps {
   studyId: string;
   tocEntries: any[];
   onRefresh: () => void;
-  getAccessToken: () => Promise<string | null>;
+  getAccessToken: () => Promise<string | undefined>;
 }
 
 export function SAPUpload({

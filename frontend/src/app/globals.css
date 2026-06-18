@@ -131,18 +131,3 @@ body {
   font-family: var(--font-sans, Arial, Helvetica, sans-serif);
   transition: background-color 0.2s ease, color 0.2s ease;
 }
-
-/* Hide the "last" used badge on Stack Auth OAuth buttons because it overlaps text */
-span[class*="-top-2"][class*="-right-2"][class*="bg-blue-500"] {
-  display: none !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-/* Force hide the Stack Auth last badge */
-span[class*="-top-2"][class*="-right-2"][class*="bg-blue-500"] {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}

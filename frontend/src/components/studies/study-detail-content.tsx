@@ -32,7 +32,7 @@ export default function StudyDetailContent() {
       return;
     }
     fetchStudyData();
-  }, [session.loading, session.doesSessionExist, studyId]);
+  }, [session.loading, session, studyId]);
 
   async function fetchStudyData() {
     if (!studyId) return;
@@ -89,9 +89,8 @@ export default function StudyDetailContent() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-600">
-              {session.accessTokenPayload?.email || session.userId || ""}
+              {!session.loading ? (session.accessTokenPayload?.email || session.userId || "") : ""}
             </span>
-          </div>
           </div>
         </div>
       </header>
@@ -176,7 +175,7 @@ function TLFHistory({
 }: {
   jobs: any[];
   studyId: string;
-  getAccessToken: () => Promise<string | null>;
+  getAccessToken: () => Promise<string | undefined>;
 }) {
   const router = useRouter();
   if (jobs.length === 0) {

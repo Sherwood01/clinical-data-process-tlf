@@ -29,8 +29,8 @@ export function AuthWrapper({ children }: { children: React.ReactNode }) {
           </Link>
         </div>
 
-        {/* Card */}
-        <div className="rounded-xl border bg-card p-6 shadow-sm">
+        {/* No outer card — SuperTokens renders its own styled container */}
+        <div>
           {children}
         </div>
 

@@ -1,0 +1,167 @@
+# =============================================================================
+# TLF Report Generator — UAT Standalone Deployment
+# =============================================================================
+# 独立 UAT 部署文件，不依赖 docker-compose.yml。
+# 使用外部 Neon (PostgreSQL) 和 Upstash (Redis)，不需要本地 postgres/redis。
+#
+# 首次部署：
+#   cp .env .env.uat
+#   # 编辑 .env.uat 填入 UAT 环境的值
+#   docker compose -f docker-compose.uat.yml --env-file .env.uat up -d --build
+#   docker compose -f docker-compose.uat.yml --env-file .env.uat exec api alembic upgrade head
+#
+# 更新部署：
+#   docker compose -f docker-compose.uat.yml --env-file .env.uat pull
+#   docker compose -f docker-compose.uat.yml --env-file .env.uat up -d
+# =============================================================================
+
+services:
+  # ── File Storage (S3-compatible) ──
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9100"
+    volumes:
+      - miniodata:/data
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9100}:9100"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - tlf-uat
+
+  # ── Auth Engine (SuperTokens) — 连接到 Neon ──
+  supertokens:
+    image: supertokens/supertokens-postgresql:latest
+    environment:
+      POSTGRESQL_CONNECTION_URI: "${NEON_URL}"
+      API_KEYS: "${SUPERTOKENS_API_KEY}"
+    ports:
+      - "3567:3567"
+    restart: unless-stopped
+    networks:
+      - tlf-uat
+
+  # ── API Server (FastAPI) ──
+  api:
+    image: ghcr.io/sherwood01/tlf-api:latest
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      # 数据库 — Neon
+      DATABASE_URL: "${NEON_URL}"
+      DATABASE_SYNC_URL: "${NEON_URL}"
+
+      # Redis — Upstash
+      REDIS_URL: "${REDIS_URL}"
+      CELERY_BROKER_URL: "${REDIS_URL}"
+      CELERY_RESULT_BACKEND: "${REDIS_URL}"
+
+      # SuperTokens
+      SUPERTOKENS_CONNECTION_URI: http://supertokens:3567
+      SUPERTOKENS_API_KEY: "${SUPERTOKENS_API_KEY}"
+      SUPERTOKENS_API_DOMAIN: "${UAT_API_DOMAIN}"
+      SUPERTOKENS_WEBSITE_DOMAIN: "${UAT_WEB_DOMAIN}"
+
+      # CORS
+      CORS_ORIGINS: "${UAT_WEB_DOMAIN}"
+
+      # 存储
+      STORAGE_BACKEND: "${STORAGE_BACKEND:-minio}"
+      MINIO_ENDPOINT: minio:9000
+      MINIO_PUBLIC_ENDPOINT: "${MINIO_PUBLIC_ENDPOINT}"
+      MINIO_ACCESS_KEY: "${MINIO_ROOT_USER:-minioadmin}"
+      MINIO_SECRET_KEY: "${MINIO_ROOT_PASSWORD:-minioadmin}"
+
+      # OAuth
+      GOOGLE_CLIENT_ID: "${GOOGLE_CLIENT_ID:-}"
+      GOOGLE_CLIENT_SECRET: "${GOOGLE_CLIENT_SECRET:-}"
+      GITHUB_CLIENT_ID: "${GITHUB_CLIENT_ID:-}"
+      GITHUB_CLIENT_SECRET: "${GITHUB_CLIENT_SECRET:-}"
+      MICROSOFT_CLIENT_ID: "${MICROSOFT_CLIENT_ID:-}"
+      MICROSOFT_CLIENT_SECRET: "${MICROSOFT_CLIENT_SECRET:-}"
+
+      DEBUG: "true"
+      PYTHONPATH: /app
+    ports:
+      - "${API_PORT:-8100}:8000"
+    restart: unless-stopped
+    networks:
+      - tlf-uat
+
+  # ── Celery Worker ──
+  worker:
+    image: ghcr.io/sherwood01/tlf-worker:latest
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.worker
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "${NEON_URL}"
+      DATABASE_SYNC_URL: "${NEON_URL}"
+      REDIS_URL: "${REDIS_URL}"
+      CELERY_BROKER_URL: "${REDIS_URL}"
+      CELERY_RESULT_BACKEND: "${REDIS_URL}"
+      STORAGE_BACKEND: "${STORAGE_BACKEND:-minio}"
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: "${MINIO_ROOT_USER:-minioadmin}"
+      MINIO_SECRET_KEY: "${MINIO_ROOT_PASSWORD:-minioadmin}"
+      WORKER_TEMP_DIR: /tmp/tlf-worker
+      PYTHONPATH: /app
+    volumes:
+      - workertmp:/tmp/tlf-worker
+    restart: unless-stopped
+    networks:
+      - tlf-uat
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
+
+  # ── Frontend (Next.js 生产模式) ──
+  frontend:
+    image: ghcr.io/sherwood01/tlf-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: runner
+    depends_on:
+      - api
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: /api/v1
+      API_REWRITE_URL: "${UAT_API_DOMAIN}"
+      NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN: "${UAT_API_DOMAIN}"
+      NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN: "${UAT_WEB_DOMAIN}"
+      NEXT_PUBLIC_GOOGLE_CLIENT_ID: "${GOOGLE_CLIENT_ID:-}"
+      NEXT_PUBLIC_GITHUB_CLIENT_ID: "${GITHUB_CLIENT_ID:-}"
+      NEXT_PUBLIC_MICROSOFT_CLIENT_ID: "${MICROSOFT_CLIENT_ID:-}"
+    ports:
+      - "${FRONTEND_PORT:-3100}:3000"
+    restart: unless-stopped
+    networks:
+      - tlf-uat
+
+
+networks:
+  tlf-uat:
+    driver: bridge
+
+volumes:
+  miniodata:
+  workertmp:

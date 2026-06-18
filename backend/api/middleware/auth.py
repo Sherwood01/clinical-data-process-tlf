@@ -36,18 +36,8 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if request.url.path in self.PUBLIC_PATHS or request.url.path.startswith("/api/v1/auth/"):
             return await call_next(request)
 
-        # Extract token
-        auth_header = request.headers.get("Authorization", "")
-        if not auth_header.startswith("Bearer "):
-            return JSONResponse(
-                status_code=401,
-                content={"detail": "Missing or invalid Authorization header"},
-            )
-
-        token = auth_header.removeprefix("Bearer ")
-
-        # Verify with SuperTokens
-        token_data = await verify_supertokens_session(request, token)
+        # Verify session via SuperTokens SDK (supports both cookie and header transfer methods)
+        token_data = await verify_supertokens_session(request)
         if token_data is None:
             return JSONResponse(
                 status_code=401,

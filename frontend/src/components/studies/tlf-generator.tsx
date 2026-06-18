@@ -8,7 +8,7 @@ interface TLFGeneratorProps {
   tocEntries: any[];
   jobs: any[];
   onRefresh: () => void;
-  getAccessToken: () => Promise<string | null>;
+  getAccessToken: () => Promise<string | undefined>;
 }
 
 export function TLFGenerator({
@@ -148,11 +148,30 @@ export function TLFGenerator({
         <>
           {/* TOC Selector */}
           <div className="bg-white border rounded-lg p-6 mb-6">
-            <h3 className="font-medium mb-2">Select TOC Entries to Generate</h3>
-            <p className="text-sm text-gray-500 mb-4">
-              Choose the TOC entries you want to generate TLF reports for. Only
-              entries that have not been generated yet are selectable.
-            </p>
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <h3 className="font-medium">Select TOC Entries to Generate</h3>
+                <p className="text-sm text-gray-500 mt-1">
+                  Choose the TOC entries you want to generate TLF reports for. Only
+                  entries that have not been generated yet are selectable.
+                </p>
+              </div>
+
+              {/* Top Generate button — always visible */}
+              <button
+                onClick={handleGenerate}
+                disabled={selectedIds.size === 0 || generating}
+                className={`shrink-0 ml-4 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  selectedIds.size === 0 || generating
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-blue-600 text-white hover:bg-blue-700"
+                }`}
+              >
+                {generating
+                  ? "Starting jobs..."
+                  : `Generate Selected (${selectedIds.size})`}
+              </button>
+            </div>
             <TOCSelector
               entries={tocEntries}
               selectedIds={selectedIds}
@@ -160,7 +179,7 @@ export function TLFGenerator({
             />
           </div>
 
-          {/* Generate button */}
+          {/* Bottom Generate button */}
           <div className="flex items-center justify-between">
             <button
               onClick={handleGenerate}

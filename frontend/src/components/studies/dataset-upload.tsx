@@ -7,7 +7,7 @@ interface DatasetUploadProps {
   studyId: string;
   datasets: any[];
   onRefresh: () => void;
-  getAccessToken: () => Promise<string | null>;
+  getAccessToken: () => Promise<string | undefined>;
 }
 
 export function DatasetUpload({

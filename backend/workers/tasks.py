@@ -243,6 +243,7 @@ def generate_tlf_report(self, study_id: str, toc_entry_id: str, job_id: str, ten
         finally:
             db.close()
 
-        raise
+        # Return failure instead of re-raising to avoid Celery serialization issues
+        return {"status": "failed", "error": str(exc)}
     finally:
         db.close()

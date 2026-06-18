@@ -11,7 +11,7 @@ interface FileUploadProps {
   label: string;
   /** API proxy upload endpoint — replaces getUploadUrl two-step flow */
   apiUploadUrl?: string;
-  getAccessToken?: () => Promise<string | null>;
+  getAccessToken?: () => Promise<string | undefined>;
 }
 
 export function FileUpload({ accept, onUploadComplete, getUploadUrl, label, apiUploadUrl, getAccessToken }: FileUploadProps) {
