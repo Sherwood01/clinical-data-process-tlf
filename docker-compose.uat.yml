@@ -60,7 +60,7 @@ services:
         condition: service_healthy
     environment:
       # 数据库 — Neon
-      DATABASE_URL: "${NEON_URL}"
+      DATABASE_URL: "${ASYNC_NEON_URL}"
       DATABASE_SYNC_URL: "${NEON_URL}"
 
       # Redis — Upstash
@@ -110,7 +110,7 @@ services:
       minio:
         condition: service_healthy
     environment:
-      DATABASE_URL: "${NEON_URL}"
+      DATABASE_URL: "${ASYNC_NEON_URL}"
       DATABASE_SYNC_URL: "${NEON_URL}"
       REDIS_URL: "${REDIS_URL}"
       CELERY_BROKER_URL: "${REDIS_URL}"
