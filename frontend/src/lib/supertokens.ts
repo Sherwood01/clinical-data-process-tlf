@@ -9,10 +9,14 @@ const websiteDomain =
   process.env.NEXT_PUBLIC_VERCEL_URL ||
   "http://localhost:3000";
 
+// 运行时从浏览器地址推断 API 地址（auth 请求通过 Next.js rewrite 代理到后端）
+// 构建时不需要知道具体域名，解决了 NEXT_PUBLIC_* 在 Docker 构建时被编译的问题
 const apiDomain =
-  process.env.NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN ||
-  process.env.NEXT_PUBLIC_VERCEL_URL ||
-  "http://localhost:3000";
+  typeof window !== "undefined"
+    ? window.location.origin
+    : (process.env.NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN ||
+       process.env.NEXT_PUBLIC_VERCEL_URL ||
+       "http://localhost:3000");
 
 if (typeof window !== "undefined") {
   const recipeList: any[] = [
