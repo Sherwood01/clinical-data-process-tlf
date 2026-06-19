@@ -144,6 +144,7 @@ services:
         NEXT_PUBLIC_GOOGLE_CLIENT_ID: "${GOOGLE_CLIENT_ID:-}"
         NEXT_PUBLIC_GITHUB_CLIENT_ID: "${GITHUB_CLIENT_ID:-}"
         NEXT_PUBLIC_MICROSOFT_CLIENT_ID: "${MICROSOFT_CLIENT_ID:-}"
+        API_REWRITE_URL: "${UAT_API_DOMAIN}/api/v1"
     depends_on:
       - api
     environment:
