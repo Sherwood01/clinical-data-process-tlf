@@ -4,6 +4,7 @@ import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { getAccessToken } from "supertokens-web-js/recipe/session";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState, memo, useRef } from "react";
+import { useUserEmail } from "@/lib/use-user-email";
 
 const MemoizedPDF = memo(({ pdfUrl }: { pdfUrl: string }) => (
   <div className="bg-white border rounded-lg overflow-hidden" style={{ height: "calc(100vh - 220px)" }}>
@@ -38,6 +39,7 @@ export default function PDFViewer() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const fetchedRef = useRef(false);
+  const { email } = useUserEmail();
 
   useEffect(() => {
     if (session.loading || !studyId || !jobId) return;
@@ -115,7 +117,7 @@ export default function PDFViewer() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-600">
-              {!session.loading ? (session.accessTokenPayload?.email || session.userId || "") : ""}
+              {email || (!session.loading ? session.userId : "") || ""}
             </span>
           </div>
         </div>

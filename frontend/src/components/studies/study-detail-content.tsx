@@ -4,6 +4,7 @@ import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { getAccessToken } from "supertokens-web-js/recipe/session";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useUserEmail } from "@/lib/use-user-email";
 import { StudyOverview } from "./study-overview";
 import { DatasetUpload } from "./dataset-upload";
 import { SAPUpload } from "./sap-upload";
@@ -24,6 +25,7 @@ export default function StudyDetailContent() {
   const [tocEntries, setTocEntries] = useState<any[]>([]);
   const [tlfJobs, setTlfJobs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { email } = useUserEmail();
 
   useEffect(() => {
     if (session.loading) return;
@@ -89,7 +91,7 @@ export default function StudyDetailContent() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-600">
-              {!session.loading ? (session.accessTokenPayload?.email || session.userId || "") : ""}
+              {email || (!session.loading ? session.userId : "") || ""}
             </span>
           </div>
         </div>

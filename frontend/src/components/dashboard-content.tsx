@@ -4,6 +4,7 @@ import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { getAccessToken } from "supertokens-web-js/recipe/session";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useUserEmail } from "@/lib/use-user-email";
 
 export default function DashboardContent() {
   const session = useSessionContext();
@@ -13,6 +14,7 @@ export default function DashboardContent() {
   const [showCreate, setShowCreate] = useState(false);
   const [newStudy, setNewStudy] = useState({ name: "", protocol_id: "", description: "" });
   const [creating, setCreating] = useState(false);
+  const { email } = useUserEmail();
 
   useEffect(() => {
     if (session.loading) return;
@@ -72,7 +74,7 @@ export default function DashboardContent() {
   if (session.loading) return null;
   if (!session.doesSessionExist) return null;
 
-  const displayName = !session.loading ? (session.accessTokenPayload?.email || session.userId || "User") : "";
+  const displayName = email || (!session.loading ? session.userId : "") || "User";
 
   return (
     <div className="min-h-screen bg-gray-50">
