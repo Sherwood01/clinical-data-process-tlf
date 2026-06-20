@@ -37,11 +37,11 @@ services:
     networks:
       - tlf-uat
 
-  # ── Auth Engine (SuperTokens) — 连接到 Neon ──
+  # ── Auth Engine (SuperTokens) ──
   supertokens:
     image: supertokens/supertokens-postgresql:latest
     environment:
-      POSTGRESQL_CONNECTION_URI: "${NEON_URL}"
+      POSTGRESQL_CONNECTION_URI: "${SUPERTOKENS_NEON_URL}"
       API_KEYS: "${SUPERTOKENS_API_KEY}"
     ports:
       - "3567:3567"
