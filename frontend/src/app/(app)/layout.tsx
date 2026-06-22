@@ -4,6 +4,7 @@ export const dynamic = "force-dynamic";
 
 import { Suspense } from "react";
 import { AppShell } from "@/components/app-shell";
+import { BreadcrumbProvider } from "@/lib/breadcrumb-context";
 
 function LoadingFallback() {
   return (
@@ -20,7 +21,9 @@ export default function AppLayout({
 }) {
   return (
     <Suspense fallback={<LoadingFallback />}>
-      <AppShell>{children}</AppShell>
+      <BreadcrumbProvider>
+        <AppShell>{children}</AppShell>
+      </BreadcrumbProvider>
     </Suspense>
   );
 }

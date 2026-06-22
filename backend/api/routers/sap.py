@@ -453,6 +453,19 @@ async def delete_sap_document(
     except Exception as exc:
         print(f"Failed to delete file from MinIO: {exc}")
 
+    # Delete associated TLF jobs first to avoid foreign key violations
+    await db.execute(
+        delete(TLFJob).where(
+            TLFJob.toc_entry_id.in_(
+                select(TOCEntry.id).where(
+                    TOCEntry.sap_id == sap_id,
+                    TOCEntry.study_id == study_id,
+                    TOCEntry.tenant_id == tenant_id
+                )
+            )
+        )
+    )
+
     # Delete associated TOC entries
     await db.execute(
         delete(TOCEntry).where(

@@ -45,3 +45,5 @@ reference/
 *.rtf
 *.md
 frontend/next-dev.log
+.env.prod
+deploy-prod.ps1

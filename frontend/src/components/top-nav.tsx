@@ -6,8 +6,9 @@ import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { signOut } from "supertokens-auth-react/recipe/thirdparty";
 import { ChevronRight, LogOut } from "lucide-react";
 import { useUserEmail } from "@/lib/use-user-email";
+import { useBreadcrumb } from "@/lib/breadcrumb-context";
 
-function getBreadcrumbs(pathname: string): { label: string; href: string }[] {
+function getBreadcrumbs(pathname: string, customLabels: Record<string, string>): { label: string; href: string }[] {
   const parts = pathname.split("/").filter(Boolean);
   const crumbs: { label: string; href: string }[] = [];
   let href = "";
@@ -15,9 +16,12 @@ function getBreadcrumbs(pathname: string): { label: string; href: string }[] {
   for (const part of parts) {
     href += "/" + part;
     if (part.startsWith("[")) continue;
-    const label = part
+    
+    // 优先采用自定义的面包屑映射文字（如 Study 名称）
+    const label = customLabels[part] || part
       .replace(/-/g, " ")
       .replace(/\b\w/g, (c) => c.toUpperCase());
+      
     crumbs.push({ label, href });
   }
   return crumbs;
@@ -27,7 +31,8 @@ export function TopNav() {
   const pathname = usePathname();
   const session = useSessionContext();
   const { email } = useUserEmail();
-  const crumbs = getBreadcrumbs(pathname);
+  const { labels } = useBreadcrumb();
+  const crumbs = getBreadcrumbs(pathname, labels);
 
   const handleSignOut = async () => {
     await signOut();

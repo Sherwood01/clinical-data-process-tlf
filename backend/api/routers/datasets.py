@@ -82,6 +82,24 @@ async def upload_dataset_file(
     # Infer dataset name from filename if not provided
     ds_name = name or os.path.splitext(filename)[0].lower()
 
+    # Check and delete existing dataset with the same name (Replace)
+    existing_query = await db.execute(
+        select(Dataset).where(
+            Dataset.study_id == study_id,
+            Dataset.tenant_id == tenant_id,
+            Dataset.name == ds_name
+        )
+    )
+    existing = existing_query.scalar_one_or_none()
+    if existing:
+        if existing.minio_object_key:
+            try:
+                await storage.delete_file(str(tenant_id), existing.minio_object_key)
+            except Exception as e:
+                print(f"Failed to delete old file: {e}")
+        await db.delete(existing)
+        await db.commit()
+
     # Upload to GCS via SDK
     data_stream = io.BytesIO(content)
     object_key = storage.upload_file_sync(
@@ -199,6 +217,24 @@ async def complete_dataset_upload(
     """Step 2: After client uploads to MinIO, extract metadata and create record."""
     bucket = storage._bucket_name(str(tenant_id))
 
+    # Check and delete existing dataset with the same name (Replace)
+    existing_query = await db.execute(
+        select(Dataset).where(
+            Dataset.study_id == study_id,
+            Dataset.tenant_id == tenant_id,
+            Dataset.name == req.name
+        )
+    )
+    existing = existing_query.scalar_one_or_none()
+    if existing:
+        if existing.minio_object_key and existing.minio_object_key != req.object_key:
+            try:
+                await storage.delete_file(str(tenant_id), existing.minio_object_key)
+            except Exception as e:
+                print(f"Failed to delete old file: {e}")
+        await db.delete(existing)
+        await db.commit()
+
     # Download file from MinIO to a temp file
     data = await storage.download_file(str(tenant_id), req.object_key)
     checksum = hashlib.sha256(data).hexdigest()
@@ -261,3 +297,100 @@ async def complete_dataset_upload(
         raise HTTPException(status_code=400, detail=f"Failed to read dataset: {str(exc)}")
     finally:
         os.unlink(tmp_path)
+
+
+@router.delete("/{dataset_id}", status_code=204)
+async def delete_dataset(
+    study_id: UUID,
+    dataset_id: UUID,
+    tenant_id: UUID = Depends(get_tenant_id),
+    db: AsyncSession = Depends(get_db),
+):
+    """Delete a dataset and its source file from cloud storage."""
+    result = await db.execute(
+        select(Dataset).where(
+            Dataset.id == dataset_id,
+            Dataset.study_id == study_id,
+            Dataset.tenant_id == tenant_id
+        )
+    )
+    dataset = result.scalar_one_or_none()
+    if not dataset:
+        raise HTTPException(status_code=404, detail="Dataset not found")
+
+    if dataset.minio_object_key:
+        try:
+            await storage.delete_file(str(tenant_id), dataset.minio_object_key)
+        except Exception as e:
+            print(f"Failed to delete file from storage: {e}")
+
+    await db.delete(dataset)
+    await db.commit()
+    return None
+
+
+@router.get("/{dataset_id}/preview")
+async def preview_dataset(
+    study_id: UUID,
+    dataset_id: UUID,
+    tenant_id: UUID = Depends(get_tenant_id),
+    db: AsyncSession = Depends(get_db),
+):
+    """Get variables metadata and the first 50 rows of data in tabular format."""
+    result = await db.execute(
+        select(Dataset).where(
+            Dataset.id == dataset_id,
+            Dataset.study_id == study_id,
+            Dataset.tenant_id == tenant_id
+        )
+    )
+    dataset = result.scalar_one_or_none()
+    if not dataset:
+        raise HTTPException(status_code=404, detail="Dataset not found")
+
+    if not dataset.minio_object_key:
+        raise HTTPException(status_code=400, detail="No source file found for this dataset")
+
+    try:
+        data = await storage.download_file(str(tenant_id), dataset.minio_object_key)
+        suffix = f".{dataset.file_format}"
+
+        with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
+            tmp.write(data)
+            tmp_path = tmp.name
+
+        try:
+            import pandas as pd
+            if suffix == ".csv":
+                df = pd.read_csv(tmp_path)
+            elif suffix in (".xpt", ".xport"):
+                import pyreadstat
+                df, _ = pyreadstat.read_xport(tmp_path)
+            else:
+                import pyreadstat
+                df, _ = pyreadstat.read_sas7bdat(tmp_path)
+
+            df_preview = df.head(50)
+            records = []
+            for row in df_preview.to_dict(orient="records"):
+                clean_row = {}
+                for k, v in row.items():
+                    if pd.isna(v):
+                        clean_row[k] = None
+                    elif hasattr(v, "item"):
+                        clean_row[k] = v.item()
+                    else:
+                        clean_row[k] = v
+                    records.append(clean_row)
+
+            return {
+                "columns": list(df.columns),
+                "data": records,
+                "total_rows": len(df),
+                "variables": dataset.variables
+            }
+        finally:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Failed to preview dataset: {str(e)}")

@@ -45,6 +45,22 @@ async def list_tlf_jobs(
     return list(result.scalars().all())
 
 
+async def _get_gcp_identity_token(audience: str) -> Optional[str]:
+    """Fetch GCP OIDC ID token from the local metadata server."""
+    metadata_url = f"http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/identity?audience={audience}"
+    try:
+        async with httpx.AsyncClient(timeout=2.0) as client:
+            resp = await client.get(
+                metadata_url,
+                headers={"Metadata-Flavor": "Google"}
+            )
+            if resp.status_code == 200:
+                return resp.text.strip()
+    except Exception:
+        pass
+    return None
+
+
 async def _dispatch_via_http_worker(
     study_id: str,
     toc_entry_id: str,
@@ -53,6 +69,12 @@ async def _dispatch_via_http_worker(
 ):
     """Dispatch TLF generation to HTTP worker (Cloud Run mode)."""
     worker_url = settings.WORKER_HTTP_URL.rstrip("/")
+    headers = {}
+    
+    token = await _get_gcp_identity_token(worker_url)
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+
     async with httpx.AsyncClient(timeout=5.0) as client:
         resp = await client.post(
             f"{worker_url}/tlf/generate",
@@ -62,6 +84,7 @@ async def _dispatch_via_http_worker(
                 "job_id": job_id,
                 "tenant_id": tenant_id,
             },
+            headers=headers,
         )
         resp.raise_for_status()
         return resp.json()

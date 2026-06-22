@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import dynamic from "next/dynamic";
 
 const DashboardContent = dynamic(
-  () => import("@/components/dashboard-content"),
+  () => import("@/components/dashboard-overview-content"),
   { ssr: false }
 );
 

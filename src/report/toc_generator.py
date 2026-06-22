@@ -13,7 +13,7 @@ from docx import Document
 
 # Import ICH E3 knowledge base
 import sys
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from src.knowledge.ich_e3_knowledge import TLF_TEMPLATES, LISTING_TEMPLATES, FIGURE_TEMPLATES, POPULATIONS
 
 

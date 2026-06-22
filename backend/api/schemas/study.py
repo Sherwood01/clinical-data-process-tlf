@@ -14,6 +14,7 @@ class StudyCreate(BaseModel):
 
 class StudyUpdate(BaseModel):
     name: Optional[str] = Field(None, max_length=500)
+    protocol_id: Optional[str] = Field(None, max_length=100)
     description: Optional[str] = None
     status: Optional[str] = None
 

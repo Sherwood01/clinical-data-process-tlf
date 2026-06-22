@@ -46,12 +46,14 @@ class StudyRepository:
 
     async def update(
         self, tenant_id: UUID, study_id: UUID,
-        name: Optional[str] = None, description: Optional[str] = None,
-        status: Optional[str] = None,
+        name: Optional[str] = None, protocol_id: Optional[str] = None,
+        description: Optional[str] = None, status: Optional[str] = None,
     ) -> Optional[Study]:
         values = {}
         if name is not None:
             values["name"] = name
+        if protocol_id is not None:
+            values["protocol_id"] = protocol_id
         if description is not None:
             values["description"] = description
         if status is not None:
@@ -72,6 +74,13 @@ class StudyRepository:
             update(Study)
             .where(Study.id == study_id, Study.tenant_id == tenant_id)
             .values(status="archived")
+        )
+        await self.session.commit()
+        return result.rowcount > 0
+
+    async def delete_permanently(self, tenant_id: UUID, study_id: UUID) -> bool:
+        result = await self.session.execute(
+            delete(Study).where(Study.id == study_id, Study.tenant_id == tenant_id)
         )
         await self.session.commit()
         return result.rowcount > 0

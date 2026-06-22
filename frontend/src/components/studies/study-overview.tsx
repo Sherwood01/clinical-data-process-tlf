@@ -1,13 +1,17 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui";
-import { Database, FileText, FileOutput, CheckCircle2, FlaskConical } from "lucide-react";
+import { Database, FileText, FileOutput, CheckCircle2, FlaskConical, Edit2, Save, X, Trash2, AlertTriangle } from "lucide-react";
 
 interface StudyOverviewProps {
   study: any;
   datasets: any[];
   tocEntries: any[];
   tlfJobs: any[];
+  onRefresh: () => void;
+  getAccessToken: () => Promise<string | undefined>;
 }
 
 export function StudyOverview({
@@ -15,10 +19,99 @@ export function StudyOverview({
   datasets,
   tocEntries,
   tlfJobs,
+  onRefresh,
+  getAccessToken,
 }: StudyOverviewProps) {
+  const router = useRouter();
   const generatedCount = tocEntries.filter((e: any) => e.is_generated).length;
   const completedJobs = tlfJobs.filter((j: any) => j.status === "completed").length;
   const failedJobs = tlfJobs.filter((j: any) => j.status === "failed").length;
+
+  // 编辑态 State
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState(study?.name || "");
+  const [editProtocol, setEditProtocol] = useState(study?.protocol_id || "");
+  const [editStatus, setEditStatus] = useState(study?.status || "active");
+  const [editDescription, setEditDescription] = useState(study?.description || "");
+  
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  // 同步 Study 数据
+  useEffect(() => {
+    if (study) {
+      setEditName(study.name || "");
+      setEditProtocol(study.protocol_id || "");
+      setEditStatus(study.status || "active");
+      setEditDescription(study.description || "");
+    }
+  }, [study]);
+
+  const handleSave = async () => {
+    if (!editName.trim()) {
+      alert("Study name is required");
+      return;
+    }
+    setSaving(false);
+    try {
+      setSaving(true);
+      const token = await getAccessToken();
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/studies/${study.id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: editName,
+          protocol_id: editProtocol,
+          status: editStatus,
+          description: editDescription,
+        }),
+      });
+      if (res.ok) {
+        setIsEditing(false);
+        onRefresh();
+      } else {
+        const text = await res.text();
+        alert(`Failed to save: ${text}`);
+      }
+    } catch (err: any) {
+      alert(`Error saving study: ${err.message}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm(
+      "WARNING: This action is permanent!\n\n" +
+      "Deleting this study will delete all datasets, SAP documents, parsed TOC entries, and all generated TLF reports (both in database and in storage).\n\n" +
+      "Are you sure you want to proceed?"
+    );
+    if (!confirmed) return;
+
+    setDeleting(true);
+    try {
+      const token = await getAccessToken();
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/studies/${study.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.ok) {
+        router.push("/dashboard");
+      } else {
+        const text = await res.text();
+        alert(`Failed to delete study: ${text}`);
+      }
+    } catch (err: any) {
+      alert(`Error deleting study: ${err.message}`);
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   const statCards = [
     { label: "Datasets", value: datasets.length, icon: Database, color: "text-blue-600" },
@@ -42,7 +135,7 @@ export function StudyOverview({
           return (
             <div
               key={stat.label}
-              className="rounded-xl border bg-card p-5 flex items-center gap-4"
+              className="rounded-xl border bg-card p-5 flex items-center gap-4 shadow-sm"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
                 <Icon className={`h-5 w-5 ${stat.color}`} />
@@ -51,7 +144,7 @@ export function StudyOverview({
                 <p className="text-2xl font-bold">{stat.value}</p>
                 <p className="text-sm text-muted-foreground">{stat.label}</p>
                 {stat.extra && (
-                  <p className="text-xs text-destructive mt-0.5">{stat.extra}</p>
+                  <p className="text-xs text-destructive mt-0.5 font-medium">{stat.extra}</p>
                 )}
               </div>
             </div>
@@ -60,44 +153,143 @@ export function StudyOverview({
       </div>
 
       {/* Study details */}
-      <div className="rounded-xl border bg-card p-6">
-        <div className="flex items-center gap-2 mb-5">
-          <FlaskConical className="h-5 w-5 text-primary" />
-          <h3 className="font-semibold">Study Details</h3>
+      <div className="rounded-xl border bg-white p-6 shadow-sm">
+        <div className="flex items-center justify-between border-b pb-4 mb-5">
+          <div className="flex items-center gap-2">
+            <FlaskConical className="h-5 w-5 text-primary" />
+            <h3 className="font-semibold text-gray-900">Study Details</h3>
+          </div>
+          <div>
+            {isEditing ? (
+              <div className="flex gap-2">
+                <button
+                  onClick={handleSave}
+                  disabled={saving}
+                  className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition-all"
+                >
+                  <Save className="h-3.5 w-3.5" /> {saving ? "Saving..." : "Save"}
+                </button>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className="flex items-center gap-1.5 border border-gray-300 hover:bg-gray-50 text-gray-700 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
+                >
+                  <X className="h-3.5 w-3.5" /> Cancel
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="flex items-center gap-1.5 border border-gray-300 hover:bg-gray-50 text-gray-700 px-3.5 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition-all"
+              >
+                <Edit2 className="h-3.5 w-3.5 text-gray-500" /> Edit Details
+              </button>
+            )}
+          </div>
         </div>
-        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
-          <div>
-            <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Name</dt>
-            <dd className="font-medium">{study?.name || "-"}</dd>
+
+        {isEditing ? (
+          <div className="space-y-4 max-w-2xl">
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Study Name</label>
+              <input
+                type="text"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Protocol ID</label>
+                <input
+                  type="text"
+                  value={editProtocol}
+                  onChange={(e) => setEditProtocol(e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Status</label>
+                <select
+                  value={editStatus}
+                  onChange={(e) => setEditStatus(e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white font-medium"
+                >
+                  <option value="active">Active</option>
+                  <option value="disabled">Disabled</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Description</label>
+              <textarea
+                value={editDescription}
+                onChange={(e) => setEditDescription(e.target.value)}
+                rows={3}
+                className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
           </div>
-          <div>
-            <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Protocol ID</dt>
-            <dd className="font-medium">{study?.protocol_id || "-"}</dd>
-          </div>
-          <div>
-            <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Status</dt>
-            <dd>
-              <Badge variant={study?.status === "completed" ? "default" : "secondary"}>
-                {study?.status || "active"}
-              </Badge>
-            </dd>
-          </div>
-          <div>
-            <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Created</dt>
-            <dd className="font-medium">
-              {study?.created_at
-                ? new Date(study.created_at).toLocaleDateString()
-                : "-"}
-            </dd>
-          </div>
-        </dl>
-        {study?.description && (
-          <div className="mt-5 pt-5 border-t">
-            <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Description</dt>
-            <dd className="text-sm mt-1">{study.description}</dd>
-          </div>
+        ) : (
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 text-sm">
+            <div>
+              <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Name</dt>
+              <dd className="font-semibold text-gray-900 text-base">{study?.name || "-"}</dd>
+            </div>
+            <div>
+              <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Protocol ID</dt>
+              <dd className="font-semibold text-gray-900 text-base">{study?.protocol_id || "-"}</dd>
+            </div>
+            <div>
+              <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Status</dt>
+              <dd className="mt-1">
+                <Badge variant={study?.status === "completed" ? "default" : study?.status === "disabled" ? "destructive" : "secondary"}>
+                  {study?.status || "active"}
+                </Badge>
+              </dd>
+            </div>
+            <div>
+              <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Created</dt>
+              <dd className="font-medium text-gray-700">
+                {study?.created_at
+                  ? new Date(study.created_at).toLocaleString()
+                  : "-"}
+              </dd>
+            </div>
+            {study?.description && (
+              <div className="sm:col-span-2 pt-4 border-t mt-2">
+                <dt className="text-muted-foreground text-xs uppercase tracking-wider mb-1">Description</dt>
+                <dd className="text-gray-700 whitespace-pre-wrap leading-relaxed">{study.description}</dd>
+              </div>
+            )}
+          </dl>
         )}
+      </div>
+
+      {/* Danger Zone */}
+      <div className="rounded-xl border border-red-200 bg-red-50/30 p-6 shadow-sm">
+        <div className="flex items-center gap-2 mb-3 text-red-700">
+          <AlertTriangle className="h-5 w-5" />
+          <h3 className="font-bold text-base">Danger Zone</h3>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-gray-900">Delete this Study</p>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Permanently remove this study, its associated datasets, SAP documents, parsed TOC entries, and all generated TLF PDF reports. This action cannot be undone.
+            </p>
+          </div>
+          <button
+            onClick={handleDelete}
+            disabled={deleting}
+            className="flex items-center justify-center gap-1.5 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white px-4 py-2.5 rounded-lg text-xs font-bold shadow-sm transition-all shrink-0 hover:-translate-y-0.5 active:translate-y-0"
+          >
+            <Trash2 className="h-4 w-4" /> {deleting ? "Deleting Study..." : "Delete Study"}
+          </button>
+        </div>
       </div>
     </div>
   );
 }
+
