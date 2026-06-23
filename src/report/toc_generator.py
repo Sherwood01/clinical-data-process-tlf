@@ -25,13 +25,29 @@ class SAPReader:
 
     def read_paragraphs(self) -> List[str]:
         """Extract all non-empty paragraphs from SAP document."""
-        doc = Document(self.sap_path)
-        paragraphs = []
-        for para in doc.paragraphs:
-            text = para.text.strip()
-            if text:
-                paragraphs.append(text)
-        return paragraphs
+        suffix = self.sap_path.suffix.lower()
+        if suffix == ".docx":
+            doc = Document(self.sap_path)
+            paragraphs = []
+            for para in doc.paragraphs:
+                text = para.text.strip()
+                if text:
+                    paragraphs.append(text)
+            return paragraphs
+        elif suffix == ".pdf":
+            from pypdf import PdfReader
+            paragraphs = []
+            reader = PdfReader(self.sap_path)
+            for page in reader.pages:
+                text = page.extract_text()
+                if text:
+                    for line in text.split("\n"):
+                        clean_line = line.strip()
+                        if clean_line:
+                            paragraphs.append(clean_line)
+            return paragraphs
+        else:
+            raise ValueError(f"Unsupported file format: {suffix}")
 
     def extract_full_text(self) -> str:
         """Extract full text content."""

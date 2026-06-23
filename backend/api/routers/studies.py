@@ -34,6 +34,23 @@ def get_user_id(request: Request) -> UUID:
     return UUID(user_id) if isinstance(user_id, str) else user_id
 
 
+async def check_study_active(
+    study_id: UUID,
+    tenant_id: UUID,
+    db: AsyncSession,
+) -> None:
+    """Check if study is active. Raise 400 Bad Request if not."""
+    repo = StudyRepository(db)
+    study = await repo.get_by_id(tenant_id, study_id)
+    if not study:
+        raise HTTPException(status_code=404, detail="Study not found")
+    if study.status != "active":
+        raise HTTPException(
+            status_code=400,
+            detail="Operations on this study are restricted because its status is not active."
+        )
+
+
 @router.get("", response_model=List[StudyResponse])
 async def list_studies(
     request: Request,
@@ -212,6 +229,19 @@ async def update_study(
 ):
     """Update a study."""
     repo = StudyRepository(db)
+    current = await repo.get_by_id(tenant_id, study_id)
+    if not current:
+        raise HTTPException(status_code=404, detail="Study not found")
+
+    if current.status != "active":
+        if (study.name is not None and study.name != current.name) or \
+           (study.protocol_id is not None and study.protocol_id != current.protocol_id) or \
+           (study.description is not None and study.description != current.description):
+            raise HTTPException(
+                status_code=400,
+                detail="Only the status can be modified when the study is not active."
+            )
+
     updated = await repo.update(
         tenant_id=tenant_id,
         study_id=study_id,
@@ -233,6 +263,16 @@ async def delete_study(
     db: AsyncSession = Depends(get_db),
 ):
     """Delete a study permanently along with its cloud files (Datasets, SAP, TLF Reports)."""
+    repo = StudyRepository(db)
+    current = await repo.get_by_id(tenant_id, study_id)
+    if not current:
+        raise HTTPException(status_code=404, detail="Study not found")
+    if current.status != "active":
+        raise HTTPException(
+            status_code=400,
+            detail="Cannot delete study when its status is not active."
+        )
+
     # 1. 查找所有云端关联文件 Key
     from backend.db.models import SAPDocument
     

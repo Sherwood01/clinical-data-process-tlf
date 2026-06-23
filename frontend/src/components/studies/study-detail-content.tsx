@@ -11,7 +11,7 @@ import { DatasetUpload } from "./dataset-upload";
 import { SAPUpload } from "./sap-upload";
 import { TOCSelector } from "./toc-selector";
 import { TLFGenerator } from "./tlf-generator";
-import { Eye, FileText, Copy, X, Loader2 } from "lucide-react";
+import { Eye, FileText, Copy, X, Loader2, RefreshCw } from "lucide-react";
 
 type Tab = "overview" | "datasets" | "sap" | "tlf" | "history";
 
@@ -39,6 +39,22 @@ export default function StudyDetailContent() {
     }
     fetchStudyData();
   }, [session.loading, session, studyId]);
+
+  // 当有运行中的任务时，每 3 秒自动轮询刷新数据
+  useEffect(() => {
+    if (!studyId) return;
+    const hasRunning = tlfJobs.some((job) => job.status === "running");
+
+    if (!hasRunning) return;
+
+    const intervalId = setInterval(() => {
+      fetchStudyData();
+    }, 3000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [tlfJobs, studyId]);
 
   async function fetchStudyData() {
     if (!studyId) return;
@@ -89,7 +105,7 @@ export default function StudyDetailContent() {
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
-              onClick={() => router.push("/dashboard")}
+              onClick={() => router.push("/studies")}
               className="text-sm text-gray-500 hover:text-gray-700"
             >
               &larr; Back
@@ -108,7 +124,7 @@ export default function StudyDetailContent() {
 
       {/* Tab navigation */}
       <div className="border-b bg-white">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 flex justify-between items-center">
           <nav className="-mb-px flex gap-6">
             {tabs.map((tab) => (
               <button
@@ -124,6 +140,15 @@ export default function StudyDetailContent() {
               </button>
             ))}
           </nav>
+
+          <button
+            onClick={() => fetchStudyData()}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-600 hover:text-blue-600 border border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50/50 rounded-lg shadow-sm transition-all"
+            title="Refresh current study data"
+          >
+            <RefreshCw className="h-3.5 w-3.5" />
+            Refresh
+          </button>
         </div>
       </div>
 
@@ -140,6 +165,7 @@ export default function StudyDetailContent() {
                 tlfJobs={tlfJobs}
                 onRefresh={() => fetchStudyData()}
                 getAccessToken={getAccessToken}
+                isStudyActive={study?.status === "active"}
               />
             )}
             {activeTab === "datasets" && (
@@ -148,6 +174,7 @@ export default function StudyDetailContent() {
                 datasets={datasets}
                 onRefresh={() => fetchStudyData()}
                 getAccessToken={getAccessToken}
+                isStudyActive={study?.status === "active"}
               />
             )}
             {activeTab === "sap" && (
@@ -157,6 +184,7 @@ export default function StudyDetailContent() {
                 tocEntries={tocEntries}
                 onRefresh={() => fetchStudyData()}
                 getAccessToken={getAccessToken}
+                isStudyActive={study?.status === "active"}
               />
             )}
             {activeTab === "tlf" && (
@@ -166,6 +194,8 @@ export default function StudyDetailContent() {
                 jobs={tlfJobs}
                 onRefresh={() => fetchStudyData()}
                 getAccessToken={getAccessToken}
+                isStudyActive={study?.status === "active"}
+                onNavigateToTab={setActiveTab}
               />
             )}
             {activeTab === "history" && (
@@ -254,68 +284,70 @@ function TLFHistory({
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b">
             <tr>
+              <th className="text-left px-4 py-3 font-medium text-gray-600">TLF ID</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600">Job ID</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">TOC Entry</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Status</th>
+              <th className="text-left px-4 py-3 font-medium text-gray-600">TOC Name</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600">Progress</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600">Created</th>
-              <th className="text-center px-4 py-3 font-medium text-gray-600">Preview</th>
-              <th className="text-right px-4 py-3 font-medium text-gray-600">Actions</th>
+              <th className="text-right px-4 py-3 font-medium text-gray-600">Status</th>
             </tr>
           </thead>
           <tbody className="divide-y">
             {jobs.map((job: any) => (
               <tr key={job.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 font-mono text-xs">{job.id.slice(0, 8)}...</td>
-                <td className="px-4 py-3">{job.tlf_id || job.tlf_name || "-"}</td>
-                <td className="px-4 py-3">
-                  <StatusBadge
-                    status={job.status}
-                    onClick={() => {
-                      if (job.status === "failed") {
-                        setFailedJobLog(job);
-                      }
-                    }}
-                  />
+                {/* 1. TLF ID */}
+                <td className="px-4 py-3 font-mono text-xs font-semibold text-gray-800">
+                  {job.tlf_id || "-"}
                 </td>
+                {/* 2. Job ID */}
+                <td className="px-4 py-3 font-mono text-xs text-gray-400">
+                  {job.id.slice(0, 8)}...
+                </td>
+                {/* 3. TOC Name */}
+                <td className="px-4 py-3 text-gray-700 font-medium">
+                  {job.tlf_name || "-"}
+                </td>
+                {/* 4. Progress */}
                 <td className="px-4 py-3 font-medium text-gray-700">
                   {job.progress != null ? `${Math.round(job.progress * 100)}%` : "-"}
                 </td>
+                {/* 5. Created */}
                 <td className="px-4 py-3 text-gray-500 text-xs font-medium">
                   {job.created_at ? new Date(job.created_at).toLocaleString() : "-"}
                 </td>
-                <td className="px-4 py-3 text-center">
-                  {job.status === "completed" ? (
-                    <button
-                      onClick={() => handlePreview(job)}
-                      className="inline-flex items-center gap-1 border border-gray-300 hover:bg-gray-50 text-gray-700 px-2.5 py-1 rounded text-xs font-semibold shadow-sm transition-all"
-                    >
-                      <Eye className="h-3 w-3 text-gray-500" /> Preview
-                    </button>
-                  ) : (
-                    <span className="text-gray-300">-</span>
-                  )}
-                </td>
+                {/* 6. Status (最后一列，具备 Completed 预览和 Failed 查看日志的交互) */}
                 <td className="px-4 py-3 text-right">
-                  {job.status === "completed" ? (
-                    <button
-                      onClick={() =>
-                        router.push(`/studies/${studyId}/tlf/${job.id}`)
+                  {(() => {
+                    const styles: Record<string, string> = {
+                      pending: "bg-gray-100 text-gray-500 border-gray-200",
+                      running: "bg-blue-100 text-blue-700 border-blue-200",
+                      completed: "bg-green-100 text-green-700 border-green-200 hover:bg-green-200 cursor-pointer",
+                      failed: "bg-red-100 text-red-700 border-red-200 hover:bg-red-200 cursor-pointer",
+                    };
+
+                    const handleClick = () => {
+                      if (job.status === "completed") {
+                        handlePreview(job);
+                      } else if (job.status === "failed") {
+                        setFailedJobLog(job);
                       }
-                      className="text-blue-600 hover:underline text-xs font-semibold"
-                    >
-                      View Detail
-                    </button>
-                  ) : job.status === "failed" && job.error_message ? (
-                    <button
-                      onClick={() => setFailedJobLog(job)}
-                      className="text-xs text-red-500 hover:underline font-semibold"
-                    >
-                      View Log
-                    </button>
-                  ) : (
-                    <span className="text-gray-300">-</span>
-                  )}
+                    };
+
+                    return (
+                      <span
+                        onClick={handleClick}
+                        className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold border select-none transition-all ${
+                          styles[job.status] || "bg-gray-100 text-gray-500 border-gray-200"
+                        }`}
+                        title={
+                          job.status === "completed" ? "Click to preview PDF report" :
+                          job.status === "failed" ? "Click to view failure logs" : undefined
+                        }
+                      >
+                        {job.status === "completed" ? "generated" : job.status}
+                      </span>
+                    );
+                  })()}
                 </td>
               </tr>
             ))}
@@ -325,10 +357,10 @@ function TLFHistory({
 
       {/* PDF Preview Modal */}
       {previewJob && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col animate-in fade-in zoom-in duration-200">
+        <div className="fixed inset-0 bg-white z-50 flex flex-col animate-in fade-in duration-200">
+          <div className="w-full h-full flex flex-col">
             {/* Header */}
-            <div className="px-6 py-4 border-b flex justify-between items-center bg-gray-50 rounded-t-xl">
+            <div className="px-6 py-4 border-b flex justify-between items-center bg-gray-50 animate-in fade-in">
               <div>
                 <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
                   <FileText className="h-5 w-5 text-blue-600" /> Report Preview: {previewJob.tlf_id}
@@ -344,25 +376,27 @@ function TLFHistory({
             </div>
 
             {/* Content */}
-            <div className="flex-1 overflow-auto p-6 bg-gray-100/50 flex flex-col justify-center items-center min-h-[400px]">
+            <div className="flex-1 bg-gray-100/50 flex flex-col p-6 overflow-hidden">
               {previewLoading ? (
-                <div className="flex flex-col items-center gap-3 py-20 text-gray-500">
+                <div className="flex flex-col items-center justify-center flex-1 gap-3 py-20 text-gray-500">
                   <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
                   <p className="text-sm font-medium">Fetching report from cloud storage...</p>
                 </div>
               ) : pdfBlobUrl ? (
                 <iframe
                   src={pdfBlobUrl}
-                  className="w-full h-[60vh] border rounded-lg shadow-inner bg-white"
+                  className="w-full h-full flex-1 border rounded-lg shadow-inner bg-white"
                   title="PDF Preview"
                 />
               ) : (
-                <p className="text-red-500 font-semibold">Failed to load report PDF preview.</p>
+                <div className="flex flex-col items-center justify-center flex-1 text-red-500 font-semibold">
+                  Failed to load report PDF preview.
+                </div>
               )}
             </div>
 
             {/* Footer */}
-            <div className="px-6 py-4 border-t bg-gray-50 rounded-b-xl flex justify-end gap-3">
+            <div className="px-6 py-4 border-t bg-gray-50 flex justify-end gap-3">
               {pdfBlobUrl && (
                 <a
                   href={pdfBlobUrl}

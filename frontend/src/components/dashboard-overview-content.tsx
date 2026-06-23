@@ -173,9 +173,9 @@ export default function DashboardOverviewContent() {
                 </div>
 
                 <div className="border-t border-gray-100 pt-4 mt-6 flex justify-between text-xs text-gray-400">
-                  <span>Active Ratio:</span>
+                  <span>Complete Ratio:</span>
                   <span className="font-semibold text-blue-600">
-                    {stats?.total_studies > 0 ? `${Math.round(((stats?.status_counts?.active || 0) / stats.total_studies) * 100)}%` : "0%"}
+                    {stats?.total_studies > 0 ? `${Math.round(((stats?.status_counts?.completed || 0) / stats.total_studies) * 100)}%` : "0%"}
                   </span>
                 </div>
               </div>

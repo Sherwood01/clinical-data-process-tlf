@@ -12,6 +12,7 @@ interface StudyOverviewProps {
   tlfJobs: any[];
   onRefresh: () => void;
   getAccessToken: () => Promise<string | undefined>;
+  isStudyActive: boolean;
 }
 
 export function StudyOverview({
@@ -21,6 +22,7 @@ export function StudyOverview({
   tlfJobs,
   onRefresh,
   getAccessToken,
+  isStudyActive,
 }: StudyOverviewProps) {
   const router = useRouter();
   const generatedCount = tocEntries.filter((e: any) => e.is_generated).length;
@@ -36,6 +38,11 @@ export function StudyOverview({
   
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<{
+    title: string;
+    message: string;
+    onConfirm: () => void;
+  } | null>(null);
 
   // 同步 Study 数据
   useEffect(() => {
@@ -83,34 +90,33 @@ export function StudyOverview({
     }
   };
 
-  const handleDelete = async () => {
-    const confirmed = window.confirm(
-      "WARNING: This action is permanent!\n\n" +
-      "Deleting this study will delete all datasets, SAP documents, parsed TOC entries, and all generated TLF reports (both in database and in storage).\n\n" +
-      "Are you sure you want to proceed?"
-    );
-    if (!confirmed) return;
-
-    setDeleting(true);
-    try {
-      const token = await getAccessToken();
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/studies/${study.id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (res.ok) {
-        router.push("/dashboard");
-      } else {
-        const text = await res.text();
-        alert(`Failed to delete study: ${text}`);
+  const handleDelete = () => {
+    setConfirmDialog({
+      title: "Delete Study",
+      message: "WARNING: This action is permanent! Deleting this study will delete all datasets, SAP documents, parsed TOC entries, and all generated TLF reports (both in database and in storage). Are you sure you want to proceed?",
+      onConfirm: async () => {
+        setDeleting(true);
+        try {
+          const token = await getAccessToken();
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/studies/${study.id}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (res.ok) {
+            router.push("/studies");
+          } else {
+            const text = await res.text();
+            alert(`Failed to delete study: ${text}`);
+          }
+        } catch (err: any) {
+          alert(`Error deleting study: ${err.message}`);
+        } finally {
+          setDeleting(false);
+        }
       }
-    } catch (err: any) {
-      alert(`Error deleting study: ${err.message}`);
-    } finally {
-      setDeleting(false);
-    }
+    });
   };
 
   const statCards = [
@@ -195,7 +201,8 @@ export function StudyOverview({
                 type="text"
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                disabled={!isStudyActive}
+                className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium disabled:bg-gray-100 disabled:text-gray-500"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -205,7 +212,8 @@ export function StudyOverview({
                   type="text"
                   value={editProtocol}
                   onChange={(e) => setEditProtocol(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                  disabled={!isStudyActive}
+                  className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium disabled:bg-gray-100 disabled:text-gray-500"
                 />
               </div>
               <div>
@@ -226,8 +234,9 @@ export function StudyOverview({
               <textarea
                 value={editDescription}
                 onChange={(e) => setEditDescription(e.target.value)}
+                disabled={!isStudyActive}
                 rows={3}
-                className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-500"
               />
             </div>
           </div>
@@ -282,13 +291,52 @@ export function StudyOverview({
           </div>
           <button
             onClick={handleDelete}
-            disabled={deleting}
-            className="flex items-center justify-center gap-1.5 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white px-4 py-2.5 rounded-lg text-xs font-bold shadow-sm transition-all shrink-0 hover:-translate-y-0.5 active:translate-y-0"
+            disabled={deleting || !isStudyActive}
+            className="flex items-center justify-center gap-1.5 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white px-4 py-2.5 rounded-lg text-xs font-bold shadow-sm transition-all shrink-0 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:hover:translate-y-0"
           >
             <Trash2 className="h-4 w-4" /> {deleting ? "Deleting Study..." : "Delete Study"}
           </button>
         </div>
       </div>
+
+      {confirmDialog && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md flex flex-col animate-in zoom-in-95 duration-200 overflow-hidden text-left">
+            {/* Header */}
+            <div className="px-6 py-4 border-b flex justify-between items-center bg-gray-50">
+              <h3 className="font-bold text-gray-900 text-base">{confirmDialog.title}</h3>
+              <button 
+                onClick={() => setConfirmDialog(null)} 
+                className="text-gray-400 hover:text-gray-600 font-bold p-1 hover:bg-gray-100 rounded text-sm transition-all"
+              >
+                ✕
+              </button>
+            </div>
+            {/* Content */}
+            <div className="p-6 text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+              {confirmDialog.message}
+            </div>
+            {/* Footer */}
+            <div className="px-6 py-4 border-t bg-gray-50 flex justify-end gap-3">
+              <button 
+                onClick={() => setConfirmDialog(null)} 
+                className="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg font-semibold text-sm transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  confirmDialog.onConfirm();
+                  setConfirmDialog(null);
+                }}
+                className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-semibold text-sm transition-all"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -6,7 +6,7 @@ import tempfile
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, Request, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException, Request, UploadFile, File, Response
 from sqlalchemy import select, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -22,6 +22,7 @@ from backend.api.schemas.sap import (
 from backend.db.models import SAPDocument, TOCEntry, TLFJob
 from backend.db.session import get_db
 from backend.storage import storage
+from backend.api.routers.studies import check_study_active
 
 router = APIRouter(prefix="/studies/{study_id}/sap")
 
@@ -109,6 +110,7 @@ async def upload_sap_file(
     db: AsyncSession = Depends(get_db),
 ):
     """Upload SAP file through API proxy (no presigned URL needed)."""
+    await check_study_active(study_id, tenant_id, db)
     content = await file.read()
     filename = file.filename or "sap.docx"
 
@@ -245,8 +247,10 @@ async def start_sap_upload(
     study_id: UUID,
     request: Request,
     tenant_id: UUID = Depends(get_tenant_id),
+    db: AsyncSession = Depends(get_db),
 ):
     """Step 1: Get a presigned URL for direct SAP upload to MinIO."""
+    await check_study_active(study_id, tenant_id, db)
     filename = "sap.docx"
     upload_url = await storage.get_presigned_upload_url(
         tenant_id=str(tenant_id),
@@ -267,6 +271,7 @@ async def complete_sap_upload(
     db: AsyncSession = Depends(get_db),
 ):
     """Step 2: After upload, download from MinIO, parse TOC, store entries."""
+    await check_study_active(study_id, tenant_id, db)
     # Download SAP from MinIO to temp file
     data = await storage.download_file(str(tenant_id), req.object_key)
     suffix = os.path.splitext(req.original_filename)[1] or ".docx"
@@ -411,6 +416,56 @@ async def download_sap_document(
         )
 
 
+@router.get("/{sap_id}/file")
+async def get_sap_document_file(
+    study_id: UUID,
+    sap_id: UUID,
+    tenant_id: UUID = Depends(get_tenant_id),
+    db: AsyncSession = Depends(get_db),
+):
+    """直接流式返回 SAP 文档的二进制内容，绕过前端跨域限制。
+
+    参数:
+        study_id: 项目ID
+        sap_id: SAP文档ID
+        tenant_id: 租户ID
+        db: 数据库异步会话
+    """
+    result = await db.execute(
+        select(SAPDocument).where(
+            SAPDocument.id == sap_id,
+            SAPDocument.study_id == study_id,
+            SAPDocument.tenant_id == tenant_id,
+        )
+    )
+    doc = result.scalars().first()
+    if not doc:
+        raise HTTPException(status_code=404, detail="SAP document not found")
+
+    try:
+        content = await storage.download_file(str(tenant_id), doc.minio_object_key)
+        filename = doc.original_filename or "document.docx"
+        content_type = "application/octet-stream"
+        if filename.lower().endswith(".docx"):
+            content_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        elif filename.lower().endswith(".pdf"):
+            content_type = "application/pdf"
+
+        return Response(
+            content=content,
+            media_type=content_type,
+            headers={
+                "Content-Disposition": f'inline; filename="{filename}"'
+            }
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to fetch document content: {str(exc)}",
+        )
+
+
+
 @router.get("/toc", response_model=List[TOCEntryResponse])
 async def list_toc_entries(
     study_id: UUID,
@@ -435,6 +490,7 @@ async def delete_sap_document(
     db: AsyncSession = Depends(get_db),
 ):
     """Delete an SAP document, its parsed TOC entries, and its file in MinIO."""
+    await check_study_active(study_id, tenant_id, db)
     result = await db.execute(
         select(SAPDocument).where(
             SAPDocument.id == sap_id,
@@ -489,6 +545,7 @@ async def update_sap_document(
     tenant_id: UUID = Depends(get_tenant_id),
     db: AsyncSession = Depends(get_db),
 ):
+    await check_study_active(study_id, tenant_id, db)
     """Rename an SAP document."""
     result = await db.execute(
         select(SAPDocument)
@@ -553,6 +610,7 @@ async def update_toc_entry(
     tenant_id: UUID = Depends(get_tenant_id),
     db: AsyncSession = Depends(get_db),
 ):
+    await check_study_active(study_id, tenant_id, db)
     """Update a specific parsed TOC entry's properties."""
     result = await db.execute(
         select(TOCEntry).where(
@@ -589,6 +647,7 @@ async def delete_toc_entry(
     tenant_id: UUID = Depends(get_tenant_id),
     db: AsyncSession = Depends(get_db),
 ):
+    await check_study_active(study_id, tenant_id, db)
     """Delete a specific TOC entry."""
     result = await db.execute(
         select(TOCEntry).where(

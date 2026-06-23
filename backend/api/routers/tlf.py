@@ -11,10 +11,11 @@ from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.api.schemas.tlf import TLFJobResponse, TLFGenerateRequest
-from backend.db.models import TLFJob
+from backend.db.models import TLFJob, TOCEntry
 from backend.db.session import get_db
 from backend.storage import storage
 from backend.core.config import settings
+from backend.api.routers.studies import check_study_active
 
 router = APIRouter(prefix="/studies/{study_id}/tlf")
 
@@ -103,14 +104,28 @@ async def generate_tlf(
     Local dev: dispatches to Celery worker.
     Cloud Run: dispatches to HTTP worker (configured via WORKER_HTTP_URL).
     """
+    await check_study_active(study_id, tenant_id, db)
+    
+    # 联动查询对应的 TOCEntry 获取详细信息，避免字段为空
+    toc_entry = None
+    if req.toc_entry_id:
+        toc_result = await db.execute(
+            select(TOCEntry).where(
+                TOCEntry.id == req.toc_entry_id,
+                TOCEntry.study_id == study_id,
+                TOCEntry.tenant_id == tenant_id,
+            )
+        )
+        toc_entry = toc_result.scalar_one_or_none()
+
     # Create DB record
     job = TLFJob(
         study_id=study_id,
         tenant_id=tenant_id,
         toc_entry_id=req.toc_entry_id,
-        tlf_id=req.tlf_id or "",
-        tlf_type=req.tlf_type or "table",
-        tlf_name=req.tlf_name or "",
+        tlf_id=req.tlf_id or (toc_entry.tlf_id if toc_entry else ""),
+        tlf_type=req.tlf_type or (toc_entry.tlf_type if toc_entry else "table"),
+        tlf_name=req.tlf_name or (toc_entry.tlf_name if toc_entry else ""),
     )
     db.add(job)
     await db.commit()

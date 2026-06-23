@@ -180,6 +180,32 @@ async def generate_tlf(req: TLFGenerateRequest):
             content_type="application/pdf",
         )
 
+        # Clean up old completed jobs and output files for the same TOC entry
+        try:
+            old_jobs = (
+                db.query(TLFJob)
+                .filter(
+                    TLFJob.study_id == req.study_id,
+                    TLFJob.tenant_id == req.tenant_id,
+                    TLFJob.toc_entry_id == req.toc_entry_id,
+                    TLFJob.status == "completed",
+                    TLFJob.id != req.job_id,
+                )
+                .all()
+            )
+            for old_job in old_jobs:
+                old_outputs = db.query(TLFOutput).filter(TLFOutput.job_id == old_job.id).all()
+                for old_output in old_outputs:
+                    try:
+                        storage.delete_file_sync(req.tenant_id, old_output.minio_object_key)
+                    except Exception as e:
+                        logger.error(f"Failed to delete old physical output file {old_output.minio_object_key}: {e}")
+                    db.delete(old_output)
+                db.delete(old_job)
+            db.commit()
+        except Exception as e:
+            logger.error(f"Error during cleaning up old TLF reports: {e}")
+
         # 6. Create TLFOutput record
         output = TLFOutput(
             job_id=req.job_id,

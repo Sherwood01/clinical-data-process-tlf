@@ -9,6 +9,8 @@ interface TLFGeneratorProps {
   jobs: any[];
   onRefresh: () => void;
   getAccessToken: () => Promise<string | undefined>;
+  isStudyActive: boolean;
+  onNavigateToTab?: (tab: any) => void;
 }
 
 export function TLFGenerator({
@@ -17,6 +19,8 @@ export function TLFGenerator({
   jobs,
   onRefresh,
   getAccessToken,
+  isStudyActive,
+  onNavigateToTab,
 }: TLFGeneratorProps) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [generating, setGenerating] = useState(false);
@@ -132,6 +136,12 @@ export function TLFGenerator({
         </div>
       )}
 
+      {!isStudyActive && (
+        <div className="bg-gray-100 border border-gray-200 rounded-lg p-4 mb-6 text-sm text-gray-500">
+          This study is not active. Generating reports is disabled.
+        </div>
+      )}
+
       {/* Error */}
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
@@ -160,9 +170,9 @@ export function TLFGenerator({
               {/* Top Generate button — always visible */}
               <button
                 onClick={handleGenerate}
-                disabled={selectedIds.size === 0 || generating}
+                disabled={selectedIds.size === 0 || generating || !isStudyActive}
                 className={`shrink-0 ml-4 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  selectedIds.size === 0 || generating
+                  selectedIds.size === 0 || generating || !isStudyActive
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                     : "bg-blue-600 text-white hover:bg-blue-700"
                 }`}
@@ -176,6 +186,11 @@ export function TLFGenerator({
               entries={tocEntries}
               selectedIds={selectedIds}
               onSelectionChange={setSelectedIds}
+              isStudyActive={isStudyActive}
+              jobs={jobs}
+              studyId={studyId}
+              getAccessToken={getAccessToken}
+              onNavigateToTab={onNavigateToTab}
             />
           </div>
 
@@ -183,9 +198,9 @@ export function TLFGenerator({
           <div className="flex items-center justify-between">
             <button
               onClick={handleGenerate}
-              disabled={selectedIds.size === 0 || generating}
+              disabled={selectedIds.size === 0 || generating || !isStudyActive}
               className={`px-6 py-3 rounded-lg text-sm font-medium transition-colors ${
-                selectedIds.size === 0 || generating
+                selectedIds.size === 0 || generating || !isStudyActive
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : "bg-blue-600 text-white hover:bg-blue-700"
               }`}

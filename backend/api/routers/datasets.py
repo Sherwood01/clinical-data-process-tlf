@@ -19,6 +19,7 @@ from backend.api.schemas.dataset import (
 from backend.db.models import Dataset
 from backend.db.session import get_db
 from backend.storage import storage
+from backend.api.routers.studies import check_study_active
 
 router = APIRouter(prefix="/studies/{study_id}/datasets")
 
@@ -76,6 +77,7 @@ async def upload_dataset_file(
     The browser POSTs the file directly to this endpoint, which uploads
     to GCS via the Python SDK and extracts dataset metadata.
     """
+    await check_study_active(study_id, tenant_id, db)
     content = await file.read()
     filename = file.filename or "dataset.sas7bdat"
 
@@ -190,8 +192,10 @@ async def start_dataset_upload(
     req: DatasetUploadStartRequest,
     request: Request,
     tenant_id: UUID = Depends(get_tenant_id),
+    db: AsyncSession = Depends(get_db),
 ):
     """Step 1: Get a presigned URL for direct upload to MinIO."""
+    await check_study_active(study_id, tenant_id, db)
     suffix = ".sas7bdat"
     if req.filename:
         suffix = os.path.splitext(req.filename)[1] or ".sas7bdat"
@@ -215,6 +219,7 @@ async def complete_dataset_upload(
     db: AsyncSession = Depends(get_db),
 ):
     """Step 2: After client uploads to MinIO, extract metadata and create record."""
+    await check_study_active(study_id, tenant_id, db)
     bucket = storage._bucket_name(str(tenant_id))
 
     # Check and delete existing dataset with the same name (Replace)
@@ -307,6 +312,7 @@ async def delete_dataset(
     db: AsyncSession = Depends(get_db),
 ):
     """Delete a dataset and its source file from cloud storage."""
+    await check_study_active(study_id, tenant_id, db)
     result = await db.execute(
         select(Dataset).where(
             Dataset.id == dataset_id,
@@ -381,7 +387,7 @@ async def preview_dataset(
                         clean_row[k] = v.item()
                     else:
                         clean_row[k] = v
-                    records.append(clean_row)
+                records.append(clean_row)
 
             return {
                 "columns": list(df.columns),
