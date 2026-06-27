@@ -7,8 +7,8 @@ RUN apt-get update \
     && apt-get install -y build-essential libopenblas-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements-worker.txt .
+RUN pip install --no-cache-dir -r requirements-worker.txt
 
 COPY backend/ /app/backend/
 COPY src/ /app/src/

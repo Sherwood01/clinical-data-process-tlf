@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.core.config import settings
 from backend.core.logging import setup_logging
 from backend.api.middleware.auth import AuthMiddleware
-from backend.api.routers import studies, datasets, sap, tlf, users
+from backend.api.routers import studies, datasets, sap, tlf, users, billing
 
 # SuperTokens ASGI middleware — handles /api/v1/auth/* routes
 from supertokens_python.framework.fastapi import get_middleware
@@ -54,6 +54,7 @@ app.include_router(studies.router, prefix="/api/v1", tags=["studies"])
 app.include_router(datasets.router, prefix="/api/v1", tags=["datasets"])
 app.include_router(sap.router, prefix="/api/v1", tags=["sap"])
 app.include_router(tlf.router, prefix="/api/v1", tags=["tlf"])
+app.include_router(billing.router, prefix="/api/v1", tags=["billing"])
 app.include_router(users.router)
 
 

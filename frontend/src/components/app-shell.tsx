@@ -2,6 +2,7 @@
 
 import { Sidebar } from "@/components/sidebar";
 import { TopNav } from "@/components/top-nav";
+import { UpgradeModal } from "@/components/billing/upgrade-modal";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {children}
         </main>
       </div>
+      <UpgradeModal />
     </div>
   );
 }
+

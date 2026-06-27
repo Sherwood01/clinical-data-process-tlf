@@ -9,6 +9,22 @@ from datetime import timedelta, datetime
 from pathlib import Path
 from typing import BinaryIO, Optional
 
+import sys
+import pkgutil
+
+# 动态修复 google 命名空间包，防止因依赖库冲突导致命名空间断裂
+try:
+    import google
+    google.__path__ = pkgutil.extend_path(google.__path__, google.__name__)
+except Exception:
+    pass
+
+try:
+    import google.cloud
+    google.cloud.__path__ = pkgutil.extend_path(google.cloud.__path__, google.cloud.__name__)
+except Exception:
+    pass
+
 from google.cloud import storage as gcs
 from google.cloud.storage.retry import DEFAULT_RETRY
 

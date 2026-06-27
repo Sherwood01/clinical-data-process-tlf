@@ -24,6 +24,13 @@ class Tenant(Base):
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
     updated_at = Column(DateTime(timezone=True), default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    # 租户订阅与配额管理字段
+    plan_type = Column(String(50), default="free")  # 订阅套餐 ('free', 'plus', 'enterprise')
+    lemon_subscription_id = Column(String(255), nullable=True)  # Lemon Squeezy 订阅唯一标识
+    subscription_status = Column(String(100), nullable=True)  # 订阅状态 ('active', 'past_due', etc.)
+    current_period_end = Column(DateTime(timezone=True), nullable=True)  # 当前账期结束时间
+    monthly_usage_count = Column(Integer, default=0)  # 本月已生成报告次数
+
     studies = relationship("Study", back_populates="tenant")
 
 
@@ -39,6 +46,13 @@ class User(Base):
     last_login_at = Column(DateTime(timezone=True))
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
     updated_at = Column(DateTime(timezone=True), default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # 个人订阅与配额管理字段
+    plan_type = Column(String(50), default="free")  # 个人订阅套餐 ('free', 'pro')
+    lemon_subscription_id = Column(String(255), nullable=True)  # 个人订阅唯一标识
+    subscription_status = Column(String(100), nullable=True)  # 订阅状态 ('active', 'past_due', etc.)
+    current_period_end = Column(DateTime(timezone=True), nullable=True)  # 当前账期结束时间
+    monthly_usage_count = Column(Integer, default=0)  # 本月已生成报告次数 (用于个人额度)
 
 
 class Study(Base):

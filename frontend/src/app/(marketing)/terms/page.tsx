@@ -1,0 +1,124 @@
+"use client";
+
+import Link from "next/link";
+import { ArrowLeft, FileText, Calendar, Shield } from "lucide-react";
+
+/**
+ * 平台服务协议条款页面组件 (Terms of Service)。
+ * 渲染符合 Creem 商家合规性审核的英文服务协议，使用精美的卡片渐变及现代排版设计。
+ */
+export default function TermsOfServicePage() {
+  return (
+    <div className="min-h-screen bg-gray-50/50 dark:bg-gray-900/10 py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto">
+        {/* 返回首页 */}
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors mb-8 group"
+        >
+          <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
+          Back to Homepage
+        </Link>
+
+        {/* 协议主卡片 */}
+        <div className="bg-white dark:bg-gray-950 border border-gray-100 dark:border-gray-800 rounded-3xl p-8 md:p-12 shadow-xl shadow-gray-100/40 dark:shadow-none relative overflow-hidden">
+          {/* 背景彩光微点缀 */}
+          <div className="absolute top-0 right-0 h-40 w-40 bg-indigo-500/5 rounded-full blur-3xl" />
+          
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400">
+              <FileText className="h-5 w-5" />
+            </div>
+            <span className="text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+              Legal Agreement
+            </span>
+          </div>
+
+          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+            Terms of Service
+          </h1>
+
+          <div className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 mt-3 mb-8">
+            <Calendar className="h-3.5 w-3.5" />
+            Last Updated: June 24, 2026
+          </div>
+
+          {/* 条款正文 */}
+          <div className="prose prose-indigo dark:prose-invert max-w-none text-sm text-gray-600 dark:text-gray-400 space-y-6 leading-relaxed">
+            <p>
+              Welcome to TLF Report Generator (the &quot;Service&quot;), operated at{" "}
+              <a href="https://tlf.xwqin.com" className="text-indigo-600 hover:underline">
+                https://tlf.xwqin.com
+              </a>
+              . By accessing or using our Service, you agree to be bound by these Terms of Service (&quot;Terms&quot;). Please read them carefully.
+            </p>
+
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white pt-2">
+              1. Description of Service
+            </h3>
+            <p>
+              TLF Report Generator is a software-as-a-service (SaaS) platform that assists clinical trial programmers and researchers in parsing Statistical Analysis Plans (SAPs), creating Tables of Contents (TOCs), and generating Tables, Listings, and Figures (TLFs) from uploaded clinical trial datasets.
+            </p>
+
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white pt-2">
+              2. User Accounts and Subscriptions
+            </h3>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>
+                <strong>Eligibility:</strong> You must register for an account to use the Service. You are responsible for maintaining the confidentiality of your credentials.
+              </li>
+              <li>
+                <strong>Billing:</strong> Subscription payments are processed securely by our checkout partner, Creem.
+              </li>
+              <li>
+                <strong>Cancellation:</strong> You may cancel your subscription at any time via the Customer Billing Portal. Your access to paid features will continue until the end of the current billing cycle.
+              </li>
+            </ul>
+
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white pt-2">
+              3. Data Ownership and Confidentiality
+            </h3>
+            <p>
+              You retain full ownership and intellectual property rights in all data, SAP documents, and datasets uploaded to the Service (&quot;User Content&quot;). We do not claim any ownership rights over your clinical content. We treat all uploaded trial materials as strictly confidential, implementing industry-standard AES-256 encryption.
+            </p>
+
+            <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-900/50 p-5 rounded-2xl my-6 flex gap-3 text-amber-900 dark:text-amber-300">
+              <Shield className="h-5 w-5 flex-shrink-0 mt-0.5 text-amber-600" />
+              <div>
+                <strong className="block text-sm mb-1 font-bold">4. Clinical Accuracy Disclaimer</strong>
+                <p className="text-xs leading-relaxed">
+                  The Service is an automated helper tool designed to assist clinical programming. All output reports (TLFs) generated by the Service must be reviewed, validated, and verified by qualified biostatisticians or programmers before being submitted to any drug regulatory authority (e.g., FDA, EMA, NMPA). We do not guarantee the clinical accuracy of generated reports and are not liable for any regulatory outcomes or rejection.
+                </p>
+              </div>
+            </div>
+
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white pt-2">
+              5. Limitation of Liability
+            </h3>
+            <p>
+              To the maximum extent permitted by law, TLF Report Generator and its developers shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues resulting from your use of the Service.
+            </p>
+
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white pt-2">
+              6. Governing Law
+            </h3>
+            <p>
+              These Terms shall be governed by and construed in accordance with the laws of your local jurisdiction, without regard to conflict of law principles.
+            </p>
+
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white pt-2">
+              7. Contact Us & Customer Support
+            </h3>
+            <p>
+              If you have any questions or feedback regarding these Terms, or require customer support, please reach out to us at{" "}
+              <a href="mailto:info@xwqin.com" className="text-indigo-600 hover:underline">
+                info@xwqin.com
+              </a>
+              .
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

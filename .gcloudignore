@@ -35,7 +35,8 @@ debug.html
 client-app-impl-output.js
 .draft
 .knowledge/
-knowledge/
+/knowledge/
+!src/knowledge/
 reference/
 *.sas7bdat
 *.xpt

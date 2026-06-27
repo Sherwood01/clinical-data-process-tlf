@@ -135,7 +135,7 @@ export function LandingPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen scroll-smooth">
       {/* Navigation */}
       <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -145,6 +145,23 @@ export function LandingPage() {
             </div>
             <span className="font-semibold">TLF Report</span>
           </div>
+          <nav className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Features
+            </a>
+            <a href="#how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Solutions
+            </a>
+            <a href="#testimonials" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Reviews
+            </a>
+            <a href="#pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Pricing
+            </a>
+            <a href="#contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Contact Us
+            </a>
+          </nav>
           <div className="flex items-center gap-4">
             <a
               href="https://github.com/Sherwood01/clinical-data-process-tlf"
@@ -215,7 +232,7 @@ export function LandingPage() {
       </section>
 
       {/* Features */}
-      <section className="py-20 md:py-28">
+      <section id="features" className="py-20 md:py-28 scroll-mt-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center mb-16">
             <h2 className="text-3xl font-bold tracking-tight">
@@ -248,7 +265,7 @@ export function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section className="border-t bg-muted/30 py-20 md:py-28">
+      <section id="how-it-works" className="border-t bg-muted/30 py-20 md:py-28 scroll-mt-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center mb-16">
             <h2 className="text-3xl font-bold tracking-tight">
@@ -278,7 +295,7 @@ export function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 md:py-28">
+      <section id="testimonials" className="py-20 md:py-28 scroll-mt-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center mb-16">
             <h2 className="text-3xl font-bold tracking-tight">
@@ -305,15 +322,186 @@ export function LandingPage() {
         </div>
       </section>
 
+      {/* 定价订阅方案模块 */}
+      <section id="pricing" className="py-20 md:py-28 border-t bg-muted/10 scroll-mt-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center mb-16">
+            <h2 className="text-3xl font-bold tracking-tight">Subscription Plans & Pricing</h2>
+            <p className="mt-4 text-muted-foreground">
+              Flexible and efficient subscription tiers tailored for clinical programming and biostatistics teams of all sizes.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
+            {/* Free */}
+            <div className="rounded-xl border bg-card p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
+              <div>
+                <h3 className="text-lg font-bold">Free Plan</h3>
+                <p className="text-xs text-muted-foreground mt-1">Ideal for evaluating the platform and initial trial</p>
+                <div className="my-6">
+                  <span className="text-3xl font-extrabold">$0</span>
+                  <span className="text-muted-foreground text-sm"> / Forever</span>
+                </div>
+                <hr className="my-4 border-muted" />
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4.5 w-4.5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>Up to 1 Study project</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4.5 w-4.5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>Up to 10 TLF generation runs / month</span>
+                  </li>
+                  <li className="flex items-start gap-2 opacity-50">
+                    <span>No collaborative team workspaces</span>
+                  </li>
+                  <li className="flex items-start gap-2 opacity-50">
+                    <span>No AI-powered SAP error correction</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-8">
+                <Link
+                  href="/auth/sign-up"
+                  className="block w-full text-center h-10 leading-10 rounded-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors"
+                >
+                  Start for Free
+                </Link>
+              </div>
+            </div>
+
+            {/* Pro */}
+            <div className="rounded-xl border-2 border-primary/50 bg-card p-6 flex flex-col justify-between hover:shadow-md transition-shadow relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded-full shadow-sm">
+                For Individuals
+              </div>
+              <div>
+                <h3 className="text-lg font-bold flex items-center gap-1.5 justify-between">
+                  <span>Pro Plan</span>
+                  <Sparkles className="h-4 w-4 text-primary animate-pulse" />
+                </h3>
+                <p className="text-xs text-muted-foreground mt-1">Recommended for independent biostatisticians and programmers</p>
+                <div className="my-6">
+                  <span className="text-3xl font-extrabold">$29</span>
+                  <span className="text-muted-foreground text-sm"> / Month</span>
+                </div>
+                <hr className="my-4 border-muted" />
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4.5 w-4.5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>Up to 50 Study projects</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4.5 w-4.5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>Up to 500 TLF generation runs / month</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4.5 w-4.5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>Full access to Figures & SAP parsing</span>
+                  </li>
+                  <li className="flex items-start gap-2 opacity-50">
+                    <span>Strictly for single-user workspaces</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-8">
+                <Link
+                  href="/auth/sign-up"
+                  className="block w-full text-center h-10 leading-10 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+                >
+                  Subscribe to Pro
+                </Link>
+              </div>
+            </div>
+
+            {/* Plus */}
+            <div className="rounded-xl border-2 border-purple-500/50 bg-card p-6 flex flex-col justify-between hover:shadow-md transition-shadow relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-purple-500 text-white text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded-full shadow-sm">
+                For Teams
+              </div>
+              <div>
+                <h3 className="text-lg font-bold">Plus Plan</h3>
+                <p className="text-xs text-muted-foreground mt-1">Best for clinical trial groups and CRO departments</p>
+                <div className="my-6">
+                  <span className="text-3xl font-extrabold">$99</span>
+                  <span className="text-muted-foreground text-sm"> / Month</span>
+                </div>
+                <hr className="my-4 border-muted" />
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4.5 w-4.5 text-purple-500 flex-shrink-0 mt-0.5" />
+                    <span>Up to 200 Study projects</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4.5 w-4.5 text-purple-500 flex-shrink-0 mt-0.5" />
+                    <span>Up to 5000 shared TLF runs / month</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4.5 w-4.5 text-purple-500 flex-shrink-0 mt-0.5" />
+                    <span>Collaborative workspaces up to 10 members</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4.5 w-4.5 text-purple-500 flex-shrink-0 mt-0.5" />
+                    <span>AI corrections & DOCX format export unlocked</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-8">
+                <Link
+                  href="/auth/sign-up"
+                  className="block w-full text-center h-10 leading-10 rounded-md text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white transition-colors shadow-sm"
+                >
+                  Subscribe to Plus
+                </Link>
+              </div>
+            </div>
+
+            {/* Enterprise */}
+            <div className="rounded-xl border bg-card p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
+              <div>
+                <h3 className="text-lg font-bold">Enterprise Plan</h3>
+                <p className="text-xs text-muted-foreground mt-1">Dedicated deployment for large CROs & biotechs</p>
+                <div className="my-6">
+                  <span className="text-3xl font-extrabold">Custom</span>
+                  <span className="text-muted-foreground text-sm"> / Annual</span>
+                </div>
+                <hr className="my-4 border-muted" />
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4.5 w-4.5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>Unlimited Studies & collaborators</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4.5 w-4.5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>Dedicated physical / logical isolation</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4.5 w-4.5 text-primary flex-shrink-0 mt-0.5" />
+                    <span>Enterprise SLA & custom Figures support</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-8">
+                <a
+                  href="mailto:info@xwqin.com?subject=Clinical Trial TLF Generator Enterprise Inquiry"
+                  className="block w-full text-center h-10 leading-10 rounded-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors"
+                >
+                  Contact Sales
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="border-t bg-gradient-to-br from-primary/5 via-primary/10 to-purple-500/5">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 text-center">
           <h2 className="text-3xl font-bold tracking-tight mb-4">
-            Ready to get started?
+            Ready to generate clinical trial reports faster?
           </h2>
           <p className="text-muted-foreground mb-8 max-w-md mx-auto">
-            Start generating professional TLF reports for your clinical studies
-            today.
+            Sign up now and start generating publication-quality clinical trial outputs in minutes.
           </p>
           <Link
             href="/auth/sign-up"
@@ -325,8 +513,9 @@ export function LandingPage() {
         </div>
       </section>
 
+
       {/* Footer */}
-      <footer className="border-t py-12">
+      <footer id="contact" className="border-t py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-6">
@@ -346,10 +535,23 @@ export function LandingPage() {
                 <Github className="h-5 w-5" />
               </a>
             </div>
-            <p className="text-sm text-muted-foreground">
-              &copy; {new Date().getFullYear()} TLF Report Generator. All
-              rights reserved.
-            </p>
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="flex gap-6 text-sm text-muted-foreground">
+                <Link href="/terms" className="hover:text-foreground transition-colors">
+                  Terms of Service
+                </Link>
+                <Link href="/privacy" className="hover:text-foreground transition-colors">
+                  Privacy Policy
+                </Link>
+                <a href="mailto:info@xwqin.com?subject=TLF Report Generator Inquiry" className="hover:text-foreground transition-colors">
+                  Support: info@xwqin.com
+                </a>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                &copy; {new Date().getFullYear()} TLF Report Generator. All
+                rights reserved.
+              </p>
+            </div>
           </div>
         </div>
       </footer>

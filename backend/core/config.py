@@ -61,6 +61,10 @@ class Settings(BaseSettings):
     # Storage backend: "minio" (local dev) or "gcs" (Cloud Run)
     STORAGE_BACKEND: str = "minio"
 
+    # Creem 计费配置
+    CREEM_API_KEY: str = ""  # Creem API 密钥
+    CREEM_WEBHOOK_SECRET: str = ""  # Creem Webhook 签名验证密钥
+
     # Temp directory for worker processing
     WORKER_TEMP_DIR: str = "/tmp/tlf-worker"
 

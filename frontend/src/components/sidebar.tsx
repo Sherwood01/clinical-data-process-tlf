@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { LayoutDashboard, FlaskConical, Moon, Sun, LogOut } from "lucide-react";
+import { LayoutDashboard, FlaskConical, CreditCard, Moon, Sun, LogOut } from "lucide-react";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { signOut } from "supertokens-auth-react/recipe/thirdparty";
 import { useTheme } from "@/components/theme-provider";
@@ -11,6 +11,7 @@ import { useUserEmail } from "@/lib/use-user-email";
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/studies", label: "Studies", icon: FlaskConical },
+  { href: "/billing", label: "Billing", icon: CreditCard },
 ];
 
 export function Sidebar() {

@@ -193,6 +193,32 @@ async def create_study(
     db: AsyncSession = Depends(get_db),
 ):
     """Create a new study."""
+    tenant_plan = getattr(request.state, "tenant_plan", "free")
+    user_plan = getattr(request.state, "user_plan", "free")
+    
+    # 结合判断最大有效订阅
+    effective_plan = "free"
+    if tenant_plan in ["plus", "enterprise"]:
+        effective_plan = tenant_plan
+    elif user_plan == "pro":
+        effective_plan = "pro"
+
+    # 根据不同套餐执行 Study 数量控制
+    if effective_plan in ["free", "pro", "plus"]:
+        study_count_res = await db.execute(
+            select(func.count(Study.id)).where(Study.tenant_id == tenant_id)
+        )
+        study_count = study_count_res.scalar() or 0
+
+        limit_map = {"free": 1, "pro": 50, "plus": 200}
+        limit = limit_map.get(effective_plan, 1)
+
+        if study_count >= limit:
+            raise HTTPException(
+                status_code=402,
+                detail=f"当前套餐等级 ({effective_plan}) 最多只能创建 {limit} 个 Study 项目。请升级以解锁更多额度。"
+            )
+
     repo = StudyRepository(db)
     created = await repo.create(
         tenant_id=tenant_id,

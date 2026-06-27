@@ -7,7 +7,7 @@ from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Request, UploadFile, File, Response
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -111,6 +111,22 @@ async def upload_sap_file(
 ):
     """Upload SAP file through API proxy (no presigned URL needed)."""
     await check_study_active(study_id, tenant_id, db)
+
+    # 免费用户单项目最多只能上传 1 个 SAP 大纲
+    if request:
+        tenant_plan = getattr(request.state, "tenant_plan", "free")
+        user_plan = getattr(request.state, "user_plan", "free")
+        if tenant_plan == "free" and user_plan == "free":
+            sap_count_res = await db.execute(
+                select(func.count(SAPDocument.id)).where(SAPDocument.study_id == study_id)
+            )
+            sap_count = sap_count_res.scalar() or 0
+            if sap_count >= 1:
+                raise HTTPException(
+                    status_code=402,
+                    detail="免费用户仅能为一个项目上传 1 个 SAP 大纲文档，请升级至 Pro (个人版) 或 Plus (团队版) 套餐以解锁更多上传数量。"
+                )
+
     content = await file.read()
     filename = file.filename or "sap.docx"
 

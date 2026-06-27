@@ -63,4 +63,30 @@ if (typeof window !== "undefined") {
     },
     recipeList,
   });
+
+  // 全局劫持 window.fetch 以拦截 402 计费超额响应并派发升级事件
+  if (typeof window !== "undefined") {
+    const originalFetch = window.fetch;
+    window.fetch = async function (...args) {
+      const response = await originalFetch(...args);
+      if (response.status === 402) {
+        try {
+          const clone = response.clone();
+          const errData = await clone.json();
+          const message = errData.detail || "您的项目或生成次数已达到当前订阅额度上限。";
+          window.dispatchEvent(
+            new CustomEvent("quota-exceeded", { detail: { message } })
+          );
+        } catch (e) {
+          window.dispatchEvent(
+            new CustomEvent("quota-exceeded", {
+              detail: { message: "您的可用额度已用尽，请升级套餐。" },
+            })
+          );
+        }
+      }
+      return response;
+    };
+  }
 }
+

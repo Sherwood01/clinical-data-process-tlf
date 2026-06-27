@@ -11,11 +11,11 @@ from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.api.schemas.tlf import TLFJobResponse, TLFGenerateRequest
-from backend.db.models import TLFJob, TOCEntry
+from backend.db.models import TLFJob, TOCEntry, Tenant, User
 from backend.db.session import get_db
 from backend.storage import storage
 from backend.core.config import settings
-from backend.api.routers.studies import check_study_active
+from backend.api.routers.studies import check_study_active, get_user_id
 
 router = APIRouter(prefix="/studies/{study_id}/tlf")
 
@@ -97,8 +97,41 @@ async def generate_tlf(
     req: TLFGenerateRequest,
     request: Request,
     tenant_id: UUID = Depends(get_tenant_id),
+    user_id: UUID = Depends(get_user_id),
     db: AsyncSession = Depends(get_db),
 ):
+    """Trigger a TLF generation job."""
+    tenant_plan = getattr(request.state, "tenant_plan", "free")
+    user_plan = getattr(request.state, "user_plan", "free")
+    
+    # 结合判断最大有效订阅
+    effective_plan = "free"
+    if tenant_plan in ["plus", "enterprise"]:
+        effective_plan = tenant_plan
+    elif user_plan == "pro":
+        effective_plan = "pro"
+
+    # 获取当前已用额度
+    user_obj = None
+    tenant_obj = None
+    if effective_plan == "pro":
+        user_res = await db.execute(select(User).where(User.id == user_id))
+        user_obj = user_res.scalar_one_or_none()
+        current_usage = user_obj.monthly_usage_count if user_obj else 0
+    else:
+        tenant_res = await db.execute(select(Tenant).where(Tenant.id == tenant_id))
+        tenant_obj = tenant_res.scalar_one_or_none()
+        current_usage = tenant_obj.monthly_usage_count if tenant_obj else 0
+
+    # 额度控制
+    limit_map = {"free": 10, "pro": 500, "plus": 5000}
+    if effective_plan in ["free", "pro", "plus"]:
+        limit = limit_map.get(effective_plan, 10)
+        if current_usage >= limit:
+            raise HTTPException(
+                status_code=402,
+                detail=f"当前套餐等级 ({effective_plan}) 本月报告生成额度已耗尽 (上限为 {limit} 次)，请前往会员中心升级。"
+            )
     """Trigger a TLF generation job.
 
     Local dev: dispatches to Celery worker.
@@ -128,6 +161,15 @@ async def generate_tlf(
         tlf_name=req.tlf_name or (toc_entry.tlf_name if toc_entry else ""),
     )
     db.add(job)
+    
+    # 扣减/增加已用额度计数
+    if effective_plan == "pro":
+        if user_obj:
+            user_obj.monthly_usage_count = (user_obj.monthly_usage_count or 0) + 1
+    else:
+        if tenant_obj:
+            tenant_obj.monthly_usage_count = (tenant_obj.monthly_usage_count or 0) + 1
+
     await db.commit()
     await db.refresh(job)
 

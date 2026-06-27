@@ -66,4 +66,8 @@ debug.html
 client-app-impl-output.js
 .draft
 .knowledge/
-knowledge/
+/knowledge/
+!src/knowledge/
+
+# ── Ignored Windows script files ──
+docker-cleanup.bat
