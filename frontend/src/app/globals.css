@@ -131,3 +131,10 @@ body {
   font-family: var(--font-sans, Arial, Helvetica, sans-serif);
   transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+/* 隐藏 SuperTokens 官方品牌水印 */
+[data-supertokens~="branding"],
+#supertokens-root a[href*="supertokens"],
+a[href*="supertokens.com"] {
+  display: none !important;
+}

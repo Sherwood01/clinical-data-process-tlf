@@ -62,6 +62,7 @@ if (typeof window !== "undefined") {
       websiteBasePath: "/auth",
     },
     recipeList,
+    useShadowDom: false,
   });
 
   // 全局劫持 window.fetch 以拦截 402 计费超额响应并派发升级事件

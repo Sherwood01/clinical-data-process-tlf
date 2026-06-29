@@ -357,10 +357,7 @@ export default function BillingContent() {
           </div>
         </div>
 
-        {/* 提示信息：沙箱联调说明 */}
-        <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-900/50 p-4 rounded-xl text-amber-800 dark:text-amber-300 text-sm">
-          💡 <strong>Sandbox Test Mode Notice:</strong> The store is in sandbox mode. Click upgrade to redirect to Creem sandbox. You can complete mock checkout safely using PayPal (click "Simulate Success") or Mock Credit Card (number <code className="bg-amber-100 dark:bg-amber-900/50 px-1 py-0.5 rounded text-xs font-semibold">4242 4242 4242 4242</code>, expiration in the future, CVC 100).
-        </div>
+
 
         {/* 四层级方案定价网格 */}
         <div>
