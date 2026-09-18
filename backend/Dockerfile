@@ -1,0 +1,21 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install system dependencies for pyreadstat, numpy, etc.
+RUN echo "deb https://mirrors.ustc.edu.cn/debian trixie main" > /etc/apt/sources.list \
+    && echo "deb https://mirrors.ustc.edu.cn/debian-security trixie-security main" >> /etc/apt/sources.list \
+    && apt-get update \
+    && apt-get install -y build-essential libopenblas-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -i https://mirrors.ustc.edu.cn/pypi/web/simple -r requirements.txt
+
+COPY backend/ /app/backend/
+COPY src/ /app/src/
+COPY alembic.ini /app/alembic.ini
+
+EXPOSE 8000
+
+CMD ["uvicorn", "backend.api.main:app", "--host", "0.0.0.0", "--port", "8000"]

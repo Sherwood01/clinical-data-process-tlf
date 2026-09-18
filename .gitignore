@@ -1,0 +1,81 @@
+# ── User-requested excludes ──
+.knowledge/
+reference/
+
+# ── Deployment scripts (contain sensitive credentials) ──
+scripts/
+
+# ── Generated / Test data ──
+input/
+output/
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+
+# ── Node / Frontend ──
+node_modules/
+.next/
+.npm/
+
+# ── IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Environment ──
+.env
+.env.uat
+.env.prod
+.env.local
+*.env.local
+
+# ── Data files ──
+*.sas7bdat
+*.xpt
+*.csv
+*.pdf
+*.png
+*.rtf
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+
+# ── Claude Code ──
+.claude/
+
+# ── Docker ──
+.docker/
+
+# ── Temporary / Debug files ──
+tmp_*
+*.log
+debug.html
+client-app-impl-output.js
+.draft
+.knowledge/
+/knowledge/
+!src/knowledge/
+
+# ── Ignored Windows script files ──
+docker-cleanup.bat
+
+# ── Docker Persistent Run Data ──
+docker_data/
+
+# ── Local benchmark and test evaluation data ──
+backend/SAP.docx
+backend/TOC.docx
+backend/evaluate_ai_toc.py

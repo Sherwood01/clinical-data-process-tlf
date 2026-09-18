@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+.invisible {
+  visibility: hidden !important;
+}
+
+.visible {
+  visibility: visible !important;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --font-sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --radius: 0.625rem;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --popover: #ffffff;
+  --popover-foreground: #09090b;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #1e293b;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #1e293b;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #2563eb;
+  --radius: 0.625rem;
+  --sidebar: #f8fafc;
+  --sidebar-foreground: #1e293b;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #1e293b;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #2563eb;
+  --chart-1: #3b82f6;
+  --chart-2: #10b981;
+  --chart-3: #f59e0b;
+  --chart-4: #8b5cf6;
+  --chart-5: #ef4444;
+}
+
+.dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --card: #1e293b;
+  --card-foreground: #f8fafc;
+  --popover: #1e293b;
+  --popover-foreground: #f8fafc;
+  --primary: #60a5fa;
+  --primary-foreground: #0f172a;
+  --secondary: #334155;
+  --secondary-foreground: #f8fafc;
+  --muted: #334155;
+  --muted-foreground: #94a3b8;
+  --accent: #334155;
+  --accent-foreground: #f8fafc;
+  --destructive: #ef4444;
+  --destructive-foreground: #f8fafc;
+  --border: #334155;
+  --input: #334155;
+  --ring: #60a5fa;
+  --sidebar: #1e293b;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-accent: #334155;
+  --sidebar-accent-foreground: #f8fafc;
+  --sidebar-border: #334155;
+  --sidebar-ring: #60a5fa;
+  --chart-1: #60a5fa;
+  --chart-2: #34d399;
+  --chart-3: #fbbf24;
+  --chart-4: #a78bfa;
+  --chart-5: #f87171;
+}
+
+* {
+  border-color: var(--border);
+}
+
+/* 密码可见性切换按钮 — 靠右对齐 (仅限绝对定位的按钮) */
+button.absolute:has(svg.lucide-eye-off, svg.lucide-eye),
+button[class*="absolute"]:has(svg.lucide-eye-off, svg.lucide-eye) {
+  position: absolute !important;
+  right: 0.75rem !important;
+  left: auto !important;
+  top: 50% !important;
+  translate: 0 -50%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans, Arial, Helvetica, sans-serif);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* 隐藏 SuperTokens 官方品牌水印 */
+[data-supertokens~="branding"],
+#supertokens-root a[href*="supertokens"],
+a[href*="supertokens.com"] {
+  display: none !important;
+}
+
+@layer base {
+  button,
+  a,
+  select,
+  option,
+  summary,
+  [role="button"],
+  [role="tab"],
+  [role="option"],
+  [role="menuitem"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="checkbox"],
+  input[type="radio"],
+  .cursor-pointer {
+    cursor: pointer !important;
+  }
+
+  button:disabled,
+  button[disabled],
+  a[disabled],
+  input:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 全局强力生效：全站所有按钮、Tab页、下拉选项、卡片及带有 hover 效果的交互组件
+ * 统一呈现小手/手指 (cursor: pointer) 悬停手势
+ * ───────────────────────────────────────────────────────────── */
+button,
+a,
+select,
+option,
+summary,
+[role="button"],
+[role="tab"],
+[role="option"],
+[role="menuitem"],
+input[type="button"],
+input[type="submit"],
+input[type="checkbox"],
+input[type="radio"],
+.cursor-pointer,
+div[class*="hover:"],
+span[class*="hover:"],
+li[class*="hover:"] {
+  cursor: pointer;
+}
+
+button:disabled,
+button[disabled],
+a[disabled],
+input:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 全局暗黑模式沉浸与和谐适配系统 (Dark Mode Harmonizer)
+ * 当开启 Dark Mode 时，自动将右侧工作区、主操作面板、卡片、表格与浮窗
+ * 全量调和为一致的深色底色，消除左右割裂感
+ * ───────────────────────────────────────────────────────────── */
+.dark,
+.dark body,
+.dark main,
+.dark .min-h-screen {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+}
+
+.dark .bg-white,
+.dark .bg-gray-50,
+.dark .bg-gray-50\/50,
+.dark .bg-gray-50\/30,
+.dark .bg-slate-50,
+.dark .bg-muted\/30,
+.dark header,
+.dark div.bg-white {
+  background-color: var(--card) !important;
+  color: var(--card-foreground) !important;
+}
+
+.dark .text-gray-900,
+.dark .text-gray-800,
+.dark .text-gray-700,
+.dark .text-slate-900,
+.dark .text-slate-800 {
+  color: var(--foreground) !important;
+}
+
+.dark .text-gray-500,
+.dark .text-gray-600,
+.dark .text-slate-500 {
+  color: var(--muted-foreground) !important;
+}
+
+.dark .border-gray-200,
+.dark .border-gray-100,
+.dark .border-slate-200,
+.dark .border-gray-300 {
+  border-color: var(--border) !important;
+}
+
+.dark input:not([type="checkbox"]):not([type="radio"]),
+.dark select,
+.dark textarea {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+}

@@ -1,0 +1,21 @@
+# Core dependencies
+langgraph>=0.0.15
+langchain>=0.1.0
+langchain-anthropic>=0.1.0  # For Claude integration
+
+# Data processing
+pandas>=2.0.0
+pyarrow>=14.0.0
+sas7bdat>=2.2.0  # For reading SAS datasets
+
+# RAG / Vector store
+chromadb>=0.4.0
+
+# PDF parsing (for SAP documents)
+pymupdf>=1.23.0  # Alternative: pdfplumber, PyPDF2
+
+# CLI
+click>=8.0.0
+
+# Utilities
+python-dateutil>=2.8.0

@@ -1,0 +1,36 @@
+# FastAPI & web
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+httpx>=0.27.0
+
+# Database
+sqlalchemy[asyncio]>=2.0.25
+asyncpg>=0.29.0
+psycopg2-binary>=2.9.9
+alembic>=1.13.0
+
+# Task queue
+celery>=5.3.0
+redis>=5.0.0
+
+# File storage
+minio>=7.2.0
+google-cloud-storage>=2.10.0
+
+# SuperTokens
+supertokens-python>=0.31.0
+
+# Utils
+python-multipart>=0.0.6
+pandas>=2.1.0
+python-docx>=1.1.0
+pyreadstat>=1.2.0
+pypdf>=4.0.0
+
+# AI Agent & Sandbox
+anthropic>=0.30.0
+docker>=7.1.0
+openai>=1.0.0
+

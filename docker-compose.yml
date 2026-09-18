@@ -1,0 +1,250 @@
+# =============================================================================
+# TLF Report Generator SaaS Platform — Docker Compose (镜像拉取部署)
+# =============================================================================
+# 部署方式：服务器只需拉取镜像启动，不需要安装 Git/Node/Python
+#
+# 首次部署：
+#   docker compose up -d
+#   docker compose exec api alembic upgrade head
+#
+# 更新部署：
+#   docker compose pull
+#   docker compose up -d
+# =============================================================================
+
+services:
+  # ── Database ──
+  postgres:
+    image: postgres:16-alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: tlf_saas
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    expose:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tlf_saas"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - tlf-network
+    deploy:
+      resources:
+        limits: { memory: 2G }
+
+  # ── Cache & Task Queue ──
+  redis:
+    image: redis:alpine
+    volumes:
+      - redisdata:/data
+    expose:
+      - "6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - tlf-network
+    deploy:
+      resources:
+        limits: { memory: 1G }
+
+  # ── File Storage (S3-compatible) ──
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9100"
+    volumes:
+      - miniodata:/data
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    expose:
+      - "9000"   # S3 API
+      - "9100"   # Console
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - tlf-network
+    deploy:
+      resources:
+        limits: { memory: 1G }
+
+  # ── Auth Engine (SuperTokens) ──
+  supertokens:
+    image: supertokens/supertokens-postgresql:latest
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRESQL_CONNECTION_URI: postgresql://postgres:${DB_PASSWORD:-postgres}@postgres:5432/supertokens
+      API_KEYS: ${SUPERTOKENS_API_KEY:-local-dev-key-min-20-chars}
+    ports:
+      - "3567:3567"
+    restart: unless-stopped
+    networks:
+      - tlf-network
+    deploy:
+      resources:
+        limits: { memory: 512M }
+
+  # ── API Server (FastAPI) ──
+  api:
+    image: ghcr.io/sherwood01/tlf-api:latest
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:${DB_PASSWORD:-postgres}@postgres:5432/tlf_saas
+      DATABASE_SYNC_URL: postgresql://postgres:${DB_PASSWORD:-postgres}@postgres:5432/tlf_saas
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      MINIO_ENDPOINT: minio:9000
+      MINIO_PUBLIC_ENDPOINT: http://localhost:9000
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      SUPERTOKENS_CONNECTION_URI: http://supertokens:3567
+      SUPERTOKENS_API_KEY: ${SUPERTOKENS_API_KEY:-local-dev-key}
+      SUPERTOKENS_API_DOMAIN: http://localhost:3100
+      SUPERTOKENS_WEBSITE_DOMAIN: http://localhost:3100
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3100}
+      API_PORT: "8000"
+      DEBUG: "false"
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET:-}
+      MICROSOFT_CLIENT_ID: ${MICROSOFT_CLIENT_ID:-}
+      MICROSOFT_CLIENT_SECRET: ${MICROSOFT_CLIENT_SECRET:-}
+      CREEM_API_KEY: ${CREEM_API_KEY:-}
+      CREEM_WEBHOOK_SECRET: ${CREEM_WEBHOOK_SECRET:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-deepseek-v4-flash}
+      PYTHONPATH: /app
+    dns:
+      - 8.8.8.8
+      - 114.114.114.114
+    volumes:
+      - ./backend:/app/backend
+      - ./src:/app/src
+      - ./.env:/app/.env
+    command: sh -c "pip install anthropic docker openai && uvicorn backend.api.main:app --host 0.0.0.0 --port 8000"
+    ports:
+      - "${API_PORT:-8100}:8000"
+    restart: unless-stopped
+    networks:
+      - tlf-network
+    deploy:
+      resources:
+        limits: { memory: 1G }
+
+  # ── Celery Worker ──
+  worker:
+    image: ghcr.io/sherwood01/tlf-worker:latest
+    command: sh -c "pip install anthropic docker openai && celery -A backend.workers.celery_app worker --loglevel=info --concurrency=1 --queues=default --max-tasks-per-child=5"
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.worker
+    depends_on:
+      api:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:${DB_PASSWORD:-postgres}@postgres:5432/tlf_saas
+      DATABASE_SYNC_URL: postgresql://postgres:${DB_PASSWORD:-postgres}@postgres:5432/tlf_saas
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      WORKER_TEMP_DIR: /tmp/tlf-worker
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-deepseek-v4-flash}
+      PYTHONPATH: /app
+    dns:
+      - 8.8.8.8
+      - 114.114.114.114
+    volumes:
+      - ./backend:/app/backend
+      - ./src:/app/src
+      - workertmp:/tmp/tlf-worker
+      - ./.env:/app/.env
+    restart: unless-stopped
+    networks:
+      - tlf-network
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
+
+  # ── Frontend (Next.js) ──
+  frontend:
+    image: ghcr.io/sherwood01/tlf-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: builder
+    command: npm run dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - api
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: /api/v1
+      API_REWRITE_URL: http://api:8000/api/v1
+      NEXT_PUBLIC_SUPERTOKENS_API_DOMAIN: http://localhost:3100
+      NEXT_PUBLIC_SUPERTOKENS_WEBSITE_DOMAIN: http://localhost:3100
+      NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      NEXT_PUBLIC_GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-}
+      NEXT_PUBLIC_MICROSOFT_CLIENT_ID: ${MICROSOFT_CLIENT_ID:-}
+      NEXT_PUBLIC_CREEM_PRODUCT_ID_PRO: ${NEXT_PUBLIC_CREEM_PRODUCT_ID_PRO:-}
+      NEXT_PUBLIC_CREEM_PRODUCT_ID_PLUS: ${NEXT_PUBLIC_CREEM_PRODUCT_ID_PLUS:-}
+    ports:
+      - "${FRONTEND_PORT:-3100}:3000"
+    restart: unless-stopped
+    networks:
+      - tlf-network
+    deploy:
+      resources:
+        limits: { memory: 1G }
+
+
+networks:
+  tlf-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+  redisdata:
+  miniodata:
+  workertmp:
