@@ -1,11 +1,24 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ShieldCheck, Calendar, Lock } from "lucide-react";
 
 /**
+ * 隐私政策页面专属 SEO 元数据
+ */
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Read the Privacy Policy for TLF Report Generator, detailing how we protect clinical data, adhere to HIPAA/GDPR, and safeguard customer privacy.",
+  alternates: {
+    canonical: "/privacy",
+  },
+};
+
+/**
  * 隐私政策页面组件 (Privacy Policy)。
- * 渲染符合 Lemon Squeezy 商家合规性审核的英文隐私政策条款，使用精美现代的排版和 HSL 渐变卡片。
+ * 渲染符合合规性审核的英文隐私政策条款，使用精美现代的排版和渐变卡片。
+ *
+ * @returns {React.ReactElement} 隐私政策页面
  */
 export default function PrivacyPolicyPage() {
   return (

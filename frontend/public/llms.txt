@@ -1,0 +1,26 @@
+# TLF Report Generator
+
+> TLF Report Generator is an AI-powered SaaS platform purpose-built for clinical trial biostatisticians, statistical programmers, and CRO teams to automatically convert CDISC ADaM datasets and Statistical Analysis Plans (SAP) into publication-ready, 21 CFR Part 11 compliant Tables, Listings, and Figures (TLFs).
+
+## Overview
+
+Clinical trial reporting requires generating hundreds of standard Tables, Listings, and Figures (TLFs) following strict regulatory guidelines (CDISC, FDA, EMA, ICH E3). TLF Report Generator accelerates this lifecycle by automating SAP document parsing, dataset validation, SAS macro template matching, and regulatory-grade PDF compilation.
+
+## Key Capabilities
+
+- **Automated SAP Document Parsing**: Uses advanced LLM reasoning to extract Table of Contents (TOC), report specifications, mock tables, and statistical parameters from PDF and DOCX SAP documents.
+- **CDISC ADaM Dataset Ingestion & Validation**: Ingests SAS datasets (.sas7bdat), XPT transport files, and CSV datasets. Validates domain structure and variable standards (ADSL, ADAE, ADLB, ADVS, etc.).
+- **Deterministic SAS Macro & Report Generation**: Maps extracted specifications to verified clinical SAS macro templates and generates deterministic, reproducible SAS code and publication-grade reports.
+- **21 CFR Part 11 & ICH E3 Compliance**: Full end-to-end audit trails, execution logs, and validation-ready documentation for clinical submission readiness.
+- **Real-Time Pipeline Execution**: Background processing architecture powered by FastAPI and Celery workers with real-time status updates and PDF/RTF report export.
+
+## Main Links
+
+- [Homepage](https://tlf.xwqin.com): Official platform homepage, feature overview, and workflow walkthrough.
+- [Terms of Service](https://tlf.xwqin.com/terms): Terms of service, user agreements, and acceptable use policy.
+- [Privacy Policy](https://tlf.xwqin.com/privacy): Privacy policy, data protection, and clinical data governance.
+
+## Optional & In-Depth Details
+
+- [Full Documentation](https://tlf.xwqin.com/llms-full.txt): Comprehensive architecture, supported CDISC standards, workflow stages, and FAQs for AI agents and LLM search engines.
+

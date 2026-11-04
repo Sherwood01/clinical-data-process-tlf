@@ -1,11 +1,24 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, FileText, Calendar, Shield } from "lucide-react";
 
 /**
+ * 条款页面专属 SEO 元数据
+ */
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description:
+    "Read the Terms of Service for TLF Report Generator covering data privacy, usage rules, and commercial subscription terms.",
+  alternates: {
+    canonical: "/terms",
+  },
+};
+
+/**
  * 平台服务协议条款页面组件 (Terms of Service)。
  * 渲染符合 Creem 商家合规性审核的英文服务协议，使用精美的卡片渐变及现代排版设计。
+ *
+ * @returns {React.ReactElement} 服务协议页面
  */
 export default function TermsOfServicePage() {
   return (
