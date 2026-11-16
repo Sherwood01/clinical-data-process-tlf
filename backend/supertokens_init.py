@@ -167,7 +167,7 @@ init(
         api_key=settings.SUPERTOKENS_API_KEY,
     ),
     framework="fastapi",
-    mode="wsgi",
+    mode="asgi",
     recipe_list=[
         emailpassword_init(
             override=EmailPasswordOverrideConfig(apis=_override_ep_apis),

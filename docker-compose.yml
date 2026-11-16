@@ -147,7 +147,7 @@ services:
       - ./backend:/app/backend
       - ./src:/app/src
       - ./.env:/app/.env
-    command: sh -c "pip install anthropic docker openai && uvicorn backend.api.main:app --host 0.0.0.0 --port 8000"
+    command: sh -c "pip install anthropic docker openai && uvicorn backend.api.main:app --host 0.0.0.0 --port 8000 --timeout-keep-alive 75"
     ports:
       - "${API_PORT:-8100}:8000"
     restart: unless-stopped
