@@ -78,6 +78,7 @@ class Settings(BaseSettings):
     # Zhipu GLM / OpenAI Compatible LLM Config
     MODEL: str = "glm-5.3-flash"
     base_URL: str = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
+    BASE_URL: str = ""
     API_KEY: str = ""
     REASONING_EFFORT: str = "low"
     GLM_MODEL: str = ""
@@ -89,7 +90,7 @@ class Settings(BaseSettings):
         获取清洗后的 OpenAI 兼容 Base URL。
         剥离末尾的 /chat/completions 或 /chat/completions/ 以符合 AsyncOpenAI 标准。
         """
-        raw = self.GLM_BASE_URL or self.base_URL or "https://open.bigmodel.cn/api/paas/v4"
+        raw = self.GLM_BASE_URL or self.base_URL or self.BASE_URL or "https://open.bigmodel.cn/api/paas/v4"
         raw = raw.strip().rstrip("/")
         if raw.endswith("/chat/completions"):
             raw = raw[:-len("/chat/completions")]
