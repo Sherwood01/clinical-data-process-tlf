@@ -144,8 +144,8 @@ export default function BillingContent() {
 
   if (session.loading || loading) {
     return (
-      <div className="min-h-[80vh] flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 gap-3">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600 dark:text-blue-400" />
+      <div className="min-h-[80vh] flex flex-col items-center justify-center text-slate-400 gap-3">
+        <Loader2 className="h-8 w-8 animate-spin text-[#1e3a8a] dark:text-[#93c5fd]" />
         <p className="text-sm">Loading subscription billing data...</p>
       </div>
     );
@@ -154,10 +154,10 @@ export default function BillingContent() {
   if (errorMsg) {
     return (
       <div className="min-h-[80vh] flex flex-col items-center justify-center gap-4 text-center px-4">
-        <p className="text-red-500 font-semibold">{errorMsg}</p>
+        <p className="text-rose-500 font-semibold">{errorMsg}</p>
         <button
           onClick={fetchBillingStatus}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-all"
+          className="bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] text-white px-4 py-2 rounded-lg text-sm shadow-xs transition-all"
         >
           Reload
         </button>
@@ -175,16 +175,16 @@ export default function BillingContent() {
   const variantPlus = process.env.NEXT_PUBLIC_CREEM_PRODUCT_ID_PLUS || DEFAULT_PRODUCT_PLUS;
 
   return (
-    <div className="min-h-screen bg-gray-50/30 dark:bg-gray-900/10 pb-16">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0a0f1d] text-slate-900 dark:text-slate-100 pb-16 transition-colors">
       {/* 头部区域 */}
-      <div className="bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800 py-8 mb-8 shadow-sm">
+      <div className="bg-white dark:bg-[#101828] border-b border-slate-200 dark:border-slate-800 py-8 mb-8 shadow-xs transition-colors">
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div>
-            <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight flex items-center gap-2">
-              <Layers className="h-7 w-7 text-indigo-600 dark:text-indigo-400 animate-pulse" />
+            <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+              <Layers className="h-7 w-7 text-[#1e3a8a] dark:text-[#93c5fd]" />
               Plans & Billing Center
             </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
               Manage subscription tiers, monitor workspace quotas, or upgrade your team to unlock advanced collaboration features.
             </p>
           </div>
@@ -193,7 +193,7 @@ export default function BillingContent() {
               href={portalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl text-sm font-semibold shadow-md transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center gap-2 bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] text-white px-5 py-3 rounded-lg text-sm font-semibold shadow-xs transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
             >
               <CreditCard className="h-4 w-4" />
               Manage Billing & Subscriptions
@@ -207,18 +207,18 @@ export default function BillingContent() {
         {/* 用量限制仪表盘 */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* 个人套餐额度卡片 */}
-          <div className="bg-white dark:bg-gray-950 border border-gray-100 dark:border-gray-800 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+          <div className="bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-xs flex flex-col justify-between transition-colors">
             <div>
               <div className="flex justify-between items-center mb-6">
                 <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#1e3a8a] dark:text-[#93c5fd]">
                     Personal Plan Quota
                   </span>
-                  <h3 className="text-xl font-bold mt-1 text-gray-900 dark:text-white capitalize">
+                  <h3 className="text-xl font-bold mt-1 text-slate-900 dark:text-white capitalize">
                     {currentUserPlan === "pro" ? "Pro Plan" : "Free Plan"}
                   </h3>
                 </div>
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400">
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-[#1e3a8a] dark:text-[#93c5fd] border border-slate-200 dark:border-slate-700">
                   {currentUserPlan === "pro" ? "Active" : "Default"}
                 </span>
               </div>
@@ -226,17 +226,17 @@ export default function BillingContent() {
               {/* 用量条 1: Study 项目创建数 */}
               <div className="space-y-2 mb-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-400 flex items-center gap-1.5">
+                  <span className="text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
                     <FlaskConical className="h-4 w-4" />
                     Created Study Projects
                   </span>
-                  <span className="font-semibold text-gray-900 dark:text-white">
+                  <span className="font-semibold text-slate-900 dark:text-white">
                     {status?.user.monthly_usage_count ?? 0} / {status?.user.max_studies === 999999 ? "Unlimited" : status?.user.max_studies}
                   </span>
                 </div>
-                <div className="w-full bg-gray-100 dark:bg-gray-800 h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
                   <div
-                    className="bg-indigo-600 dark:bg-indigo-400 h-full rounded-full transition-all duration-500"
+                    className="bg-[#1e3a8a] dark:bg-[#3b82f6] h-full rounded-full transition-all duration-500"
                     style={{
                       width: `${Math.min(
                         ((status?.user.monthly_usage_count ?? 0) / (status?.user.max_studies || 1)) * 100,
@@ -250,15 +250,15 @@ export default function BillingContent() {
               {/* 用量条 2: TLF 报告生成数 */}
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-400 flex items-center gap-1.5">
+                  <span className="text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
                     <FileText className="h-4 w-4" />
                     TLF Generates (This Month)
                   </span>
-                  <span className="font-semibold text-gray-900 dark:text-white">
+                  <span className="font-semibold text-slate-900 dark:text-white">
                     {status?.user.monthly_usage_count ?? 0} / {status?.user.max_tlfs === 999999 ? "Unlimited" : status?.user.max_tlfs}
                   </span>
                 </div>
-                <div className="w-full bg-gray-100 dark:bg-gray-800 h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-emerald-500 dark:bg-emerald-400 h-full rounded-full transition-all duration-500"
                     style={{
@@ -273,21 +273,21 @@ export default function BillingContent() {
             </div>
 
             {status?.user.current_period_end && (
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-6">
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-6">
                 Current period ends: {new Date(status.user.current_period_end).toLocaleDateString("en-US")} (Quotas reset monthly)
               </p>
             )}
           </div>
 
           {/* 团队/租户空间套餐额度卡片 */}
-          <div className="bg-white dark:bg-gray-950 border border-gray-100 dark:border-gray-800 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+          <div className="bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-xs flex flex-col justify-between transition-colors">
             <div>
               <div className="flex justify-between items-center mb-6">
                 <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-violet-600 dark:text-violet-400">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">
                     Team Space Quota (Tenant)
                   </span>
-                  <h3 className="text-xl font-bold mt-1 text-gray-900 dark:text-white capitalize">
+                  <h3 className="text-xl font-bold mt-1 text-slate-900 dark:text-white capitalize">
                     {currentTenantPlan === "plus"
                       ? "Plus Plan"
                       : currentTenantPlan === "enterprise"
@@ -295,7 +295,7 @@ export default function BillingContent() {
                       : "Free Plan"}
                   </h3>
                 </div>
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-violet-50 dark:bg-violet-950/50 text-violet-600 dark:text-violet-400">
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60">
                   {currentTenantPlan !== "free" ? "Active" : "Default"}
                 </span>
               </div>
@@ -303,17 +303,17 @@ export default function BillingContent() {
               {/* 用量条 1: Study 项目创建数 */}
               <div className="space-y-2 mb-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-400 flex items-center gap-1.5">
+                  <span className="text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
                     <FlaskConical className="h-4 w-4" />
                     Created Study Projects
                   </span>
-                  <span className="font-semibold text-gray-900 dark:text-white">
+                  <span className="font-semibold text-slate-900 dark:text-white">
                     {status?.tenant.monthly_usage_count ?? 0} / {status?.tenant.max_studies === 999999 ? "Unlimited" : status?.tenant.max_studies}
                   </span>
                 </div>
-                <div className="w-full bg-gray-100 dark:bg-gray-800 h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
                   <div
-                    className="bg-violet-600 dark:bg-violet-400 h-full rounded-full transition-all duration-500"
+                    className="bg-amber-500 dark:bg-amber-400 h-full rounded-full transition-all duration-500"
                     style={{
                       width: `${Math.min(
                         ((status?.tenant.monthly_usage_count ?? 0) / (status?.tenant.max_studies || 1)) * 100,
@@ -327,15 +327,15 @@ export default function BillingContent() {
               {/* 用量条 2: TLF 报告生成数 */}
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-400 flex items-center gap-1.5">
+                  <span className="text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
                     <FileText className="h-4 w-4" />
                     Team TLF Generates (This Month)
                   </span>
-                  <span className="font-semibold text-gray-900 dark:text-white">
+                  <span className="font-semibold text-slate-900 dark:text-white">
                     {status?.tenant.monthly_usage_count ?? 0} / {status?.tenant.max_tlfs === 999999 ? "Unlimited" : status?.tenant.max_tlfs}
                   </span>
                 </div>
-                <div className="w-full bg-gray-100 dark:bg-gray-800 h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
                   <div
                     className="bg-emerald-500 dark:bg-emerald-400 h-full rounded-full transition-all duration-500"
                     style={{
@@ -350,36 +350,34 @@ export default function BillingContent() {
             </div>
 
             {status?.tenant.current_period_end && (
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-6">
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-6">
                 Tenant billing period ends: {new Date(status.tenant.current_period_end).toLocaleDateString("en-US")} (Quotas reset monthly)
               </p>
             )}
           </div>
         </div>
 
-
-
         {/* 四层级方案定价网格 */}
         <div>
           <div className="text-center max-w-xl mx-auto mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Choose a Plan to Fit Your Needs</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Choose a Plan to Fit Your Needs</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
               Whether you are an independent programmer or a clinical biostatistics team, we have custom tiers and SLA support for you.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch">
             {/* Plan 1: Free */}
-            <div className="bg-white dark:bg-gray-950 border border-gray-100 dark:border-gray-800 rounded-2xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div className="bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-xs flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition-all">
               <div>
-                <h4 className="text-lg font-bold text-gray-900 dark:text-white">Free Plan</h4>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Ideal for evaluating the platform and initial trial</p>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Free Plan</h4>
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Ideal for evaluating the platform and initial trial</p>
                 <div className="my-6">
-                  <span className="text-3xl font-extrabold text-gray-900 dark:text-white">$0</span>
-                  <span className="text-gray-400 dark:text-gray-500 text-sm font-medium"> / Forever</span>
+                  <span className="text-3xl font-extrabold text-slate-900 dark:text-white">$0</span>
+                  <span className="text-slate-400 dark:text-slate-500 text-sm font-medium"> / Forever</span>
                 </div>
-                <hr className="border-gray-100 dark:border-gray-800 my-4" />
-                <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                <hr className="border-slate-100 dark:border-slate-800 my-4" />
+                <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
                   <li className="flex items-start gap-2.5">
                     <Check className="h-4.5 w-4.5 text-emerald-500 flex-shrink-0 mt-0.5" />
                     <span>Up to 1 Study project</span>
@@ -388,12 +386,12 @@ export default function BillingContent() {
                     <Check className="h-4.5 w-4.5 text-emerald-500 flex-shrink-0 mt-0.5" />
                     <span>Up to 10 TLF generation runs / month</span>
                   </li>
-                  <li className="flex items-start gap-2.5 text-gray-300 dark:text-gray-700">
-                    <Check className="h-4.5 w-4.5 text-gray-300 dark:text-gray-700 flex-shrink-0 mt-0.5" />
+                  <li className="flex items-start gap-2.5 text-slate-300 dark:text-slate-700">
+                    <Check className="h-4.5 w-4.5 text-slate-300 dark:text-slate-700 flex-shrink-0 mt-0.5" />
                     <span>No collaborative team workspaces</span>
                   </li>
-                  <li className="flex items-start gap-2.5 text-gray-300 dark:text-gray-700">
-                    <Check className="h-4.5 w-4.5 text-gray-300 dark:text-gray-700 flex-shrink-0 mt-0.5" />
+                  <li className="flex items-start gap-2.5 text-slate-300 dark:text-slate-700">
+                    <Check className="h-4.5 w-4.5 text-slate-300 dark:text-slate-700 flex-shrink-0 mt-0.5" />
                     <span>No AI-powered SAP error correction</span>
                   </li>
                 </ul>
@@ -401,7 +399,7 @@ export default function BillingContent() {
               <div className="mt-8">
                 <button
                   disabled
-                  className="w-full bg-gray-50 dark:bg-gray-900 text-gray-400 dark:text-gray-600 border border-gray-200 dark:border-gray-800 py-2.5 rounded-xl text-sm font-bold cursor-not-allowed"
+                  className="w-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700 py-2.5 rounded-lg text-sm font-bold cursor-not-allowed"
                 >
                   {currentUserPlan === "free" && currentTenantPlan === "free" ? "Default" : "Basic Free"}
                 </button>
@@ -409,36 +407,36 @@ export default function BillingContent() {
             </div>
 
             {/* Plan 2: Pro */}
-            <div className="bg-white dark:bg-gray-950 border-2 border-indigo-600/30 dark:border-indigo-400/30 rounded-2xl p-6 shadow-md flex flex-col justify-between hover:shadow-lg transition-shadow relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded-full shadow-sm">
+            <div className="bg-white dark:bg-[#101828] border-2 border-[#1e3a8a] dark:border-[#3b82f6] rounded-xl p-6 shadow-sm flex flex-col justify-between relative transition-all">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#1e3a8a] dark:bg-[#1e40af] text-white text-[10px] uppercase font-bold tracking-wider px-3 py-0.5 rounded-full shadow-xs">
                 Recommended
               </div>
               <div>
-                <h4 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                   Pro Plan
-                  <Zap className="h-4 w-4 text-indigo-500" />
+                  <Zap className="h-4 w-4 text-[#1e3a8a] dark:text-[#93c5fd]" />
                 </h4>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Recommended for independent biostatisticians and clinical programmers</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Recommended for independent biostatisticians and clinical programmers</p>
                 <div className="my-6">
-                  <span className="text-3xl font-extrabold text-gray-900 dark:text-white">$29</span>
-                  <span className="text-gray-400 dark:text-gray-500 text-sm font-medium"> / Month</span>
+                  <span className="text-3xl font-extrabold text-slate-900 dark:text-white">$29</span>
+                  <span className="text-slate-400 dark:text-slate-500 text-sm font-medium"> / Month</span>
                 </div>
-                <hr className="border-gray-100 dark:border-gray-800 my-4" />
-                <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                <hr className="border-slate-100 dark:border-slate-800 my-4" />
+                <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
                   <li className="flex items-start gap-2.5">
-                    <Check className="h-4.5 w-4.5 text-indigo-500 flex-shrink-0 mt-0.5" />
+                    <Check className="h-4.5 w-4.5 text-[#1e3a8a] dark:text-[#93c5fd] flex-shrink-0 mt-0.5" />
                     <span>Up to 50 Study projects</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <Check className="h-4.5 w-4.5 text-indigo-500 flex-shrink-0 mt-0.5" />
+                    <Check className="h-4.5 w-4.5 text-[#1e3a8a] dark:text-[#93c5fd] flex-shrink-0 mt-0.5" />
                     <span>Up to 500 TLF generation runs / month</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <Check className="h-4.5 w-4.5 text-indigo-500 flex-shrink-0 mt-0.5" />
+                    <Check className="h-4.5 w-4.5 text-[#1e3a8a] dark:text-[#93c5fd] flex-shrink-0 mt-0.5" />
                     <span>Full access to Figures & SAP parsing</span>
                   </li>
-                  <li className="flex items-start gap-2.5 text-gray-300 dark:text-gray-700">
-                    <Check className="h-4.5 w-4.5 text-gray-300 dark:text-gray-700 flex-shrink-0 mt-0.5" />
+                  <li className="flex items-start gap-2.5 text-slate-300 dark:text-slate-700">
+                    <Check className="h-4.5 w-4.5 text-slate-300 dark:text-slate-700 flex-shrink-0 mt-0.5" />
                     <span>Strictly for single-user workspaces</span>
                   </li>
                 </ul>
@@ -447,7 +445,7 @@ export default function BillingContent() {
                 {currentUserPlan === "pro" ? (
                   <button
                     disabled
-                    className="w-full bg-indigo-50 dark:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/50 py-2.5 rounded-xl text-sm font-bold"
+                    className="w-full bg-slate-100 dark:bg-slate-800 text-[#1e3a8a] dark:text-[#93c5fd] border border-slate-200 dark:border-slate-700 py-2.5 rounded-lg text-sm font-bold"
                   >
                     Active (Personal Pro)
                   </button>
@@ -455,7 +453,7 @@ export default function BillingContent() {
                   <button
                     onClick={() => handleUpgrade("pro", variantPro)}
                     disabled={checkoutLoading !== null}
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white py-2.5 rounded-xl text-sm font-bold shadow-sm transition-all flex items-center justify-center gap-1.5"
+                    className="w-full bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] active:scale-[0.98] text-white py-2.5 rounded-lg text-sm font-bold shadow-xs transition-all flex items-center justify-center gap-1.5"
                   >
                     {checkoutLoading === "pro" ? (
                       <>
@@ -474,36 +472,36 @@ export default function BillingContent() {
             </div>
 
             {/* Plan 3: Plus */}
-            <div className="bg-white dark:bg-gray-950 border-2 border-violet-600 dark:border-violet-400 rounded-2xl p-6 shadow-md flex flex-col justify-between hover:shadow-lg transition-shadow relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-violet-600 text-white text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded-full shadow-sm">
+            <div className="bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 hover:border-amber-500/60 dark:hover:border-amber-500/60 rounded-xl p-6 shadow-xs flex flex-col justify-between hover:shadow-sm transition-all relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-600 dark:bg-amber-500 text-white text-[10px] uppercase font-bold tracking-wider px-3 py-0.5 rounded-full shadow-xs">
                 For Teams
               </div>
               <div>
-                <h4 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                   Plus Plan
-                  <Sparkles className="h-4 w-4 text-violet-500" />
+                  <Sparkles className="h-4 w-4 text-amber-500" />
                 </h4>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Best for clinical trial groups and CRO departments</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Best for clinical trial groups and CRO departments</p>
                 <div className="my-6">
-                  <span className="text-3xl font-extrabold text-gray-900 dark:text-white">$99</span>
-                  <span className="text-gray-400 dark:text-gray-500 text-sm font-medium"> / Month</span>
+                  <span className="text-3xl font-extrabold text-slate-900 dark:text-white">$99</span>
+                  <span className="text-slate-400 dark:text-slate-500 text-sm font-medium"> / Month</span>
                 </div>
-                <hr className="border-gray-100 dark:border-gray-800 my-4" />
-                <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                <hr className="border-slate-100 dark:border-slate-800 my-4" />
+                <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
                   <li className="flex items-start gap-2.5">
-                    <Check className="h-4.5 w-4.5 text-violet-500 flex-shrink-0 mt-0.5" />
+                    <Check className="h-4.5 w-4.5 text-amber-500 flex-shrink-0 mt-0.5" />
                     <span>Up to 200 Study projects</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <Check className="h-4.5 w-4.5 text-violet-500 flex-shrink-0 mt-0.5" />
+                    <Check className="h-4.5 w-4.5 text-amber-500 flex-shrink-0 mt-0.5" />
                     <span>Up to 5000 shared TLF runs / month</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <Check className="h-4.5 w-4.5 text-violet-500 flex-shrink-0 mt-0.5" />
+                    <Check className="h-4.5 w-4.5 text-amber-500 flex-shrink-0 mt-0.5" />
                     <span>Collaborative workspaces up to 10 members</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <Check className="h-4.5 w-4.5 text-violet-500 flex-shrink-0 mt-0.5" />
+                    <Check className="h-4.5 w-4.5 text-amber-500 flex-shrink-0 mt-0.5" />
                     <span>AI corrections & DOCX format export unlocked</span>
                   </li>
                 </ul>
@@ -512,7 +510,7 @@ export default function BillingContent() {
                 {currentTenantPlan === "plus" ? (
                   <button
                     disabled
-                    className="w-full bg-violet-50 dark:bg-violet-950/20 text-violet-600 dark:text-violet-400 border border-violet-100 dark:border-violet-900/50 py-2.5 rounded-xl text-sm font-bold"
+                    className="w-full bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50 py-2.5 rounded-lg text-sm font-bold"
                   >
                     Active (Tenant Plus)
                   </button>
@@ -520,7 +518,7 @@ export default function BillingContent() {
                   <button
                     onClick={() => handleUpgrade("plus", variantPlus)}
                     disabled={checkoutLoading !== null}
-                    className="w-full bg-violet-600 hover:bg-violet-700 active:scale-[0.98] text-white py-2.5 rounded-xl text-sm font-bold shadow-sm transition-all flex items-center justify-center gap-1.5"
+                    className="w-full bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 active:scale-[0.98] py-2.5 rounded-lg text-sm font-bold shadow-xs transition-all flex items-center justify-center gap-1.5"
                   >
                     {checkoutLoading === "plus" ? (
                       <>
@@ -539,19 +537,19 @@ export default function BillingContent() {
             </div>
 
             {/* Plan 4: Enterprise */}
-            <div className="bg-white dark:bg-gray-950 border border-gray-100 dark:border-gray-800 rounded-2xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div className="bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-xs flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition-all">
               <div>
-                <h4 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                   Enterprise Plan
                   <Shield className="h-4 w-4 text-emerald-500" />
                 </h4>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Dedicated deployment for large CROs & biotechs</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Dedicated deployment for large CROs & biotechs</p>
                 <div className="my-6">
-                  <span className="text-3xl font-extrabold text-gray-900 dark:text-white">Custom</span>
-                  <span className="text-gray-400 dark:text-gray-500 text-sm font-medium"> / Annual</span>
+                  <span className="text-3xl font-extrabold text-slate-900 dark:text-white">Custom</span>
+                  <span className="text-slate-400 dark:text-slate-500 text-sm font-medium"> / Annual</span>
                 </div>
-                <hr className="border-gray-100 dark:border-gray-800 my-4" />
-                <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                <hr className="border-slate-100 dark:border-slate-800 my-4" />
+                <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
                   <li className="flex items-start gap-2.5">
                     <Check className="h-4.5 w-4.5 text-emerald-500 flex-shrink-0 mt-0.5" />
                     <span>Unlimited Studies & collaborators</span>
@@ -574,14 +572,14 @@ export default function BillingContent() {
                 {currentTenantPlan === "enterprise" ? (
                   <button
                     disabled
-                    className="w-full bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/50 py-2.5 rounded-xl text-sm font-bold"
+                    className="w-full bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/50 py-2.5 rounded-lg text-sm font-bold"
                   >
                     Active (Enterprise)
                   </button>
                 ) : (
                   <a
                     href="mailto:info@xwqin.com?subject=Clinical Trial TLF Generator Enterprise Inquiry"
-                    className="w-full bg-gray-900 hover:bg-gray-800 text-white dark:bg-gray-100 dark:hover:bg-gray-200 dark:text-gray-950 py-2.5 rounded-xl text-sm font-bold shadow-sm transition-all flex items-center justify-center gap-1.5"
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white dark:bg-slate-100 dark:hover:bg-white dark:text-slate-900 py-2.5 rounded-lg text-sm font-bold shadow-xs transition-all flex items-center justify-center gap-1.5"
                   >
                     Contact Sales
                     <Users className="h-4 w-4" />
@@ -593,20 +591,20 @@ export default function BillingContent() {
         </div>
 
         {/* 常见问题说明 */}
-        <div className="bg-white dark:bg-gray-950 border border-gray-100 dark:border-gray-800 rounded-2xl p-6 shadow-sm max-w-4xl mx-auto">
-          <h3 className="text-xl font-bold mb-6 text-gray-900 dark:text-white flex items-center gap-2">
-            <HelpCircle className="h-5.5 w-5.5 text-indigo-600" />
+        <div className="bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-xs max-w-4xl mx-auto transition-colors">
+          <h3 className="text-xl font-bold mb-6 text-slate-900 dark:text-white flex items-center gap-2">
+            <HelpCircle className="h-5.5 w-5.5 text-[#1e3a8a] dark:text-[#93c5fd]" />
             Frequently Asked Questions about Billing
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-600 dark:text-gray-400">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-600 dark:text-slate-400">
             <div>
-              <h5 className="font-semibold text-gray-900 dark:text-white">Do Personal Pro and Team Plus conflict?</h5>
+              <h5 className="font-semibold text-slate-900 dark:text-white">Do Personal Pro and Team Plus conflict?</h5>
               <p className="mt-1 text-xs leading-relaxed">
                 No. If a workspace is upgraded to Plus (Team), all collaborators automatically inherit the Plus quotas and features without needing individual Pro plans. If the workspace is on the Free tier, individual Pro subscribers still access advanced features within their workspaces.
               </p>
             </div>
             <div>
-              <h5 className="font-semibold text-gray-900 dark:text-white">How do I manage refunds, payment methods, or cancellations?</h5>
+              <h5 className="font-semibold text-slate-900 dark:text-white">How do I manage refunds, payment methods, or cancellations?</h5>
               <p className="mt-1 text-xs leading-relaxed">
                 All transactions are managed securely by Creem. If you have an active plan, a &apos;Manage Billing&apos; button will appear at the top. Click it to download invoices, cancel subscriptions (active until the billing period ends), or update your payment card information.
               </p>

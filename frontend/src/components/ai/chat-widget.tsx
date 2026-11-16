@@ -48,6 +48,10 @@ interface ChatSession {
   updatedAt: number;
 }
 
+/**
+ * 临床 AI Agent 悬浮对话浮窗组件。
+ * 提供自然语言交互、多模型切换（GLM、DeepSeek 等）、沙箱代码执行与报告预览、以及工作/对话双模式支持。
+ */
 export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -577,7 +581,7 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
       {/* Floating Chat Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed right-6 bottom-6 px-5 h-14 bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-200 z-40 flex items-center justify-center gap-2 rounded-full group border border-white/20"
+        className="fixed right-6 bottom-6 px-5 h-13 bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] text-white shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 z-40 flex items-center justify-center gap-2 rounded-full group border border-slate-700/30 dark:border-slate-700"
         title="Open AI Clinical Agent"
       >
         {isOpen ? (
@@ -588,13 +592,13 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
         ) : (
           <div className="flex items-center gap-2">
             <div className="relative flex items-center justify-center">
-              <Sparkles className="h-5 w-5 text-blue-200 animate-pulse" />
+              <Sparkles className="h-4.5 w-4.5 text-[#93c5fd] animate-pulse" />
               <span className="absolute -top-1 -right-1 flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-300"></span>
               </span>
             </div>
-            <span className="text-xs font-black uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
+            <span className="text-xs font-black uppercase tracking-widest text-white">
               AI Agent
             </span>
           </div>
@@ -603,17 +607,17 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
 
       {/* Conversation Panel */}
       {isOpen && (
-        <div className="fixed right-6 bottom-24 w-[380px] h-[520px] bg-white border border-gray-200 rounded-2xl shadow-2xl flex flex-col z-40 animate-in fade-in slide-in-from-bottom-5 duration-200 overflow-hidden">
+        <div className="fixed right-6 bottom-24 w-[380px] h-[520px] bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl flex flex-col z-40 animate-in fade-in slide-in-from-bottom-5 duration-200 overflow-hidden transition-colors">
 
           {/* Header */}
-          <div className="px-5 py-4 border-b bg-gradient-to-r from-blue-600 to-indigo-700 text-white flex justify-between items-center shrink-0">
+          <div className="px-5 py-4 border-b border-slate-200/80 dark:border-slate-800 bg-[#1e3a8a] dark:bg-[#070b14] text-white flex justify-between items-center shrink-0">
             <div className="flex items-center gap-2">
-              <div className="bg-white/10 p-1.5 rounded-lg border border-white/10">
-                <Sparkles className="h-4 w-4 text-blue-200 animate-pulse" />
+              <div className="bg-white/10 dark:bg-slate-800/80 p-1.5 rounded-lg border border-white/10 dark:border-slate-700">
+                <Sparkles className="h-4 w-4 text-[#93c5fd] animate-pulse" />
               </div>
               <div>
-                <h3 className="font-bold text-sm leading-tight font-sans">Clinical AI Agent</h3>
-                <p className="text-[10px] text-blue-200 mt-0.5 font-sans">
+                <h3 className="font-bold text-sm leading-tight">Clinical AI Agent</h3>
+                <p className="text-[10px] text-slate-300 dark:text-slate-400 mt-0.5">
                   {connected ? `● Connected (${chatMode === "work" ? "Work Mode" : "Chat Mode"})` : "○ Disconnected"}
                 </p>
               </div>
@@ -652,13 +656,13 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
 
           {/* Conditional Views Layout */}
           {showHistory ? (
-            <div className="flex-1 flex flex-col bg-gray-50/50 overflow-hidden">
+            <div className="flex-1 flex flex-col bg-slate-50 dark:bg-[#0a0f1d] overflow-hidden">
               {/* Recent Chats Action Bar */}
-              <div className="p-4 border-b bg-white flex justify-between items-center shrink-0">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1 font-sans">Recent Chats</span>
+              <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#101828] flex justify-between items-center shrink-0">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 font-sans">Recent Chats</span>
                 <button
                   onClick={handleNewChat}
-                  className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1.5 rounded-xl font-bold text-[10px] uppercase tracking-wider transition-colors shadow-sm"
+                  className="flex items-center gap-1 bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] text-white px-2.5 py-1.5 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-colors shadow-xs"
                 >
                   <Plus className="h-3.5 w-3.5" />
                   New Chat
@@ -668,7 +672,7 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
               {/* Sessions List */}
               <div className="flex-1 overflow-y-auto p-4 space-y-2">
                 {sessions.length === 0 ? (
-                  <div className="text-center py-12 text-gray-400 text-xs font-medium">
+                  <div className="text-center py-12 text-slate-400 text-xs font-medium">
                     No recent chats.
                   </div>
                 ) : (
@@ -684,17 +688,17 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                           }
                         }}
                         className={`group flex items-center justify-between p-3 rounded-xl border text-xs cursor-pointer transition-all ${activeSessionId === s.id
-                          ? "bg-blue-50 border-blue-200 text-blue-700 font-bold"
-                          : "bg-white border-gray-100 hover:bg-gray-50 text-gray-700"
+                          ? "bg-slate-100 dark:bg-slate-800/80 border-slate-300 dark:border-slate-700 text-[#1e3a8a] dark:text-[#93c5fd] font-bold"
+                          : "bg-white dark:bg-[#101828] border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300"
                           }`}
                       >
                         <div className="flex flex-col gap-0.5 truncate max-w-[75%]">
                           <div className="flex items-center gap-2 truncate">
-                            <MessageCircle className={`h-4 w-4 shrink-0 ${activeSessionId === s.id ? "text-blue-500" : "text-gray-400"}`} />
+                            <MessageCircle className={`h-4 w-4 shrink-0 ${activeSessionId === s.id ? "text-[#1e3a8a] dark:text-[#93c5fd]" : "text-slate-400"}`} />
                             <span className="truncate">{s.title}</span>
                           </div>
                           {s.studyName && (
-                            <span className="text-[9px] text-gray-400 pl-6 truncate font-sans">
+                            <span className="text-[9px] text-slate-400 pl-6 truncate font-sans">
                               Study: {s.studyName}
                             </span>
                           )}
@@ -702,14 +706,14 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                         <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                           <button
                             onClick={(e) => handleRenameSession(s.id, e)}
-                            className="p-1 rounded text-gray-400 hover:text-blue-600 hover:bg-gray-100 transition-colors"
+                            className="p-1 rounded text-slate-400 hover:text-[#1e3a8a] dark:hover:text-[#93c5fd] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                             title="Rename chat"
                           >
                             <Edit3 className="h-3.5 w-3.5" />
                           </button>
                           <button
                             onClick={(e) => handleDeleteSession(s.id, e)}
-                            className="p-1 rounded text-gray-400 hover:text-red-600 hover:bg-gray-100 transition-colors"
+                            className="p-1 rounded text-slate-400 hover:text-rose-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                             title="Delete chat"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
@@ -721,10 +725,10 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
               </div>
 
               {/* Back to active chat */}
-              <div className="p-3 border-t bg-white flex justify-center shrink-0">
+              <div className="p-3 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#101828] flex justify-center shrink-0">
                 <button
                   onClick={() => setShowHistory(false)}
-                  className="text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+                  className="text-xs font-semibold text-[#1e3a8a] dark:text-[#93c5fd] hover:underline transition-colors"
                 >
                   Back to active chat
                 </button>
@@ -735,7 +739,7 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
               {/* Messages Flow Area */}
               <div
                 ref={scrollRef}
-                className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50"
+                className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50/60 dark:bg-[#0a0f1d]"
               >
                 {messages.map((msg, idx) => (
                   <div
@@ -745,9 +749,9 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                   >
                     {/* Message Bubble */}
                     <div
-                      className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs shadow-sm leading-relaxed whitespace-pre-wrap ${msg.role === "user"
-                        ? "bg-blue-600 text-white rounded-br-none"
-                        : "bg-white border text-gray-800 rounded-bl-none"
+                      className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs shadow-xs leading-relaxed whitespace-pre-wrap ${msg.role === "user"
+                        ? "bg-[#1e3a8a] dark:bg-[#1e40af] text-white rounded-br-none"
+                        : "bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 rounded-bl-none shadow-xs"
                         }`}
                     >
                       {msg.content}
@@ -755,33 +759,33 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
 
                     {/* Mode Promotion Switch Card */}
                     {msg.status === "mode_switch_required" && (
-                      <div className="w-[85%] border rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50/80 p-4 shadow-md border-amber-200 mt-2 space-y-3 animate-in zoom-in-95">
-                        <div className="flex items-start gap-2.5 text-amber-800 text-xs leading-snug">
-                          <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+                      <div className="w-[85%] border rounded-xl bg-amber-50/80 dark:bg-amber-950/20 p-4 shadow-xs border-amber-200 dark:border-amber-800/60 mt-2 space-y-3 animate-in zoom-in-95">
+                        <div className="flex items-start gap-2.5 text-amber-800 dark:text-amber-300 text-xs leading-snug">
+                          <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                           <div>
-                            <span className="font-bold block text-amber-900">Work Action Blocked</span>
+                            <span className="font-bold block text-amber-900 dark:text-amber-200">Work Action Blocked</span>
                             This command executes changes to your project. Switch to Work Mode to run it.
                           </div>
                         </div>
                         <button
                           onClick={handleSwitchAndExecute}
-                          className="w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl py-2 font-bold text-xs shadow-md shadow-blue-500/10 hover:shadow-lg transition-all"
+                          className="w-full flex items-center justify-center gap-1.5 bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] text-white rounded-lg py-2 font-bold text-xs shadow-xs transition-all"
                         >
-                          <Sparkles className="h-3.5 w-3.5" />
-                          Switch to Work Mode & Execute
+                          <Sparkles className="h-3.5 w-3.5 text-[#93c5fd]" />
+                          Switch to Work Mode &amp; Execute
                         </button>
                       </div>
                     )}
 
                     {/* Custom Figure Download Card */}
                     {msg.customFigure && msg.customFigure.success && (
-                      <div className="w-[85%] border rounded-xl bg-white p-3 shadow-md border-green-100 mt-2 space-y-2 animate-in zoom-in-95">
-                        <div className="flex items-center gap-1.5 text-green-700 font-bold text-xs">
+                      <div className="w-[85%] border rounded-xl bg-white dark:bg-[#101828] p-3 shadow-xs border-emerald-200 dark:border-emerald-800/60 mt-2 space-y-2 animate-in zoom-in-95">
+                        <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-bold text-xs">
                           <CheckCircle2 className="h-4 w-4" />
                           Chart Generated Successfully (Persistent)
                         </div>
                         {msg.customFigure.stdout && (
-                          <pre className="text-[10px] bg-gray-950 text-gray-400 p-2 rounded max-h-[80px] overflow-auto font-mono">
+                          <pre className="text-[10px] bg-slate-900 text-slate-300 p-2 rounded max-h-[80px] overflow-auto font-mono">
                             {msg.customFigure.stdout}
                           </pre>
                         )}
@@ -790,10 +794,10 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                             href={msg.customFigure.downloadUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="flex items-center justify-center gap-1 bg-green-600 hover:bg-green-700 text-white rounded-lg py-1.5 font-semibold text-xs transition-all w-full text-center"
+                            className="flex items-center justify-center gap-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg py-1.5 font-semibold text-xs transition-all w-full text-center shadow-xs"
                           >
                             <FileText className="h-3.5 w-3.5" />
-                            Preview & Download PDF Report
+                            Preview &amp; Download PDF Report
                           </a>
                         )}
                       </div>
@@ -804,7 +808,7 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                 {/* Quick action buttons in the first step */}
                 {messages.length <= 1 && (
                   <div className="space-y-2 pt-2">
-                    <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider pl-1 font-sans">
+                    <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider pl-1 font-sans">
                       Quick Actions
                     </p>
                     <div className="flex flex-col gap-1.5">
@@ -814,11 +818,11 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                           <button
                             key={i}
                             onClick={() => handleQuickAction(qa.text)}
-                            className="flex items-center gap-2 text-left bg-white border hover:bg-blue-50/50 hover:border-blue-200 text-gray-700 text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm"
+                            className="flex items-center gap-2 text-left bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:border-slate-300 dark:hover:border-slate-700 text-slate-700 dark:text-slate-300 text-xs px-3.5 py-2 rounded-xl transition-all shadow-xs"
                           >
-                            <Icon className="h-3.5 w-3.5 text-blue-500 shrink-0" />
+                            <Icon className="h-3.5 w-3.5 text-[#1e3a8a] dark:text-[#93c5fd] shrink-0" />
                             <span className="truncate">{qa.text}</span>
-                            <ChevronRight className="h-3 w-3 text-gray-300 ml-auto shrink-0" />
+                            <ChevronRight className="h-3 w-3 text-slate-300 dark:text-slate-600 ml-auto shrink-0" />
                           </button>
                         );
                       })}
@@ -828,13 +832,13 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
 
                 {/* Dynamically Glowing Status indicator */}
                 {(currentStatus === "thinking" || currentStatus === "executing_tool") && (
-                  <div className="flex items-center gap-2 pl-2 py-1 text-gray-400 animate-pulse text-[11px] font-medium shrink-0">
-                    <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-600" />
+                  <div className="flex items-center gap-2 pl-2 py-1 text-slate-400 animate-pulse text-[11px] font-medium shrink-0">
+                    <Loader2 className="h-3.5 w-3.5 animate-spin text-[#1e3a8a] dark:text-[#93c5fd]" />
                     {currentStatus === "thinking" && "AI is thinking..."}
                     {currentStatus === "executing_tool" && (
                       <span>
                         Executing tool:{" "}
-                        <span className="font-mono text-blue-600 bg-blue-50 border border-blue-100 px-1 py-0.5 rounded text-[10px]">
+                        <span className="font-mono text-[#1e3a8a] dark:text-[#93c5fd] bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-1 py-0.5 rounded text-[10px]">
                           {executingToolName}
                         </span>
                       </span>
@@ -844,31 +848,31 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
               </div>
 
               {/* Input Area Wrapper */}
-              <div className="border-t bg-white flex flex-col shrink-0 relative">
+              <div className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#101828] flex flex-col shrink-0 relative transition-colors">
 
                 {/* Slash commands suggestions overlay */}
                 {showSlashMenu && (
-                  <div className="absolute left-3 right-3 bottom-full mb-2 bg-white border border-gray-200 rounded-2xl shadow-2xl p-1.5 z-50 animate-in fade-in slide-in-from-bottom-3 duration-150">
-                    <div className="px-2 py-1 border-b border-gray-100 mb-1 flex items-center justify-between">
-                      <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Switch Mode</span>
-                      <span className="text-[8px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded font-mono">Use ↑↓ and Enter</span>
+                  <div className="absolute left-3 right-3 bottom-full mb-2 bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl p-1.5 z-50 animate-in fade-in slide-in-from-bottom-3 duration-150">
+                    <div className="px-2 py-1 border-b border-slate-100 dark:border-slate-800 mb-1 flex items-center justify-between">
+                      <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Switch Mode</span>
+                      <span className="text-[8px] text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">Use ↑↓ and Enter</span>
                     </div>
                     {slashCommands.map((cmd, idx) => (
                       <button
                         key={cmd.name}
                         onClick={() => selectSlashCommand(cmd.name)}
-                        className={`w-full text-left px-3 py-2 rounded-xl text-xs transition-colors flex items-center justify-between ${slashSelectedIndex === idx
-                          ? "bg-blue-600 text-white font-bold"
-                          : "text-gray-700 hover:bg-gray-50"
+                        className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center justify-between ${slashSelectedIndex === idx
+                          ? "bg-[#1e3a8a] dark:bg-[#1e40af] text-white font-bold"
+                          : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
                           }`}
                       >
                         <div className="flex flex-col text-left">
                           <span className="font-bold">{cmd.name}</span>
-                          <span className={`text-[9px] mt-0.5 ${slashSelectedIndex === idx ? "text-blue-100" : "text-gray-400"}`}>
+                          <span className={`text-[9px] mt-0.5 ${slashSelectedIndex === idx ? "text-slate-200" : "text-slate-400"}`}>
                             {cmd.desc}
                           </span>
                         </div>
-                        <ChevronRight className={`h-3 w-3 ${slashSelectedIndex === idx ? "text-white" : "text-gray-300"}`} />
+                        <ChevronRight className={`h-3 w-3 ${slashSelectedIndex === idx ? "text-white" : "text-slate-400"}`} />
                       </button>
                     ))}
                   </div>
@@ -892,13 +896,13 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                     }}
                     placeholder={!studyId ? "Open or create a study to start chatting..." : connected ? "Ask me anything (type '/' for modes)..." : "Connecting to AI Agent..."}
                     disabled={!studyId || !connected}
-                    className="flex-1 bg-gray-50 border hover:border-gray-300 focus:border-blue-500 outline-none rounded-xl px-3 py-2 text-xs transition-colors disabled:opacity-50 disabled:bg-gray-100"
+                    className="flex-1 bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#1e3a8a] dark:focus:border-[#93c5fd] outline-none rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 transition-colors disabled:opacity-50 disabled:bg-slate-100 dark:disabled:bg-slate-900"
                   />
                   {currentStatus === "thinking" || currentStatus === "executing_tool" ? (
                     <button
                       onClick={handleAbort}
                       title="Stop generation"
-                      className="h-8 w-8 rounded-xl bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors shrink-0 shadow-sm animate-pulse"
+                      className="h-8 w-8 rounded-lg bg-rose-500 hover:bg-rose-600 text-white flex items-center justify-center transition-colors shrink-0 shadow-xs animate-pulse"
                     >
                       <Square className="h-3.5 w-3.5 fill-current" />
                     </button>
@@ -907,7 +911,7 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                       onClick={handleSend}
                       disabled={!connected || !inputValue.trim()}
                       title="Send message"
-                      className="h-8 w-8 rounded-xl bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400 transition-colors shrink-0 shadow-sm"
+                      className="h-8 w-8 rounded-lg bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] text-white flex items-center justify-center disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-400 transition-colors shrink-0 shadow-xs"
                     >
                       <Send className="h-3.5 w-3.5" />
                     </button>
@@ -915,9 +919,9 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                 </div>
 
                 {/* Controls Ribbon */}
-                <div className="px-3 py-2 border-t bg-gray-50/80 flex items-center justify-between shrink-0 select-none">
+                <div className="px-3 py-2 border-t border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-[#070b14] flex items-center justify-between shrink-0 select-none">
                   {/* Mode Sliding capsule Toggler */}
-                  <div className="flex items-center bg-gray-200/80 p-0.5 rounded-lg border border-gray-300/30">
+                  <div className="flex items-center bg-slate-200/80 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-300/40 dark:border-slate-700">
                     <button
                       onClick={() => {
                         setChatMode("chat");
@@ -927,8 +931,8 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                         ]);
                       }}
                       className={`px-2.5 py-1 rounded-md text-[9px] font-black uppercase tracking-wider flex items-center gap-1 transition-all ${chatMode === "chat"
-                        ? "bg-white text-blue-600 shadow-sm font-extrabold"
-                        : "text-gray-500 hover:text-gray-700"
+                        ? "bg-white dark:bg-[#101828] text-[#1e3a8a] dark:text-[#93c5fd] shadow-xs font-extrabold"
+                        : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
                         }`}
                     >
                       <MessageCircle className="h-3 w-3" />
@@ -943,11 +947,11 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                         ]);
                       }}
                       className={`px-2.5 py-1 rounded-md text-[9px] font-black uppercase tracking-wider flex items-center gap-1 transition-all ${chatMode === "work"
-                        ? "bg-blue-600 text-white shadow-sm font-extrabold"
-                        : "text-gray-500 hover:text-gray-700"
+                        ? "bg-[#1e3a8a] dark:bg-[#1e40af] text-white shadow-xs font-extrabold"
+                        : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
                         }`}
                     >
-                      <Sparkles className="h-3 w-3" />
+                      <Sparkles className="h-3 w-3 text-[#93c5fd]" />
                       Work
                     </button>
                   </div>
@@ -956,15 +960,15 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                   <div className="relative">
                     <button
                       onClick={() => setShowModelDropdown(!showModelDropdown)}
-                      className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-gray-500 hover:text-blue-600 bg-white border border-gray-200/80 px-2 py-1 rounded-lg shadow-sm transition-all"
+                      className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-[#1e3a8a] dark:hover:text-[#93c5fd] bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-700 px-2 py-1 rounded-lg shadow-xs transition-all"
                     >
-                      <Cpu className="h-3 w-3 text-blue-500 shrink-0" />
+                      <Cpu className="h-3 w-3 text-[#1e3a8a] dark:text-[#93c5fd] shrink-0" />
                       <span>{modelOptions.find((m) => m.name === chatModel)?.label}</span>
                       <ChevronRight className={`h-3 w-3 transition-transform ${showModelDropdown ? "-rotate-90" : "rotate-90"}`} />
                     </button>
 
                     {showModelDropdown && (
-                      <div className="absolute right-0 bottom-full mb-1 w-48 bg-white border border-gray-200 rounded-2xl shadow-2xl p-1 z-50 animate-in fade-in slide-in-from-bottom-2 duration-150">
+                      <div className="absolute right-0 bottom-full mb-1 w-48 bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl p-1 z-50 animate-in fade-in slide-in-from-bottom-2 duration-150">
                         {modelOptions.map((opt) => (
                           <button
                             key={opt.name}
@@ -977,9 +981,9 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
                                 { role: "assistant", content: `🤖 Switched active LLM engine parameter to: **${opt.name}**` }
                               ]);
                             }}
-                            className={`w-full text-left px-2.5 py-1.5 rounded-xl text-[9px] font-semibold transition-colors flex items-center justify-between ${chatModel === opt.name
-                              ? "bg-blue-50 text-blue-600 font-bold"
-                              : "text-gray-700 hover:bg-gray-50"
+                            className={`w-full text-left px-2.5 py-1.5 rounded-lg text-[9px] font-semibold transition-colors flex items-center justify-between ${chatModel === opt.name
+                              ? "bg-slate-100 dark:bg-slate-800 text-[#1e3a8a] dark:text-[#93c5fd] font-bold"
+                              : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50"
                               }`}
                           >
                             <span>{opt.label}</span>

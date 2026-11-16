@@ -137,28 +137,28 @@ export function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen scroll-smooth">
       {/* Navigation */}
-      <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
+      <header className="sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800 bg-white/85 dark:bg-[#0a0f1d]/85 backdrop-blur-md transition-colors">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1e3a8a] dark:bg-[#1e40af] text-white text-sm font-bold shadow-xs">
               T
             </div>
-            <span className="font-semibold">TLF Report</span>
+            <span className="font-bold text-slate-900 dark:text-slate-100 tracking-tight">TLF Report</span>
           </div>
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#features" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
               Features
             </a>
-            <a href="#how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#how-it-works" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
               Solutions
             </a>
-            <a href="#testimonials" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#testimonials" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
               Reviews
             </a>
-            <a href="#pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#pricing" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
               Pricing
             </a>
-            <a href="#contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#contact" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
               Contact Us
             </a>
           </nav>
@@ -167,20 +167,20 @@ export function LandingPage() {
               href="https://github.com/Sherwood01/clinical-data-process-tlf"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center h-9 w-9 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors text-muted-foreground"
+              className="inline-flex items-center justify-center h-9 w-9 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
               title="GitHub 仓库"
             >
               <Github className="h-5 w-5" />
             </a>
             <Link
               href="/auth/sign-in"
-              className="inline-flex items-center justify-center h-9 rounded-md px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+              className="inline-flex items-center justify-center h-9 rounded-md px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors"
             >
               Sign In
             </Link>
             <Link
               href="/auth/sign-up"
-              className="inline-flex items-center justify-center h-9 rounded-md px-4 py-2 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center justify-center h-9 rounded-md px-4 py-2 text-sm font-semibold bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] text-white shadow-xs transition-colors active:scale-95"
             >
               Get Started
             </Link>
@@ -189,30 +189,29 @@ export function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden border-b">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-primary/10 to-purple-500/5" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
+      <section className="relative overflow-hidden border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-[#070b14]/70">
+        {/* Subtle grid pattern background */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(100,116,139,.07)_1px,transparent_1px),linear-gradient(90deg,rgba(100,116,139,.07)_1px,transparent_1px)] bg-[size:48px_48px] dark:bg-[linear-gradient(rgba(148,163,184,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,.04)_1px,transparent_1px)]" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 md:py-32">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 inline-flex items-center rounded-full border bg-muted/50 px-4 py-1.5 text-sm text-muted-foreground">
-              <Sparkles className="mr-2 h-3.5 w-3.5 text-primary" />
-              AI-Powered Clinical Trial Reporting
+            <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 px-3.5 py-1 text-xs sm:text-sm font-semibold text-[#1e3a8a] dark:text-[#93c5fd] shadow-2xs">
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>AI-Powered Clinical Trial Reporting &amp; ADaM Validation</span>
             </div>
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-              Generate Clinical Trial
-              <span className="block text-primary">TLF Reports with AI</span>
+            <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl md:text-6xl leading-tight">
+              Generate Clinical Trial <br className="hidden sm:inline" />
+              <span className="text-[#1e3a8a] dark:text-[#60a5fa]">TLF Reports with AI</span>
             </h1>
-            <p className="mt-6 text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="mt-6 text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
               Upload your SAP documents and ADaM datasets. Let our AI-powered
-              platform automatically generate professional TLF reports for your
+              platform automatically generate professional, 21 CFR Part 11 compliant TLF reports for your
               clinical studies in minutes.
             </p>
             <div className="mt-10 flex items-center justify-center gap-4">
               <Link
                 href="/auth/sign-up"
-                className="inline-flex items-center justify-center h-10 rounded-md px-8 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                className="inline-flex items-center justify-center h-10 rounded-md px-8 text-sm font-semibold bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] text-white shadow-xs transition-colors active:scale-95"
               >
                 Start Free Trial
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -221,7 +220,7 @@ export function LandingPage() {
                 href="https://github.com/Sherwood01/clinical-data-process-tlf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center h-10 rounded-md px-8 text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors"
+                className="inline-flex items-center justify-center h-10 rounded-md px-8 text-sm font-medium border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#101828] text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-2xs transition-colors"
               >
                 <Github className="mr-2 h-4 w-4" />
                 GitHub

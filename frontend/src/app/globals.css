@@ -41,69 +41,71 @@
   --color-chart-5: var(--chart-5);
   --font-sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --radius: 0.625rem;
+  --radius: 0.5rem;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #09090b;
+  /* Palantir Prussian Navy & Slate — 严肃政企/工业级临床统计浅色主题 */
+  --background: #f1f5f9;
+  --foreground: #0f172a;
   --card: #ffffff;
-  --card-foreground: #09090b;
+  --card-foreground: #0f172a;
   --popover: #ffffff;
-  --popover-foreground: #09090b;
-  --primary: #2563eb;
+  --popover-foreground: #0f172a;
+  --primary: #1e3a8a;
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #1e293b;
-  --muted: #f1f5f9;
+  --secondary: #e2e8f0;
+  --secondary-foreground: #0f172a;
+  --muted: #e2e8f0;
   --muted-foreground: #64748b;
-  --accent: #f1f5f9;
-  --accent-foreground: #1e293b;
+  --accent: #e2e8f0;
+  --accent-foreground: #0f172a;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #2563eb;
-  --radius: 0.625rem;
-  --sidebar: #f8fafc;
-  --sidebar-foreground: #1e293b;
+  --border: #cbd5e1;
+  --input: #cbd5e1;
+  --ring: #1e3a8a;
+  --radius: 0.5rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f172a;
   --sidebar-accent: #f1f5f9;
-  --sidebar-accent-foreground: #1e293b;
+  --sidebar-accent-foreground: #1e3a8a;
   --sidebar-border: #e2e8f0;
-  --sidebar-ring: #2563eb;
-  --chart-1: #3b82f6;
-  --chart-2: #10b981;
-  --chart-3: #f59e0b;
-  --chart-4: #8b5cf6;
-  --chart-5: #ef4444;
+  --sidebar-ring: #1e3a8a;
+  --chart-1: #1e3a8a;
+  --chart-2: #059669;
+  --chart-3: #d97706;
+  --chart-4: #4338ca;
+  --chart-5: #dc2626;
 }
 
 .dark {
-  --background: #0f172a;
+  /* Palantir Prussian Navy & Slate — 深海藏青与午夜午夜黑暗黑模式 */
+  --background: #0a0f1d;
   --foreground: #f8fafc;
-  --card: #1e293b;
+  --card: #101828;
   --card-foreground: #f8fafc;
-  --popover: #1e293b;
+  --popover: #101828;
   --popover-foreground: #f8fafc;
-  --primary: #60a5fa;
-  --primary-foreground: #0f172a;
-  --secondary: #334155;
+  --primary: #1e40af;
+  --primary-foreground: #f8fafc;
+  --secondary: #1e293b;
   --secondary-foreground: #f8fafc;
-  --muted: #334155;
+  --muted: #1e293b;
   --muted-foreground: #94a3b8;
-  --accent: #334155;
+  --accent: #1e293b;
   --accent-foreground: #f8fafc;
   --destructive: #ef4444;
   --destructive-foreground: #f8fafc;
-  --border: #334155;
-  --input: #334155;
-  --ring: #60a5fa;
-  --sidebar: #1e293b;
+  --border: #1e293b;
+  --input: #1e293b;
+  --ring: #3b82f6;
+  --sidebar: #0a0f1d;
   --sidebar-foreground: #f8fafc;
-  --sidebar-accent: #334155;
-  --sidebar-accent-foreground: #f8fafc;
-  --sidebar-border: #334155;
-  --sidebar-ring: #60a5fa;
+  --sidebar-accent: #1e293b;
+  --sidebar-accent-foreground: #93c5fd;
+  --sidebar-border: #1e293b;
+  --sidebar-ring: #1e40af;
   --chart-1: #60a5fa;
   --chart-2: #34d399;
   --chart-3: #fbbf24;
@@ -128,8 +130,25 @@ button[class*="absolute"]:has(svg.lucide-eye-off, svg.lucide-eye) {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans, Arial, Helvetica, sans-serif);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
+  letter-spacing: -0.015em;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* 严肃政企深海藏青精致细滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(71, 85, 105, 0.7);
 }
 
 /* 隐藏 SuperTokens 官方品牌水印 */
@@ -247,7 +266,7 @@ input:disabled,
 .dark input:not([type="checkbox"]):not([type="radio"]),
 .dark select,
 .dark textarea {
-  background-color: #0f172a !important;
+  background-color: #0a0f1d !important;
   color: #f8fafc !important;
-  border-color: #334155 !important;
+  border-color: #1e293b !important;
 }

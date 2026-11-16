@@ -8,6 +8,10 @@ import {
 
 type Tab = "macros" | "specs" | "documents";
 
+/**
+ * 临床自适应知识库管理界面组件
+ * 包含 SAS 宏程序库检索与上传、自适应变量规约调整（Adaptive Spec Tuner）、以及双轨 RAG 参考文档管理。
+ */
 export default function KnowledgeContent() {
   const [activeTab, setActiveTab] = useState<Tab>("macros");
   const [macros, setMacros] = useState<any[]>([]);
@@ -252,28 +256,28 @@ export default function KnowledgeContent() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 pb-12">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0a0f1d] text-slate-900 dark:text-slate-100 pb-12 transition-colors">
       {/* Toast Alert */}
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2 bg-gray-900 text-white px-5 py-3 rounded-xl shadow-lg border border-gray-800 animate-in fade-in slide-in-from-bottom-4 duration-300">
-          <CheckCircle className="h-5 w-5 text-emerald-500" />
+        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2 bg-slate-900 dark:bg-[#101828] text-white px-5 py-3 rounded-xl shadow-lg border border-slate-700 dark:border-slate-800 animate-in fade-in slide-in-from-bottom-4 duration-300">
+          <CheckCircle className="h-5 w-5 text-emerald-400" />
           <span className="text-sm font-semibold">{toastMessage}</span>
         </div>
       )}
 
       {/* Header Panel */}
-      <header className="bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400">
-              <Database className="h-5.5 w-5.5" />
+      <header className="bg-white dark:bg-[#101828] border-b border-slate-200 dark:border-slate-800 shadow-xs transition-colors">
+        <div className="container mx-auto px-6 py-5 flex items-center justify-between">
+          <div className="flex items-center gap-3.5">
+            <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-[#1e3a8a] dark:text-[#93c5fd] border border-slate-200 dark:border-slate-700">
+              <Database className="h-5 w-5" />
             </div>
             <div>
-              <h1 className="font-bold text-xl flex items-center gap-2">
+              <h1 className="font-bold text-xl tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2">
                 Clinical Adaptive Knowledge Base
-                <Sparkles className="h-4.5 w-4.5 text-blue-500 animate-pulse" />
+                <Sparkles className="h-4 w-4 text-[#1e3a8a] dark:text-[#93c5fd] animate-pulse" />
               </h1>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Cross-project shared SAS macros and VariableSpec adaptive tuning engine
               </p>
             </div>
@@ -282,35 +286,35 @@ export default function KnowledgeContent() {
       </header>
 
       {/* Tabs Menu */}
-      <div className="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 transition-colors">
+      <div className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#101828] transition-colors">
         <div className="container mx-auto px-6 flex justify-between items-center">
           <nav className="-mb-px flex gap-6">
             <button
               onClick={() => setActiveTab("macros")}
-              className={`py-3.5 text-sm font-semibold border-b-4 transition-all duration-200 ${
+              className={`py-3.5 text-sm font-semibold border-b-2 transition-all duration-200 ${
                 activeTab === "macros"
-                  ? "border-blue-600 text-blue-600 font-bold"
-                  : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 hover:border-gray-300"
+                  ? "border-[#1e3a8a] text-[#1e3a8a] dark:border-[#93c5fd] dark:text-[#93c5fd]"
+                  : "border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
               }`}
             >
               SAS Macros Library ({macros.length})
             </button>
             <button
               onClick={() => setActiveTab("specs")}
-              className={`py-3.5 text-sm font-semibold border-b-4 transition-all duration-200 ${
+              className={`py-3.5 text-sm font-semibold border-b-2 transition-all duration-200 ${
                 activeTab === "specs"
-                  ? "border-blue-600 text-blue-600 font-bold"
-                  : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 hover:border-gray-300"
+                  ? "border-[#1e3a8a] text-[#1e3a8a] dark:border-[#93c5fd] dark:text-[#93c5fd]"
+                  : "border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
               }`}
             >
               Adaptive Spec Tuner
             </button>
             <button
               onClick={() => setActiveTab("documents")}
-              className={`py-3.5 text-sm font-semibold border-b-4 transition-all duration-200 ${
+              className={`py-3.5 text-sm font-semibold border-b-2 transition-all duration-200 ${
                 activeTab === "documents"
-                  ? "border-blue-600 text-blue-600 font-bold"
-                  : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 hover:border-gray-300"
+                  ? "border-[#1e3a8a] text-[#1e3a8a] dark:border-[#93c5fd] dark:text-[#93c5fd]"
+                  : "border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
               }`}
             >
               Reference Documents ({documents.length})
@@ -320,7 +324,7 @@ export default function KnowledgeContent() {
           {activeTab === "macros" && (
             <button
               onClick={() => setIsUploadOpen(true)}
-              className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 active:scale-[0.98] rounded-xl shadow-md transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] active:scale-[0.98] rounded-lg shadow-xs transition-all"
             >
               <Upload className="h-3.5 w-3.5" />
               Upload SAS Macro
@@ -330,7 +334,7 @@ export default function KnowledgeContent() {
           {activeTab === "documents" && (
             <button
               onClick={() => setIsDocUploadOpen(true)}
-              className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 active:scale-[0.98] rounded-xl shadow-md transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] active:scale-[0.98] rounded-lg shadow-xs transition-all"
             >
               <Upload className="h-3.5 w-3.5" />
               Upload Reference Document
@@ -342,8 +346,8 @@ export default function KnowledgeContent() {
       {/* Main Content Area */}
       <main className="container mx-auto px-6 py-8">
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-24 text-gray-500 gap-3">
-            <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+          <div className="flex flex-col items-center justify-center py-24 text-slate-400 gap-3">
+            <Loader2 className="h-8 w-8 animate-spin text-[#1e3a8a] dark:text-[#93c5fd]" />
             <p className="text-sm">Loading knowledge base...</p>
           </div>
         ) : (
@@ -352,21 +356,21 @@ export default function KnowledgeContent() {
             {activeTab === "macros" && (
               <div className="space-y-6">
                 {/* Search Bar */}
-                <div className="flex flex-col md:flex-row gap-4 bg-white dark:bg-gray-950 p-4 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                <div className="flex flex-col md:flex-row gap-4 bg-white dark:bg-[#101828] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs">
                   <div className="relative flex-1">
-                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                     <input
                       type="text"
                       placeholder="Search SAS macros by name or description..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2 text-sm bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 focus:border-blue-500 focus:outline-none rounded-xl"
+                      className="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-800 focus:border-[#1e3a8a] dark:focus:border-[#93c5fd] focus:outline-none rounded-lg text-slate-900 dark:text-slate-100 placeholder:text-slate-400"
                     />
                   </div>
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="px-4 py-2 text-sm bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 focus:border-blue-500 focus:outline-none rounded-xl"
+                    className="px-4 py-2 text-sm bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-800 focus:border-[#1e3a8a] dark:focus:border-[#93c5fd] focus:outline-none rounded-lg text-slate-900 dark:text-slate-100"
                   >
                     <option value="all">All Categories</option>
                     <option value="descriptive_statistics">Descriptive Statistics (Descriptive)</option>
@@ -376,7 +380,7 @@ export default function KnowledgeContent() {
 
                 {/* Cards Grid */}
                 {filteredMacros.length === 0 ? (
-                  <div className="text-center py-16 text-gray-500 dark:bg-gray-950 border border-dashed border-gray-300 dark:border-gray-800 rounded-2xl">
+                  <div className="text-center py-16 text-slate-400 bg-white dark:bg-[#101828] border border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
                     No SAS macros found matching the filters.
                   </div>
                 ) : (
@@ -384,44 +388,44 @@ export default function KnowledgeContent() {
                     {filteredMacros.map((macro, idx) => (
                       <div 
                         key={idx}
-                        className="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 hover:border-blue-300 dark:hover:border-blue-800 rounded-2xl p-5 hover:shadow-md transition-all flex flex-col justify-between"
+                        className="bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-xl p-5 shadow-xs hover:shadow-sm transition-all flex flex-col justify-between"
                       >
                         <div>
                           <div className="flex items-center justify-between mb-3.5">
-                            <span className="font-mono font-bold text-sm text-blue-600 dark:text-blue-400">
+                            <span className="font-mono font-bold text-sm text-[#1e3a8a] dark:text-[#93c5fd]">
                               %{macro.name}
                             </span>
-                            <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full ${
+                            <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-md border ${
                               macro.category === "descriptive_statistics"
-                                ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400"
-                                : "bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-400"
+                                ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60"
+                                : "bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-400 border-sky-200 dark:border-sky-800/60"
                             }`}>
                               {macro.category === "descriptive_statistics" ? "Descriptive" : "Statistical"}
                             </span>
                           </div>
                           
-                          <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed mb-4" title={macro.purpose}>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed mb-4" title={macro.purpose}>
                             {macro.purpose || "No purpose description available for this macro."}
                           </p>
                         </div>
 
-                        <div className="border-t border-gray-100 dark:border-gray-800 pt-3.5 space-y-2 text-[11px]">
+                        <div className="border-t border-slate-100 dark:border-slate-800/80 pt-3.5 space-y-2 text-[11px]">
                           <div className="flex justify-between">
-                            <span className="text-gray-400">Dependencies:</span>
-                            <span className="font-mono text-gray-700 dark:text-gray-300 truncate max-w-[180px]">
+                            <span className="text-slate-400">Dependencies:</span>
+                            <span className="font-mono text-slate-700 dark:text-slate-300 truncate max-w-[180px]">
                               {macro.called_macros.join(", ") || "None"}
                             </span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-gray-400">Parameters:</span>
-                            <span className="font-semibold text-gray-700 dark:text-gray-300">
+                            <span className="text-slate-400">Parameters:</span>
+                            <span className="font-semibold text-slate-700 dark:text-slate-300">
                               {macro.parameters.length} params
                             </span>
                           </div>
                           {macro.applicable_tables && macro.applicable_tables.length > 0 && (
                             <div className="flex justify-between">
-                              <span className="text-gray-400">Applicable Tables:</span>
-                              <span className="text-blue-500 font-semibold">
+                              <span className="text-slate-400">Applicable Tables:</span>
+                              <span className="text-[#1e3a8a] dark:text-[#93c5fd] font-semibold">
                                 {macro.applicable_tables.join(", ")}
                               </span>
                             </div>
@@ -437,50 +441,50 @@ export default function KnowledgeContent() {
             {/* TAB 2: SPECS */}
             {activeTab === "specs" && (
               <div className="space-y-6">
-                <div className="bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900 rounded-2xl p-5 text-sm text-blue-700 dark:text-blue-300 leading-relaxed flex items-start gap-3">
-                  <HelpCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+                <div className="bg-slate-100/70 dark:bg-[#070b14] border border-slate-200 dark:border-slate-800 rounded-xl p-5 text-sm text-slate-700 dark:text-slate-300 leading-relaxed flex items-start gap-3">
+                  <HelpCircle className="h-5 w-5 text-[#1e3a8a] dark:text-[#93c5fd] flex-shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold">What is Spec Tuner?</span>
-                    <p className="mt-1 text-xs">
-                      When the system encounters a new table design from the SAP document that is not hardcoded, the AI Agent will automatically infer its VariableSpec (analysis set, variables, filters, and grouping columns) based on the semantic context. You can review or adjust its structure here. Once you click "Save & Learn", it is saved to the knowledge base. For subsequent tasks, the AI Agent will prioritize this corrected specification!
+                    <span className="font-semibold text-slate-900 dark:text-slate-100">What is Spec Tuner?</span>
+                    <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                      When the system encounters a new table design from the SAP document that is not hardcoded, the AI Agent will automatically infer its VariableSpec (analysis set, variables, filters, and grouping columns) based on the semantic context. You can review or adjust its structure here. Once you click &quot;Save &amp; Learn&quot;, it is saved to the knowledge base. For subsequent tasks, the AI Agent will prioritize this corrected specification!
                     </p>
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm transition-colors">
+                <div className="bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs transition-colors">
                   <table className="w-full text-sm">
-                    <thead className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+                    <thead className="bg-slate-50 dark:bg-[#070b14] border-b border-slate-200 dark:border-slate-800">
                       <tr>
-                        <th className="text-left px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Table ID</th>
-                        <th className="text-left px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Table Name</th>
-                        <th className="text-left px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Analysis Set</th>
-                        <th className="text-left px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Analysis Variables</th>
-                        <th className="text-left px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Where Filter</th>
-                        <th className="text-left px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Group By</th>
-                        <th className="text-right px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Actions</th>
+                        <th className="text-left px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Table ID</th>
+                        <th className="text-left px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Table Name</th>
+                        <th className="text-left px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Analysis Set</th>
+                        <th className="text-left px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Analysis Variables</th>
+                        <th className="text-left px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Where Filter</th>
+                        <th className="text-left px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Group By</th>
+                        <th className="text-right px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                       {Object.entries(specs).map(([tableId, spec]: [string, any]) => (
-                        <tr key={tableId} className="hover:bg-gray-50/50 dark:hover:bg-gray-900/50">
-                          <td className="px-5 py-4 font-mono font-bold text-xs text-gray-800 dark:text-gray-200">{tableId}</td>
-                          <td className="px-5 py-4 font-medium text-gray-700 dark:text-gray-300">{spec.table_name}</td>
-                          <td className="px-5 py-4 text-xs text-gray-600 dark:text-gray-400">{spec.analysis_set}</td>
+                        <tr key={tableId} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors">
+                          <td className="px-5 py-4 font-mono font-bold text-xs text-slate-900 dark:text-slate-100">{tableId}</td>
+                          <td className="px-5 py-4 font-medium text-slate-700 dark:text-slate-300">{spec.table_name}</td>
+                          <td className="px-5 py-4 text-xs text-slate-600 dark:text-slate-400">{spec.analysis_set}</td>
                           <td className="px-5 py-4">
                             <div className="flex flex-wrap gap-1.5">
                               {spec.analysis_variables.map((v: string) => (
-                                <span key={v} className="px-1.5 py-0.5 font-mono text-[10px] bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-md">
+                                <span key={v} className="px-1.5 py-0.5 font-mono text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded">
                                   {v}
                                 </span>
                               ))}
                             </div>
                           </td>
                           <td className="px-5 py-4 font-mono text-xs text-amber-600 dark:text-amber-400">{spec.population_filter || "1=1"}</td>
-                          <td className="px-5 py-4 font-mono text-xs text-gray-600 dark:text-gray-400">{spec.group_by}</td>
+                          <td className="px-5 py-4 font-mono text-xs text-slate-600 dark:text-slate-400">{spec.group_by}</td>
                           <td className="px-5 py-4 text-right">
                             <button
                               onClick={() => handleSpecEditClick(tableId, spec)}
-                              className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400"
+                              className="inline-flex items-center gap-1 text-xs font-semibold text-[#1e3a8a] hover:text-[#172554] dark:text-[#93c5fd] dark:hover:text-blue-300 transition-colors"
                             >
                               <Edit className="h-3.5 w-3.5" />
                               Tune
@@ -497,74 +501,74 @@ export default function KnowledgeContent() {
             {/* TAB 3: DOCUMENTS */}
             {activeTab === "documents" && (
               <div className="space-y-6">
-                <div className="bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900 rounded-2xl p-5 text-sm text-blue-700 dark:text-blue-300 leading-relaxed flex items-start gap-3">
-                  <HelpCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+                <div className="bg-slate-100/70 dark:bg-[#070b14] border border-slate-200 dark:border-slate-800 rounded-xl p-5 text-sm text-slate-700 dark:text-slate-300 leading-relaxed flex items-start gap-3">
+                  <HelpCircle className="h-5 w-5 text-[#1e3a8a] dark:text-[#93c5fd] flex-shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold">Dual-Track RAG Document Management</span>
-                    <p className="mt-1 text-xs text-gray-600 dark:text-gray-400 font-medium">
+                    <span className="font-semibold text-slate-900 dark:text-slate-100">Dual-Track RAG Document Management</span>
+                    <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
                       Upload reference documents (like guidelines, SAP drafts, or oncology definitions). 
-                      <strong> Global Industry Documents</strong> are accessible across all studies. 
-                      <strong> Study-Specific Documents</strong> are securely isolated and only retrieved when conversing within the corresponding study workspace.
+                      <strong className="text-slate-800 dark:text-slate-200"> Global Industry Documents</strong> are accessible across all studies. 
+                      <strong className="text-slate-800 dark:text-slate-200"> Study-Specific Documents</strong> are securely isolated and only retrieved when conversing within the corresponding study workspace.
                     </p>
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm transition-colors">
+                <div className="bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-xs transition-colors">
                   <table className="w-full text-sm">
-                    <thead className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+                    <thead className="bg-slate-50 dark:bg-[#070b14] border-b border-slate-200 dark:border-slate-800">
                       <tr>
-                        <th className="text-left px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Document Name</th>
-                        <th className="text-left px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Scope</th>
-                        <th className="text-left px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Workspace Attachment</th>
-                        <th className="text-left px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400 font-bold max-w-[200px]">AI RAG Summary</th>
-                        <th className="text-left px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Keywords</th>
-                        <th className="text-left px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Uploaded At</th>
-                        <th className="text-right px-5 py-3.5 font-medium text-gray-600 dark:text-gray-400">Actions</th>
+                        <th className="text-left px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Document Name</th>
+                        <th className="text-left px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Scope</th>
+                        <th className="text-left px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Workspace Attachment</th>
+                        <th className="text-left px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider font-bold max-w-[200px]">AI RAG Summary</th>
+                        <th className="text-left px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Keywords</th>
+                        <th className="text-left px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Uploaded At</th>
+                        <th className="text-right px-5 py-3.5 font-medium text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                       {documents.length === 0 ? (
                         <tr>
-                          <td colSpan={7} className="px-5 py-8 text-center text-gray-400">
+                          <td colSpan={7} className="px-5 py-8 text-center text-slate-400">
                             No reference documents uploaded yet.
                           </td>
                         </tr>
                       ) : (
                         documents.map((doc, idx) => (
-                          <tr key={idx} className="hover:bg-gray-50/50 dark:hover:bg-gray-900/50">
-                            <td className="px-5 py-4 font-medium text-gray-800 dark:text-gray-200">{doc.filename}</td>
+                          <tr key={idx} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors">
+                            <td className="px-5 py-4 font-medium text-slate-800 dark:text-slate-200">{doc.filename}</td>
                             <td className="px-5 py-4 text-xs font-semibold">
-                              <span className={`px-2.5 py-0.5 rounded-full ${
+                              <span className={`px-2.5 py-0.5 rounded-md border ${
                                 doc.study_id 
-                                  ? "bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-400"
-                                  : "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400"
+                                  ? "bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800/60"
+                                  : "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60"
                               }`}>
                                 {doc.study_id ? "Study-Specific" : "Global Industry"}
                               </span>
                             </td>
-                            <td className="px-5 py-4 text-xs text-gray-500 font-medium">
+                            <td className="px-5 py-4 text-xs text-slate-500 font-medium">
                               {doc.study_id 
                                 ? (studies.find(s => s.id === doc.study_id)?.name || `Study (ID: ${doc.study_id.slice(0,8)})`)
                                 : "Global Platform Scope"
                               }
                             </td>
-                            <td className="px-5 py-4 text-xs text-gray-600 dark:text-gray-400 max-w-[200px] truncate" title={doc.summary}>
+                            <td className="px-5 py-4 text-xs text-slate-600 dark:text-slate-400 max-w-[200px] truncate" title={doc.summary}>
                               {doc.summary}
                             </td>
                             <td className="px-5 py-4">
                               <div className="flex flex-wrap gap-1 max-w-[120px]">
                                 {doc.keywords.map((kw: string) => (
-                                  <span key={kw} className="px-1.5 py-0.5 font-mono text-[9px] bg-gray-100 dark:bg-gray-800 text-gray-500 rounded-md">
+                                  <span key={kw} className="px-1.5 py-0.5 font-mono text-[9px] bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded">
                                     {kw}
                                   </span>
                                 ))}
                               </div>
                             </td>
-                            <td className="px-5 py-4 text-xs text-gray-400 font-medium">{doc.uploaded_at}</td>
+                            <td className="px-5 py-4 text-xs text-slate-400 font-medium">{doc.uploaded_at}</td>
                             <td className="px-5 py-4 text-right">
                               <button
                                 onClick={() => handleDocDelete(doc)}
-                                className="text-xs font-bold text-rose-600 hover:text-rose-700 active:scale-95 transition-all"
+                                className="text-xs font-bold text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300 active:scale-95 transition-all"
                               >
                                 Delete
                               </button>
@@ -584,24 +588,24 @@ export default function KnowledgeContent() {
       {/* Modal 1: Upload SAS Macro */}
       {isUploadOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-white dark:bg-gray-950 p-6 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 scale-100 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex justify-between items-center border-b border-gray-100 dark:border-gray-800 pb-3 mb-4">
-              <h3 className="font-bold text-lg flex items-center gap-1.5">
+          <div className="w-full max-w-md bg-white dark:bg-[#101828] p-6 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 scale-100 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
+              <h3 className="font-bold text-lg text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
                 Upload SAS Macro File
-                <Sparkles className="h-4.5 w-4.5 text-blue-500" />
+                <Sparkles className="h-4 w-4 text-[#1e3a8a] dark:text-[#93c5fd]" />
               </h3>
               <button 
                 onClick={() => setIsUploadOpen(false)}
-                className="p-1 rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900"
+                className="p-1 rounded-md text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
             <form onSubmit={handleUploadSubmit} className="space-y-4">
-              <div className="border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-xl p-8 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900/50">
-                <FileCode className="h-10 w-10 text-gray-400 mb-3 animate-pulse" />
-                <span className="text-xs text-gray-500 mb-4 text-center">
+              <div className="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl p-8 flex flex-col items-center justify-center bg-slate-50 dark:bg-[#070b14]">
+                <FileCode className="h-10 w-10 text-slate-400 mb-3 animate-pulse" />
+                <span className="text-xs text-slate-500 dark:text-slate-400 mb-4 text-center">
                   Supports uploading standard SAS macro program files (.sas)
                 </span>
                 <input
@@ -616,7 +620,7 @@ export default function KnowledgeContent() {
                 />
                 <label 
                   htmlFor="macro-file-picker"
-                  className="px-4 py-2 text-xs font-semibold border border-gray-200 hover:border-blue-300 text-gray-700 bg-white hover:bg-blue-50/50 dark:bg-gray-900 rounded-lg cursor-pointer transition-all"
+                  className="px-4 py-2 text-xs font-semibold border border-slate-200 dark:border-slate-700 hover:border-[#1e3a8a] text-slate-700 dark:text-slate-200 bg-white dark:bg-[#101828] hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-all shadow-xs"
                 >
                   {fileToUpload ? "Change File" : "Select .sas File"}
                 </label>
@@ -634,14 +638,14 @@ export default function KnowledgeContent() {
                     setIsUploadOpen(false);
                     setFileToUpload(null);
                   }}
-                  className="px-4 py-2.5 text-xs font-semibold border border-gray-200 text-gray-700 bg-white rounded-lg"
+                  className="px-4 py-2 text-xs font-semibold border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 bg-white dark:bg-[#101828] hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={uploading || !fileToUpload}
-                  className="px-5 py-2.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 rounded-lg shadow-sm flex items-center gap-1.5"
+                  className="px-5 py-2 text-xs font-semibold text-white bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] disabled:bg-slate-300 dark:disabled:bg-slate-800 rounded-lg shadow-xs flex items-center gap-1.5 transition-all"
                 >
                   {uploading ? (
                     <>
@@ -664,18 +668,18 @@ export default function KnowledgeContent() {
       {/* Modal 2: Upload Custom Reference Document */}
       {isDocUploadOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-white dark:bg-gray-950 p-6 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 scale-100 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex justify-between items-center border-b border-gray-100 dark:border-gray-800 pb-3 mb-4">
-              <h3 className="font-bold text-lg flex items-center gap-1.5">
+          <div className="w-full max-w-md bg-white dark:bg-[#101828] p-6 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 scale-100 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
+              <h3 className="font-bold text-lg text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
                 Upload Reference Document
-                <Sparkles className="h-4.5 w-4.5 text-blue-500" />
+                <Sparkles className="h-4 w-4 text-[#1e3a8a] dark:text-[#93c5fd]" />
               </h3>
               <button 
                 onClick={() => {
                   setIsDocUploadOpen(false);
                   setDocFileToUpload(null);
                 }}
-                className="p-1 rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900"
+                className="p-1 rounded-md text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -683,11 +687,11 @@ export default function KnowledgeContent() {
 
             <form onSubmit={handleDocUploadSubmit} className="space-y-4 text-xs font-semibold">
               <div className="space-y-1.5">
-                <label className="text-gray-500">Scope Type</label>
+                <label className="text-slate-500 dark:text-slate-400">Scope Type</label>
                 <select
                   value={docUploadType}
                   onChange={(e) => setDocUploadType(e.target.value as any)}
-                  className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg focus:outline-none"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-800 rounded-lg focus:border-[#1e3a8a] dark:focus:border-[#93c5fd] focus:outline-none text-slate-900 dark:text-slate-100"
                 >
                   <option value="study">Study-Specific Reference Document</option>
                   <option value="global">Global Industry Standard (Admin Only)</option>
@@ -696,11 +700,11 @@ export default function KnowledgeContent() {
 
               {docUploadType === "study" && (
                 <div className="space-y-1.5">
-                  <label className="text-gray-500">Attach to Study Workspace</label>
+                  <label className="text-slate-500 dark:text-slate-400">Attach to Study Workspace</label>
                   <select
                     value={selectedStudyId}
                     onChange={(e) => setSelectedStudyId(e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg focus:outline-none"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-800 rounded-lg focus:border-[#1e3a8a] dark:focus:border-[#93c5fd] focus:outline-none text-slate-900 dark:text-slate-100"
                   >
                     {studies.length === 0 ? (
                       <option value="">No studies found</option>
@@ -713,9 +717,9 @@ export default function KnowledgeContent() {
                 </div>
               )}
 
-              <div className="border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-xl p-6 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900/50">
-                <FileText className="h-10 w-10 text-gray-400 mb-3 animate-pulse" />
-                <span className="text-[11px] text-gray-500 mb-4 text-center">
+              <div className="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl p-6 flex flex-col items-center justify-center bg-slate-50 dark:bg-[#070b14]">
+                <FileText className="h-10 w-10 text-slate-400 mb-3 animate-pulse" />
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 mb-4 text-center">
                   Supports PDF, TXT or Word guideline documents for RAG Q&A
                 </span>
                 <input
@@ -730,7 +734,7 @@ export default function KnowledgeContent() {
                 />
                 <label 
                   htmlFor="doc-file-picker"
-                  className="px-4 py-2 text-xs font-semibold border border-gray-200 hover:border-blue-300 text-gray-700 bg-white hover:bg-blue-50/50 dark:bg-gray-900 rounded-lg cursor-pointer transition-all"
+                  className="px-4 py-2 text-xs font-semibold border border-slate-200 dark:border-slate-700 hover:border-[#1e3a8a] text-slate-700 dark:text-slate-200 bg-white dark:bg-[#101828] hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-all shadow-xs"
                 >
                   {docFileToUpload ? "Change File" : "Select Document File"}
                 </label>
@@ -741,21 +745,21 @@ export default function KnowledgeContent() {
                 )}
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-800">
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                 <button
                   type="button"
                   onClick={() => {
                     setIsDocUploadOpen(false);
                     setDocFileToUpload(null);
                   }}
-                  className="px-4 py-2 text-gray-700 bg-white border border-gray-200 rounded-lg"
+                  className="px-4 py-2 text-slate-700 dark:text-slate-300 bg-white dark:bg-[#101828] border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={docUploading || !docFileToUpload}
-                  className="px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 rounded-lg shadow-sm flex items-center gap-1.5"
+                  className="px-5 py-2 text-white bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] disabled:bg-slate-300 dark:disabled:bg-slate-800 rounded-lg shadow-xs flex items-center gap-1.5 transition-all"
                 >
                   {docUploading ? (
                     <>
@@ -778,18 +782,18 @@ export default function KnowledgeContent() {
       {/* Modal 3: Tune Spec Table Form */}
       {editingSpecId && editingSpecData && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-lg bg-white dark:bg-gray-950 p-6 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 scale-100 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex justify-between items-center border-b border-gray-100 dark:border-gray-800 pb-3 mb-4">
-              <h3 className="font-bold text-lg flex items-center gap-1.5">
+          <div className="w-full max-w-lg bg-white dark:bg-[#101828] p-6 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 scale-100 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
+              <h3 className="font-bold text-lg text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
                 Tune VariableSpec Template for Table {editingSpecId}
-                <Sparkles className="h-4.5 w-4.5 text-amber-500" />
+                <Sparkles className="h-4 w-4 text-amber-500" />
               </h3>
               <button 
                 onClick={() => {
                   setEditingSpecId(null);
                   setEditingSpecData(null);
                 }}
-                className="p-1 rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900"
+                className="p-1 rounded-md text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -797,70 +801,70 @@ export default function KnowledgeContent() {
 
             <form onSubmit={handleSpecSave} className="space-y-4 text-xs font-semibold">
               <div className="space-y-1">
-                <label className="text-gray-500">Table Name</label>
+                <label className="text-slate-500 dark:text-slate-400">Table Name</label>
                 <input
                   type="text"
                   value={editingSpecData.table_name}
                   onChange={(e) => setEditingSpecData({ ...editingSpecData, table_name: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:outline-none"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-800 rounded-lg focus:border-[#1e3a8a] dark:focus:border-[#93c5fd] focus:outline-none text-slate-900 dark:text-slate-100"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-gray-500">Analysis Population</label>
+                <label className="text-slate-500 dark:text-slate-400">Analysis Population</label>
                 <input
                   type="text"
                   value={editingSpecData.analysis_set}
                   onChange={(e) => setEditingSpecData({ ...editingSpecData, analysis_set: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl focus:outline-none"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-800 rounded-lg focus:border-[#1e3a8a] dark:focus:border-[#93c5fd] focus:outline-none text-slate-900 dark:text-slate-100"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-gray-500">Analysis Variables (comma-separated, e.g. AVAL, CHG)</label>
+                <label className="text-slate-500 dark:text-slate-400">Analysis Variables (comma-separated, e.g. AVAL, CHG)</label>
                 <input
                   type="text"
                   value={editingSpecData.analysis_variables}
                   onChange={(e) => setEditingSpecData({ ...editingSpecData, analysis_variables: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 font-mono rounded-xl focus:outline-none"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-800 font-mono rounded-lg focus:border-[#1e3a8a] dark:focus:border-[#93c5fd] focus:outline-none text-slate-900 dark:text-slate-100"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-gray-500">Where Filter (e.g. SAFFL='Y')</label>
+                <label className="text-slate-500 dark:text-slate-400">Where Filter (e.g. SAFFL=&apos;Y&apos;)</label>
                 <input
                   type="text"
                   value={editingSpecData.population_filter}
                   onChange={(e) => setEditingSpecData({ ...editingSpecData, population_filter: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 font-mono rounded-xl focus:outline-none"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-800 font-mono rounded-lg focus:border-[#1e3a8a] dark:focus:border-[#93c5fd] focus:outline-none text-slate-900 dark:text-slate-100"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-gray-500">Group By Variable (e.g. TRTA)</label>
+                <label className="text-slate-500 dark:text-slate-400">Group By Variable (e.g. TRTA)</label>
                 <input
                   type="text"
                   value={editingSpecData.group_by}
                   onChange={(e) => setEditingSpecData({ ...editingSpecData, group_by: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 font-mono rounded-xl focus:outline-none"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-[#070b14] border border-slate-200 dark:border-slate-800 font-mono rounded-lg focus:border-[#1e3a8a] dark:focus:border-[#93c5fd] focus:outline-none text-slate-900 dark:text-slate-100"
                 />
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-800">
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                 <button
                   type="button"
                   onClick={() => {
                     setEditingSpecId(null);
                     setEditingSpecData(null);
                   }}
-                  className="px-4 py-2.5 border border-gray-200 text-gray-700 bg-white rounded-lg font-semibold"
+                  className="px-4 py-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 bg-white dark:bg-[#101828] hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-semibold transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingSpec}
-                  className="px-5 py-2.5 text-white bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 rounded-lg shadow-sm font-semibold flex items-center gap-1.5"
+                  className="px-5 py-2 text-white bg-[#1e3a8a] hover:bg-[#172554] dark:bg-[#1e40af] dark:hover:bg-[#1d4ed8] disabled:bg-slate-300 dark:disabled:bg-slate-800 rounded-lg shadow-xs font-semibold flex items-center gap-1.5 transition-all"
                 >
                   {savingSpec ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />

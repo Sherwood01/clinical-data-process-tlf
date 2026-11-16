@@ -27,6 +27,12 @@ function getBreadcrumbs(pathname: string, customLabels: Record<string, string>):
   return crumbs;
 }
 
+/**
+ * 顶部导航栏组件 (TopNav)。
+ * 渲染路径面包屑导航、登录用户信息与全局快速登出交互。
+ *
+ * @returns {React.ReactElement} 顶部导航栏
+ */
 export function TopNav() {
   const pathname = usePathname();
   const session = useSessionContext();
@@ -43,18 +49,18 @@ export function TopNav() {
   const isLoggedIn = !session.loading && session.doesSessionExist;
 
   return (
-    <header className="flex h-14 items-center justify-between border-b bg-background px-4 lg:px-6">
+    <header className="flex h-14 items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0a0f1d] px-4 lg:px-6 transition-colors">
       {/* Breadcrumbs */}
-      <nav className="flex items-center gap-1 text-sm text-muted-foreground">
-        <Link href="/dashboard" className="hover:text-foreground transition-colors">
+      <nav className="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400">
+        <Link href="/dashboard" className="hover:text-slate-900 dark:hover:text-white transition-colors">
           Home
         </Link>
         {crumbs.slice(1).map((crumb) => (
-          <span key={crumb.href} className="flex items-center gap-1">
-            <ChevronRight className="h-3 w-3" />
+          <span key={crumb.href} className="flex items-center gap-1.5">
+            <ChevronRight className="h-3.5 w-3.5 text-slate-400 dark:text-slate-600" />
             <Link
               href={crumb.href}
-              className="hover:text-foreground transition-colors"
+              className="hover:text-slate-900 dark:hover:text-white transition-colors"
             >
               {crumb.label}
             </Link>
@@ -66,12 +72,13 @@ export function TopNav() {
       <div className="flex items-center gap-3">
         {isLoggedIn && (
           <>
-            <span className="text-sm text-muted-foreground hidden sm:inline">
+            <span className="text-xs font-semibold text-slate-600 dark:text-slate-300 hidden sm:inline px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
               {displayName}
             </span>
             <button
               onClick={handleSignOut}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="p-1.5 rounded-md text-slate-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              title="Sign out"
             >
               <LogOut className="h-4 w-4" />
             </button>
