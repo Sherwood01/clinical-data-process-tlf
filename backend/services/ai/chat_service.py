@@ -171,20 +171,41 @@ class AIChatService:
 
             try:
                 resolved_model = model
-                if not (resolved_model.startswith("@cf/") or resolved_model in ("deepseek-v4-flash", "deepseek-chat")):
+                supported_models = {"deepseek-v4-flash", "deepseek-chat", "glm-5.3-flash", "glm-4-flash", "glm-4-plus"}
+                if not (
+                    resolved_model.startswith("@cf/") 
+                    or resolved_model.startswith("glm-") 
+                    or resolved_model in supported_models
+                ):
                     resolved_model = MODEL_NAME
 
-                # Call DeepSeek / Cloudflare Workers AI API
-                create_kwargs = {
+                # 构建大模型请求参数（支持智谱 GLM、DeepSeek 及 Cloudflare Workers AI）
+                create_kwargs: Dict[str, Any] = {
                     "model": resolved_model,
                     "messages": api_messages,
                     "temperature": 0.1,
                     "tools": openai_tools
                 }
 
-                response = await deepseek_client.chat.completions.create(**create_kwargs)
+                # 若配置了 reasoning_effort 且模型可能支持，注入参数
+                import os
+                from backend.core.config import settings
+                reasoning_effort = getattr(settings, "REASONING_EFFORT", None) or os.environ.get("REASONING_EFFORT")
+                if reasoning_effort and (resolved_model.startswith("glm-") or "reason" in resolved_model.lower()):
+                    create_kwargs["reasoning_effort"] = reasoning_effort
+
+                try:
+                    response = await deepseek_client.chat.completions.create(**create_kwargs)
+                except Exception as api_err:
+                    # 若因 reasoning_effort 不受支持报错，降级重试一次
+                    if "reasoning_effort" in create_kwargs and "reasoning_effort" in str(api_err).lower():
+                        logger.warning(f"Model {resolved_model} does not support reasoning_effort, retrying without it...")
+                        del create_kwargs["reasoning_effort"]
+                        response = await deepseek_client.chat.completions.create(**create_kwargs)
+                    else:
+                        raise api_err
             except Exception as e:
-                logger.error(f"DeepSeek API request failed: {e}")
+                logger.error(f"LLM API request failed: {e}")
                 await websocket.send_json({
                     "type": "error",
                     "message": f"大模型通信失败: {str(e)}"

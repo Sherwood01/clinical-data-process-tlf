@@ -75,6 +75,34 @@ class Settings(BaseSettings):
     CLOUDFLARE_API_TOKEN: str = ""
     CLOUDFLARE_AI_MODEL: str = "@cf/zai-org/glm-4.7-flash"
 
+    # Zhipu GLM / OpenAI Compatible LLM Config
+    MODEL: str = "glm-5.3-flash"
+    base_URL: str = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
+    API_KEY: str = ""
+    REASONING_EFFORT: str = "low"
+    GLM_MODEL: str = ""
+    GLM_BASE_URL: str = ""
+    GLM_API_KEY: str = ""
+
+    def get_clean_llm_base_url(self) -> str:
+        """
+        获取清洗后的 OpenAI 兼容 Base URL。
+        剥离末尾的 /chat/completions 或 /chat/completions/ 以符合 AsyncOpenAI 标准。
+        """
+        raw = self.GLM_BASE_URL or self.base_URL or "https://open.bigmodel.cn/api/paas/v4"
+        raw = raw.strip().rstrip("/")
+        if raw.endswith("/chat/completions"):
+            raw = raw[:-len("/chat/completions")]
+        return raw.rstrip("/")
+
+    def get_llm_api_key(self) -> str:
+        """获取大模型 API 密钥。"""
+        return self.GLM_API_KEY or self.API_KEY or ""
+
+    def get_llm_model(self) -> str:
+        """获取默认大模型名称。"""
+        return self.GLM_MODEL or self.MODEL or "glm-5.3-flash"
+
 
     # Temp directory for worker processing
     WORKER_TEMP_DIR: str = "/tmp/tlf-worker"

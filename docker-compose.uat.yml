@@ -94,6 +94,15 @@ services:
       CREEM_API_KEY: "${CREEM_API_KEY:-}"
       CREEM_WEBHOOK_SECRET: "${CREEM_WEBHOOK_SECRET:-}"
 
+      # AI Agent 大语言模型配置
+      MODEL: "${MODEL:-glm-5.3-flash}"
+      base_URL: "${base_URL:-https://open.bigmodel.cn/api/paas/v4/chat/completions}"
+      API_KEY: "${API_KEY:-}"
+      REASONING_EFFORT: "${REASONING_EFFORT:-low}"
+      GLM_MODEL: "${GLM_MODEL:-}"
+      GLM_BASE_URL: "${GLM_BASE_URL:-}"
+      GLM_API_KEY: "${GLM_API_KEY:-}"
+
       DEBUG: "true"
       PYTHONPATH: /app
     dns:

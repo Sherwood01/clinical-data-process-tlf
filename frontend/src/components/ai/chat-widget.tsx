@@ -68,7 +68,7 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
 
   // New Work Modes and Model togglers
   const [chatMode, setChatMode] = useState<"chat" | "work">("work");
-  const [chatModel, setChatModel] = useState<string>("@cf/zai-org/glm-4.7-flash");
+  const [chatModel, setChatModel] = useState<string>("glm-5.3-flash");
   const [showModelDropdown, setShowModelDropdown] = useState(false);
 
   // Slash commands popup suggestion states
@@ -78,6 +78,7 @@ export function ChatWidget({ studyId, tenantId, userId }: ChatWidgetProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const modelOptions = [
+    { name: "glm-5.3-flash", label: "🌟 GLM-5.3 Flash (Zhipu AI)" },
     { name: "@cf/zai-org/glm-4.7-flash", label: "🌐 CF Workers AI (GLM 4.7 Flash)" },
     { name: "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b", label: "🧠 CF Workers AI (DeepSeek R1 32B)" },
     { name: "@cf/meta/llama-3.1-8b-instruct-fp8", label: "⚡️ CF Workers AI (Llama 3.1 8B)" },

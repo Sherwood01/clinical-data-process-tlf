@@ -139,6 +139,13 @@ services:
       CREEM_WEBHOOK_SECRET: ${CREEM_WEBHOOK_SECRET:-}
       DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
       DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-deepseek-v4-flash}
+      MODEL: ${MODEL:-glm-5.3-flash}
+      base_URL: ${base_URL:-https://open.bigmodel.cn/api/paas/v4/chat/completions}
+      API_KEY: ${API_KEY:-}
+      REASONING_EFFORT: ${REASONING_EFFORT:-low}
+      GLM_MODEL: ${GLM_MODEL:-}
+      GLM_BASE_URL: ${GLM_BASE_URL:-}
+      GLM_API_KEY: ${GLM_API_KEY:-}
       PYTHONPATH: /app
     dns:
       - 8.8.8.8
