@@ -78,7 +78,7 @@ async def _dispatch_via_http_worker(
     if token:
         headers["Authorization"] = f"Bearer {token}"
 
-    async with httpx.AsyncClient(timeout=5.0) as client:
+    async with httpx.AsyncClient(timeout=120.0) as client:
         resp = await client.post(
             f"{worker_url}/tlf/generate",
             json={
@@ -89,7 +89,15 @@ async def _dispatch_via_http_worker(
             },
             headers=headers,
         )
-        resp.raise_for_status()
+        try:
+            resp.raise_for_status()
+        except httpx.HTTPStatusError as err:
+            err_detail = ""
+            try:
+                err_detail = resp.json().get("detail", "")
+            except Exception:
+                err_detail = resp.text
+            raise RuntimeError(f"Worker execution failed: {err_detail or str(err)}")
         return resp.json()
 
 

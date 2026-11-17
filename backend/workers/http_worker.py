@@ -27,9 +27,20 @@ _sync_engine = None
 
 
 def _get_sync_db():
+    """
+    获取同步数据库会话。
+    自动检测并兼容 psycopg3 与 psycopg2 驱动，防止驱动缺失引发 500。
+    """
     global _sync_engine
     if _sync_engine is None:
-        _sync_engine = create_engine(settings.DATABASE_SYNC_URL)
+        url = settings.DATABASE_SYNC_URL
+        if url.startswith("postgresql://"):
+            try:
+                import psycopg
+            except ImportError:
+                # 若未安装 psycopg3 则优雅回退到 psycopg2
+                url = url.replace("postgresql://", "postgresql+psycopg2://", 1)
+        _sync_engine = create_engine(url, pool_pre_ping=True)
     return Session(_sync_engine)
 
 

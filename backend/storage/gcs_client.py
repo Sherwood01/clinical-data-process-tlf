@@ -171,6 +171,15 @@ class GCSStorage:
         blobs = bucket.list_blobs(prefix=prefix)
         return [blob.name for blob in blobs]
 
+    def delete_file_sync(self, tenant_id: str, object_key: str):
+        """同步删除 GCS 文件。"""
+        bucket = self._get_bucket(tenant_id)
+        blob = bucket.blob(object_key)
+        try:
+            blob.delete()
+        except Exception:
+            pass
+
 
 # Singleton — used by both FastAPI (async) and Celery (sync) contexts
 storage = GCSStorage()
